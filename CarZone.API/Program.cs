@@ -1,9 +1,18 @@
-var builder = WebApplication.CreateBuilder(args);
 
+using CarZone.Infrastructure.Persistance;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<CarZoneDBContext>(options =>
+{
+    var ConnectionString=builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseSqlServer(ConnectionString);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
