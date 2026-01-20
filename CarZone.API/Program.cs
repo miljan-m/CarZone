@@ -1,5 +1,8 @@
 
+using CarZone.Application.Interfaces.Repositories;
+using CarZone.Domain.Models;
 using CarZone.Infrastructure.Persistance;
+using CarZone.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IGenericRepository<User>,GenericRepository<User>>();
 builder.Services.AddDbContext<CarZoneDBContext>(options =>
 {
     var ConnectionString=builder.Configuration.GetConnectionString("DefaultConnection");
@@ -25,14 +29,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>{
     
-        options.SwaggerEndpoint("/openapi/v1.json", "v1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
     });
 }
+app.UseRouting();
 app.UseHttpsRedirection();
 app.MapControllers();
 
 
 
 app.Run();
-
-
