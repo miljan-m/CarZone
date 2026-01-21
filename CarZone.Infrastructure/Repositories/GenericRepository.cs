@@ -55,9 +55,15 @@ namespace CarZone.Infrastructure.Repositories
                 if (property.Metadata.IsPrimaryKey())
                     continue;
 
-                property.CurrentValue =
-                    typeof(T).GetProperty(property.Metadata.Name)
-                             ?.GetValue(obj);
+                var propInfo = typeof(T).GetProperty(property.Metadata.Name);
+                if (propInfo == null)
+                    continue; // polje ne postoji u DTO
+
+                var newValue = propInfo.GetValue(obj);
+                if (newValue == null)
+                    continue; // preskoči null vrednosti (obavezna polja ostaju netaknuta)
+
+                property.CurrentValue = newValue;
             }
 
             await _context.SaveChangesAsync();

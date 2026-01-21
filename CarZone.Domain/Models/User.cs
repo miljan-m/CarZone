@@ -8,24 +8,26 @@ namespace CarZone.Domain.Models
         [Key]
         [JsonIgnore]
         public int UserId{get;set;}
-        public string Name{get;set;}
+        public string FirstName{get;set;}
         public string LastName{get;set;}
         public string Email{get;set;}
         public string Phone{get;set;}
         public string Address{get;set;}
+        public string Password{get;set;}
 
         public User()
         {
         }
 
-        public User(int UserId,string Name,string LastName,string Email,string Phone, string Address)
+        public User(int UserId,string FirstName,string LastName,string Email,string Phone, string Address,string Password)
         {
             this.UserId=UserId;
-            this.Name=Name;
+            this.FirstName=FirstName;
             this.LastName=LastName;
             this.Email=Email;
             this.Phone=Phone;
             this.Address=Address;
+            this.Password=Password;
         }
     }
 }

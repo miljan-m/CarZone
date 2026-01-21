@@ -14,7 +14,7 @@ namespace CarZone.Infrastructure.Persistance
         {
             base.OnModelCreating(modelBuilder);
 
-            var user1=new User(1,"Miljan","Mitic","mm@gmail.com","0668049057","Milutina Stojanovica 14");
+            var user1=new User(1,"Miljan","Mitic","mm@gmail.com","0668049057","Milutina Stojanovica 14","mypassword");
             modelBuilder.Entity<User>().HasData(user1);
         }
        
