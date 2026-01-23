@@ -13,9 +13,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGenericRepository<User>,GenericRepository<User>>();
+builder.Services.AddScoped<IGenericRepository<Brand>,GenericRepository<Brand>>();
+builder.Services.AddScoped<IGenericRepository<Model>,GenericRepository<Model>>();
+
+
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<UserAutoMapper>();
+    cfg.AddProfile<BrandAutoMapper>();
+    cfg.AddProfile<ModelAutoMapper>();
+
 });
 
 builder.Services.AddDbContext<CarZoneDBContext>(options =>
