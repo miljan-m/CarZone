@@ -22,6 +22,15 @@ namespace CarZone.Infrastructure.Persistance
                 .WithMany(e => e.Models)
                 .HasForeignKey(e => e.BrandId);
 
+            modelBuilder.Entity<Listing>()
+                .HasOne(e=>e.User)
+                .WithMany(e=>e.PostedListings)
+                .HasForeignKey(e=>e.UserId); 
+            modelBuilder.Entity<Listing>()
+                .HasOne(b=>b.Buyer)
+                .WithMany(l=>l.BoughtListing)
+                .HasForeignKey(b=>b.BuyerId);
+
             modelBuilder.Entity<Brand>().HasData(
                 new Brand { BrandId = 1, BrandName = "BMW" },
                 new Brand { BrandId = 2, BrandName = "Audi" },

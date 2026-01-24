@@ -7,20 +7,30 @@ namespace CarZone.Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly CarZoneDBContext _context;
+        protected readonly CarZoneDBContext _context;
         public GenericRepository(CarZoneDBContext context)
         {
             _context = context;
         }
 
-        public async Task<T> Create(T obj,int id=int.MinValue)
+        public async Task<T> Create(T obj, int id = int.MinValue)
         {
+            if (typeof(T) == typeof(Listing))
+            {
+                var user=await _context.Set<User>().FindAsync(id);
+                if(user==null) return null;
+                var listing=obj as Listing;
+                listing.User=user;
+                await _context.Set<Listing>().AddAsync(listing);
+                await _context.SaveChangesAsync();
+                return listing as T;
+            }
             if (typeof(T) == typeof(Model))
             {
-                var brand=await _context.Set<Brand>().FindAsync(id);
-                if(brand==null) return null;
+                var brand = await _context.Set<Brand>().FindAsync(id);
+                if (brand == null) return null;
                 var model = obj as Model;
-                model.BrandId=id;
+                model.BrandId = id;
                 await _context.Set<Model>().AddAsync(model);
                 await _context.SaveChangesAsync();
                 return model as T;
@@ -44,25 +54,59 @@ namespace CarZone.Infrastructure.Repositories
 
         public async Task<IEnumerable<T>> GetAll()
         {
+            if (typeof(T) == typeof(Listing))
+            {
+                var modelObj = await _context.Set<Listing>()
+                                      .Include(m => m.Model)
+                                      .Include(u=>u.User)
+                                      .ToListAsync();
+
+                if (modelObj == null) return default;
+                return (IEnumerable<T>)modelObj;
+            }
+
             if (typeof(T) == typeof(Model))
             {
-               var models=await _context.Set<Model>().Include(m=>m.Brand).ToListAsync();
-               var mod=models.Select(m=>(T)(object)m);
-               return mod;
+                var models = await _context.Set<Model>().Include(m => m.Brand).ToListAsync();
+                var mod = models.Select(m => (T)(object)m);
+                return mod;
             }
             return await _context.Set<T>().ToListAsync();
         }
 
         public async Task<T> GetById(int id)
         {
+
+             if (typeof(T) == typeof(Listing))
+            {
+                var modelObj = await _context.Set<Listing>()
+                                      .Include(m => m.Model)
+                                      .Include(u=>u.User)
+                                      .FirstOrDefaultAsync(l => l.ListingID==id);
+
+                if (modelObj == null) return default;
+                return (T)(object)modelObj;
+            }
+
             if (typeof(T) == typeof(Model))
             {
                 var modelObj = await _context.Set<Model>()
                                       .Include(m => m.Brand)
                                       .FirstOrDefaultAsync(m => m.ModelId == id);
-                                      
+
                 if (modelObj == null) return default;
                 return (T)(object)modelObj;
+            }
+
+            if (typeof(T) == typeof(Brand))
+            {
+                var brand = _context.Set<Brand>()
+                            .Include(b => b.Models)
+                            .FirstOrDefault(b => b.BrandId == id);
+                            
+                if (brand == null) return default;
+                return (T)(object)brand;
+
             }
 
             var obj = await _context.Set<T>().FindAsync(id);

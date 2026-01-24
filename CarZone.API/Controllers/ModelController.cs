@@ -1,4 +1,5 @@
 using AutoMapper;
+using CarZone.Application.DTOs.BrandDTOs;
 using CarZone.Application.DTOs.ModelDTOs;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Domain.Models;
@@ -56,6 +57,13 @@ namespace CarZone.API.Controllers
         {
             await _repository.Create(_mapper.Map<Model>(modelDTO),brandId);
             return Ok();
+        }
+
+        [HttpGet("{modelId}/brand")]
+        public async Task<ActionResult<GetBrandDTO>> GetBrandForModel([FromRoute]int modelId)
+        {
+            var model=await _repository.GetById(modelId);
+            return Ok(_mapper.Map<GetBrandDTO>(model.Brand));
         }
 
     }

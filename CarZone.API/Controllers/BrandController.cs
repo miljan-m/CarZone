@@ -1,5 +1,6 @@
 using AutoMapper;
 using CarZone.Application.DTOs.BrandDTOs;
+using CarZone.Application.DTOs.ModelDTOs;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,14 @@ namespace CarZone.API.Controllers
         {
             await _repository.Delete(id);
             return Ok();
+        }
+
+        [HttpGet("{brandId}/models")]
+        public async Task<ActionResult<IEnumerable<GetModelDTO>>> GetModelsForBrand([FromRoute]int brandId)
+        {
+            var brand=await _repository.GetById(brandId);
+            var models=brand.Models;
+            return Ok(models.Select(m=>_mapper.Map<GetModelDTO>(m)));
         }
 
     }
