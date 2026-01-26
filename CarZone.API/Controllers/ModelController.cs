@@ -2,6 +2,7 @@ using AutoMapper;
 using CarZone.Application.DTOs.BrandDTOs;
 using CarZone.Application.DTOs.ModelDTOs;
 using CarZone.Application.Interfaces.Repositories;
+using CarZone.Application.Interfaces.ServiceInterfaces;
 using CarZone.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,59 +12,57 @@ namespace CarZone.API.Controllers
     [Route("models")]
     public class ModelController : ControllerBase
     {
-        protected readonly IGenericRepository<Model> _repository;
+        protected readonly IModelService _service;
         protected readonly IMapper _mapper;
-        public ModelController(IGenericRepository<Model> repository,IMapper mapper)
+        public ModelController(IModelService service)
         {
-            _repository = repository;
-            _mapper=mapper;
+            _service = service;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GetModelDTO>> GetModel([FromRoute]int id)
+        [HttpGet("{modelId}")]
+        public async Task<ActionResult<GetModelDTO>> GetModel([FromRoute]int modelId)
         {
-            var model=await _repository.GetById(id);
+            var model=await _service.GetModelById(modelId);
             if(model==null) return NotFound();
-            return Ok(_mapper.Map<GetModelDTO>(model));
+            return Ok(model);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Model>>> GetAllModels()
         {
-            var models=await _repository.GetAll();
-            var modelsDTO=models.Select(m=>_mapper.Map<GetModelDTO>(m));
-            return Ok(modelsDTO);
+            var models=await _service.GetAllModels();
+            return Ok(models);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteModel([FromRoute] int id)
+        [HttpDelete("{modelId}")]
+        public async Task<IActionResult> DeleteModel([FromRoute] int modelId)
         {
-            var model=await _repository.GetById(id);
-            if(model==null) return NotFound();
-            await _repository.Delete(id);
-            return Ok();
+            
+            var isDeleted=await _service.DeleteModel(modelId);
+            if(isDeleted) return Ok();
+            return NotFound();
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateModel([FromRoute] int id, [FromBody] UpdateModelDTO modelDTO)
+        [HttpPatch("{modelId}")]
+        public async Task<IActionResult> UpdateModel([FromRoute] int modelId, [FromBody] UpdateModelDTO modelDTO)
         {
-            var model=_mapper.Map<Model>(modelDTO);
-            await _repository.Update(id,model);
+            var updatedModel=await _service.UpdateModel(modelId,modelDTO);
+            if(updatedModel==null) NotFound();
             return Ok();
         }
 
         [HttpPost("{brandId}")]
         public async Task<IActionResult> CreateModel([FromRoute] int brandId,[FromBody] CreateModelDTO modelDTO)
         {
-            await _repository.Create(_mapper.Map<Model>(modelDTO),brandId);
+            await _service.CreateModel(modelDTO,brandId);
             return Ok();
         }
 
         [HttpGet("{modelId}/brand")]
         public async Task<ActionResult<GetBrandDTO>> GetBrandForModel([FromRoute]int modelId)
         {
-            var model=await _repository.GetById(modelId);
-            return Ok(_mapper.Map<GetBrandDTO>(model.Brand));
+            var brand=await _service.GetBrandForModel(modelId);
+            return Ok(brand);
         }
 
     }

@@ -1,9 +1,7 @@
 using CarZone.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.DTOs.UserDTOs;
-using CarZone.Application.Mappers;
-using AutoMapper;
+using CarZone.Application.Interfaces.ServiceInterfaces;
 
 
 namespace CarZone.API.Controllers
@@ -12,52 +10,48 @@ namespace CarZone.API.Controllers
     [Route("users")]
     public class UserController : ControllerBase
     {
-        private readonly IGenericRepository<User> _repository;
-        private readonly IMapper _mapper;
-        public UserController(IGenericRepository<User> repository, IMapper mapper)
+        private readonly IUserService _userService;
+        public UserController(IUserService userService)
         {
-            _repository = repository;
-            _mapper = mapper;
+            _userService=userService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GetUserDTO>> GetUser([FromRoute] int id)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<GetUserDTO>> GetUser([FromRoute] int userId)
         {
-            var user = await _repository.GetById(id);
+            var user = await _userService.GetUserById(userId);
             if (user == null)
                 return NotFound();
-            return Ok(_mapper.Map<GetUserDTO>(user));
+            return Ok(user);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO user)
         {
-            var dto = _mapper.Map<User>(user);
-            await _repository.Create(dto);
+            await _userService.CreateUser(user);
             return Ok();
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
-            var users = await _repository.GetAll();
-            var mappedUsers = users.Select(u => _mapper.Map<GetUserDTO>(u));
-            return Ok(mappedUsers);
+            return Ok(await _userService.GetAllUsers());
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser([FromRoute] int id)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] int userId)
         {
-            await _repository.Delete(id);
-            return Ok();
+            var isDeleted=await _userService.DeleteUser(userId);
+            if(isDeleted) return Ok();
+            return NotFound();
         }
 
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserDTO dto)
+        [HttpPatch("{userId}")]
+        public async Task<IActionResult> UpdateUser([FromRoute] int userId, [FromBody] UpdateUserDTO dto)
         {
-            await _repository.Update(id, _mapper.Map<User>(dto));
+            await _userService.UpdateUser(userId,dto);
             return Ok();
         }
     }

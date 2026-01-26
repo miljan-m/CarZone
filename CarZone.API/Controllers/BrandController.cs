@@ -1,7 +1,6 @@
-using AutoMapper;
 using CarZone.Application.DTOs.BrandDTOs;
 using CarZone.Application.DTOs.ModelDTOs;
-using CarZone.Application.Interfaces.Repositories;
+using CarZone.Application.Interfaces.ServiceInterfaces;
 using CarZone.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,59 +10,57 @@ namespace CarZone.API.Controllers
     [Route("brands")]
     public class BrandController : ControllerBase
     {
-        protected readonly IGenericRepository<Brand> _repository;
-        protected readonly IMapper _mapper;
-        public BrandController(IGenericRepository<Brand> repository, IMapper mapper)
+        protected readonly IBrandService _brandService;
+        public BrandController(IBrandService brandService)
         {
-            _repository = repository;
-            _mapper=mapper;
+            _brandService = brandService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GetBrandDTO>> GetBrand([FromRoute] int id)
+        [HttpGet("{brandId}")]
+        public async Task<ActionResult<GetBrandDTO>> GetBrand([FromRoute] int brandId)
         {
-            var brand = await _repository.GetById(id);
+            var brand = await _brandService.GetBrandById(brandId);
             if (brand == null) return NotFound();
-            return Ok(_mapper.Map<GetBrandDTO>(brand));
+            return Ok(brand);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetBrandDTO>>> GetAllBrands()
         {
-            var brands = await _repository.GetAll();
-            if (brands.Count() == 0) return NotFound();
-            var brandDTOs= brands.Select(b=>_mapper.Map<GetBrandDTO>(b));
-            return Ok(brandDTOs);
+            var brands = await _brandService.GetAllBrands();
+            if (brands.Any()) return Ok(brands);
+            return NotFound();
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBrand([FromBody] CreateBrandDTO brandDTO)
+        public async Task<ActionResult<GetBrandDTO>> CreateBrand([FromBody] CreateBrandDTO brandDTO)
         {
-            await _repository.Create(_mapper.Map<Brand>(brandDTO));
+            var brand = await _brandService.CreateBrand(brandDTO);
+            return Ok(brand);
+        }
+
+        [HttpPatch("{brandId}")]
+        public async Task<IActionResult> UpdateBrand([FromRoute] int brandId, [FromBody] UpdateBrandDTO brandDTO)
+        {
+            await _brandService.UpdateBrand(brandId, brandDTO);
             return Ok();
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateBrand([FromRoute] int id, [FromBody] UpdateBrandDTO brandDTO)
+        [HttpDelete("{brandId}")]
+        public async Task<IActionResult> DeleteBrand([FromRoute] int brandId)
         {
-            await _repository.Update(id, _mapper.Map<Brand>(brandDTO));
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand([FromRoute] int id)
-        {
-            await _repository.Delete(id);
-            return Ok();
+            var isDeleted = await _brandService.DeleteBrand(brandId);
+            if (isDeleted) return Ok();
+            return NotFound();
         }
 
         [HttpGet("{brandId}/models")]
-        public async Task<ActionResult<IEnumerable<GetModelDTO>>> GetModelsForBrand([FromRoute]int brandId)
+        public async Task<ActionResult<IEnumerable<GetModelDTO>>> GetModelsForBrand([FromRoute] int brandId)
         {
-            var brand=await _repository.GetById(brandId);
-            var models=brand.Models;
-            return Ok(models.Select(m=>_mapper.Map<GetModelDTO>(m)));
-        }
+            var models = await _brandService.GetModelsForBrand(brandId);
+            return Ok(models);
+        } 
 
     }
 }

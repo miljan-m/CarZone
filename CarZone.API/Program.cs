@@ -1,7 +1,9 @@
 
 using System.Text.Json.Serialization;
 using CarZone.Application.Interfaces.Repositories;
+using CarZone.Application.Interfaces.ServiceInterfaces;
 using CarZone.Application.Mappers;
+using CarZone.Application.Services;
 using CarZone.Domain.Enums;
 using CarZone.Domain.Models;
 using CarZone.Infrastructure.Persistance;
@@ -22,10 +24,15 @@ builder.Services.AddSwaggerGen(c=>{
     c.UseInlineDefinitionsForEnums();
    
 });
-builder.Services.AddScoped<IGenericRepository<User>,GenericRepository<User>>();
-builder.Services.AddScoped<IGenericRepository<Brand>,GenericRepository<Brand>>();
-builder.Services.AddScoped<IGenericRepository<Model>,GenericRepository<Model>>();
-builder.Services.AddScoped<IGenericRepository<Listing>,GenericRepository<Listing>>();
+builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<IBrandRepository,BrandRepository>();
+builder.Services.AddScoped<IModelRepository,ModelRepository>();
+builder.Services.AddScoped<IListingRepository,ListingRepository>();
+builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IBrandService,BrandService>();
+builder.Services.AddScoped<IModelService,ModelService>();
+builder.Services.AddScoped<IListingService,ListingService>();
+
 
 
 
