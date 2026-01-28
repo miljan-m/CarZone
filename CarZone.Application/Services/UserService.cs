@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using CarZone.Application.DTOs.UserDTOs;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
+using CarZone.Application.Validation;
 using CarZone.Domain.Models;
 
 namespace CarZone.Application.Services
@@ -33,7 +35,16 @@ namespace CarZone.Application.Services
 
         public async Task<GetUserDTO> CreateUser(CreateUserDTO userDTO)
         {
-            var user = _mapper.Map<User>(userDTO);
+            var validator=new CreateUserDTOValidator();
+            var result=validator.Validate(userDTO);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
+                }
+                throw new ValidationException("User data is invalid");
+            }
             var createdUser = await _repository.Create(_mapper.Map<User>(userDTO));
             return _mapper.Map<GetUserDTO>(createdUser);
         }

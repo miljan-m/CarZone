@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using CarZone.Application.DTOs.BrandDTOs;
 using CarZone.Application.DTOs.ModelDTOs;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
+using CarZone.Application.Validation;
 using CarZone.Domain.Models;
 
 namespace CarZone.Application.Services
@@ -20,6 +22,16 @@ namespace CarZone.Application.Services
 
         public async Task<GetModelDTO> CreateModel(CreateModelDTO model, int brandId)
         {
+            var validator=new CreateModelDTOValidator();
+            var result=validator.Validate(model);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
+                }
+                throw new ValidationException("Model data is invalid");
+            }
             var x = await _repository.Create(_mapper.Map<Model>(model), brandId);
             return _mapper.Map<GetModelDTO>(x);
         }
