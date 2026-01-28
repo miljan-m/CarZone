@@ -1,7 +1,7 @@
 using CarZone.Application.DTOs.ModelDTOs;
 using FluentValidation;
 
-namespace CarZone.Application.Validation
+namespace CarZone.Application.Validation.CreateValidation
 {
     public class CreateModelDTOValidator : AbstractValidator<CreateModelDTO>
 

@@ -3,7 +3,8 @@ using AutoMapper;
 using CarZone.Application.DTOs.UserDTOs;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
-using CarZone.Application.Validation;
+using CarZone.Application.Validation.CreateValidation;
+using CarZone.Application.Validation.UpdateValidation;
 using CarZone.Domain.Models;
 
 namespace CarZone.Application.Services
@@ -57,7 +58,16 @@ namespace CarZone.Application.Services
 
         public async Task<GetUserDTO> UpdateUser(int userId, UpdateUserDTO userDTO)
         {
-            var user = _mapper.Map<User>(userDTO);
+            var validator=new UpdateUserDTOValidator();
+            var result=validator.Validate(userDTO);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Validation eerror: {error.ErrorMessage}");
+                }
+                throw new ValidationException("User data is invalid");
+            }
             var isUpdated = await _repository.Update(userId, _mapper.Map<User>(userDTO));
             var u = await _repository.GetById(userId);
             return _mapper.Map<GetUserDTO>(u);

@@ -2,7 +2,8 @@ using AutoMapper;
 using CarZone.Application.DTOs.ListingDTOs;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
-using CarZone.Application.Validation;
+using CarZone.Application.Validation.CreateValidation;
+using CarZone.Application.Validation.UpdateValidation;
 using CarZone.Domain.Enums;
 using CarZone.Domain.Models;
 using FluentValidation;
@@ -58,9 +59,22 @@ public class ListingService : IListingService
         return await _repository.Delete(listingId);
     }
 
-    public async Task<GetListingDTO> UpdateListing(int userId, CreateListingDTO listingDTO, ListingStatus listingStatus,
+    public async Task<GetListingDTO> UpdateListing(int userId, UpdateListingDTO listingDTO, ListingStatus listingStatus,
                                                         Transmission transmission, BodyType bodyType, EngineType engineType)
     {
+
+        
+            var validator=new UpdateListingDTOValidator();
+            var result=validator.Validate(listingDTO);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Validation eerror: {error.ErrorMessage}");
+                }
+                throw new ValidationException("Listing data is invalid");
+            }
+
         var listing = await _repository.GetById(userId);
         listing.AdditionalDescription = listingDTO.AdditionalDescription;
         listing.BodyType = bodyType;
