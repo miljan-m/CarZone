@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using CarZone.Application.DTOs.BrandDTOs;
 using CarZone.Application.DTOs.ModelDTOs;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
+using CarZone.Application.Validation.CreateValidation;
+using CarZone.Application.Validation.UpdateValidation;
 using CarZone.Domain.Models;
 
 namespace CarZone.Application.Services
@@ -20,6 +23,16 @@ namespace CarZone.Application.Services
 
         public async Task<GetModelDTO> CreateModel(CreateModelDTO model, int brandId)
         {
+            var validator=new CreateModelDTOValidator();
+            var result=validator.Validate(model);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
+                }
+                throw new ValidationException("Model data is invalid");
+            }
             var x = await _repository.Create(_mapper.Map<Model>(model), brandId);
             return _mapper.Map<GetModelDTO>(x);
         }
@@ -44,6 +57,17 @@ namespace CarZone.Application.Services
 
         public async Task<GetModelDTO> UpdateModel(int brandId, UpdateModelDTO modelDTO)
         {
+            
+            var validator=new UpdateModelDTOValidator();
+            var result=validator.Validate(modelDTO);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Validation eerror: {error.ErrorMessage}");
+                }
+                throw new ValidationException("Model data is invalid");
+            }
             var model = await _repository.Update(brandId, _mapper.Map<Model>(modelDTO));
             return _mapper.Map<GetModelDTO>(model);
 

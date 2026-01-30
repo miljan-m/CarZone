@@ -11,7 +11,7 @@ namespace CarZone.Application.Interfaces.ServiceInterfaces
         public Task<bool> DeleteListing(int listingId);
         public Task<GetListingDTO> CreateListing(int userId, CreateListingDTO listingDTO, ListingStatus listingStatus,
                                                         Transmission transmission, BodyType bodyType, EngineType engineType); 
-        public Task<GetListingDTO> UpdateListing(int userId, CreateListingDTO listingDTO, ListingStatus listingStatus,
+        public Task<GetListingDTO> UpdateListing(int userId, UpdateListingDTO listingDTO, ListingStatus listingStatus,
                                                         Transmission transmission, BodyType bodyType, EngineType engineTyp);
     }
 }

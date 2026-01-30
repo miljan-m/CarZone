@@ -3,7 +3,10 @@ using CarZone.Application.DTOs.BrandDTOs;
 using CarZone.Application.DTOs.ModelDTOs;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
+using CarZone.Application.Validation.CreateValidation;
+using CarZone.Application.Validation.UpdateValidation;
 using CarZone.Domain.Models;
+using FluentValidation;
 
 namespace CarZone.Application.Services
 {
@@ -22,6 +25,16 @@ namespace CarZone.Application.Services
 
         public async Task<GetBrandDTO> CreateBrand(CreateBrandDTO brandDTO)
         {
+            var validator = new CreateBrandDTOValidator();
+            var result = validator.Validate(brandDTO);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
+                }
+                throw new ValidationException("Brand data is invalid");
+            }
             var brand = await _repository.Create(_mapper.Map<Brand>(brandDTO));
             return _mapper.Map<GetBrandDTO>(brand);
 
@@ -48,13 +61,24 @@ namespace CarZone.Application.Services
 
         public async Task<IEnumerable<GetModelDTO>> GetModelsForBrand(int brandId)
         {
-            var models=await _repository.GetModelsForBrand(brandId);
-            var modelsDTO=models.Select(m=>_mapper.Map<GetModelDTO>(m));
+            var models = await _repository.GetModelsForBrand(brandId);
+            var modelsDTO = models.Select(m => _mapper.Map<GetModelDTO>(m));
             return modelsDTO;
         }
 
         public async Task<GetBrandDTO> UpdateBrand(int brandId, UpdateBrandDTO brandDTO)
         {
+            
+            var validator=new UpdateBrandDTOValidator();
+            var result=validator.Validate(brandDTO);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    Console.WriteLine($"Validation eerror: {error.ErrorMessage}");
+                }
+                throw new ValidationException("Brand data is invalid");
+            }
             await _repository.Update(brandId, _mapper.Map<Brand>(brandDTO));
             var brand = await _repository.GetById(brandId);
             return _mapper.Map<GetBrandDTO>(brand);

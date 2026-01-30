@@ -13,7 +13,7 @@ namespace CarZone.Infrastructure.Repositories
         public BrandRepository(CarZoneDBContext context)
         {
             _context = context;
-            _dbSet=_context.Set<Brand>();
+            _dbSet = _context.Set<Brand>();
         }
 
 
@@ -29,9 +29,11 @@ namespace CarZone.Infrastructure.Repositories
 
         }
 
-        public Task<Brand> Create(Brand obj, int id = int.MinValue)
+        public async Task<Brand> Create(Brand obj, int id = int.MinValue)
         {
-            throw new NotImplementedException();
+            await _dbSet.AddAsync(obj);
+            await _context.SaveChangesAsync();
+            return obj;
         }
 
         public async Task<bool> Update(int id, Brand obj)
