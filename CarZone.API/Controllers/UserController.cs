@@ -2,12 +2,15 @@ using CarZone.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using CarZone.Application.DTOs.UserDTOs;
 using CarZone.Application.Interfaces.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 
 namespace CarZone.API.Controllers
 {
     [ApiController]
-    [Route("users")]
+    [Route("user")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -53,6 +56,16 @@ namespace CarZone.API.Controllers
         {
             await _userService.UpdateUser(userId,dto);
             return Ok();
+        }
+
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<LoginUserDTO>> Login([FromBody] LoginUserDTO loginDTO)
+        {
+            var user=await _userService.Login(loginDTO.Email,loginDTO.Password);
+            if(user==null) return Unauthorized();
+            return Ok(user);
         }
     }
 }

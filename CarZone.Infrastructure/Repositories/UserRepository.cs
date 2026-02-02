@@ -1,3 +1,4 @@
+using CarZone.Application.DTOs.UserDTOs;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Domain.Models;
 using CarZone.Infrastructure.Persistance;
@@ -36,6 +37,13 @@ namespace CarZone.Infrastructure.Repositories
         public async Task<IEnumerable<User>> GetAll()
         {
             return await _dbSet.ToListAsync();
+        }
+
+        public async Task<User> GetUserByEmailAndPassword(string email, string password)
+        {
+            var user = await _dbSet.FirstAsync(u => u.Email == email && u.Password == password);
+            if(user==null) return null;
+            return user;
         }
 
         public async Task<User> GetById(int id)
