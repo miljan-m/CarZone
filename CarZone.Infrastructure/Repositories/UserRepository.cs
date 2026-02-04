@@ -41,7 +41,7 @@ namespace CarZone.Infrastructure.Repositories
 
         public async Task<User> GetUserByEmailAndPassword(string email, string password)
         {
-            var user = await _dbSet.FirstAsync(u => u.Email == email && u.Password == password);
+            var user = await _dbSet.FirstAsync(u => u.Email == email && u.HashPassword == password);
             if(user==null) return null;
             return user;
         }

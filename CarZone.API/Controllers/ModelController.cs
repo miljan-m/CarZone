@@ -1,9 +1,8 @@
-using AutoMapper;
 using CarZone.Application.DTOs.BrandDTOs;
 using CarZone.Application.DTOs.ModelDTOs;
-using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
 using CarZone.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarZone.API.Controllers
@@ -13,7 +12,6 @@ namespace CarZone.API.Controllers
     public class ModelController : ControllerBase
     {
         protected readonly IModelService _service;
-        protected readonly IMapper _mapper;
         public ModelController(IModelService service)
         {
             _service = service;
@@ -35,6 +33,7 @@ namespace CarZone.API.Controllers
         }
 
         [HttpDelete("{modelId}")]
+        [Authorize(Roles=Role.Admin)]
         public async Task<IActionResult> DeleteModel([FromRoute] int modelId)
         {
             
@@ -44,6 +43,7 @@ namespace CarZone.API.Controllers
         }
 
         [HttpPatch("{modelId}")]
+        [Authorize(Roles=Role.Admin)]
         public async Task<IActionResult> UpdateModel([FromRoute] int modelId, [FromBody] UpdateModelDTO modelDTO)
         {
             var updatedModel=await _service.UpdateModel(modelId,modelDTO);
@@ -52,6 +52,7 @@ namespace CarZone.API.Controllers
         }
 
         [HttpPost("{brandId}")]
+        [Authorize(Roles=Role.Admin)]
         public async Task<IActionResult> CreateModel([FromRoute] int brandId,[FromBody] CreateModelDTO modelDTO)
         {
             await _service.CreateModel(modelDTO,brandId);

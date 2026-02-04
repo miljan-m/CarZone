@@ -18,12 +18,19 @@ namespace CarZone.Infrastructure.Authentication
 
         public string Generate(User user)
         {
-            var claims = new Claim[]
+            var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Email,user.Email),
                 new(ClaimTypes.NameIdentifier,user.UserId.ToString())
 
             };
+
+                
+            foreach(string role in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role,role));
+            }
+
             var credentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Value.SecretKey)), SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(_options.Value.Issuer, _options.Value.Audience, claims, null, DateTime.UtcNow.AddHours(1), credentials);

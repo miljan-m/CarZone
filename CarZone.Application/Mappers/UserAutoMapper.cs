@@ -20,7 +20,7 @@ namespace CarZone.Application.Mappers
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
+                .ForMember(dest => dest.HashPassword, opt => opt.MapFrom(src => src.Password))
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone));
 
             CreateMap<User, CreateUserDTO>()
@@ -28,7 +28,7 @@ namespace CarZone.Application.Mappers
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.HashPassword))
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone));
 
 

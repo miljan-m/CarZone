@@ -1,9 +1,6 @@
-using AutoMapper;
 using CarZone.Application.DTOs.ListingDTOs;
-using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
 using CarZone.Domain.Enums;
-using CarZone.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarZone.API.Controllers

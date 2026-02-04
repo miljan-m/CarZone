@@ -3,20 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using CarZone.Application.DTOs.UserDTOs;
 using CarZone.Application.Interfaces.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
 
 namespace CarZone.API.Controllers
 {
     [ApiController]
     [Route("user")]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
         public UserController(IUserService userService)
         {
-            _userService=userService;
+            _userService = userService;
         }
 
         [HttpGet("{userId}")]
@@ -43,10 +41,11 @@ namespace CarZone.API.Controllers
 
 
         [HttpDelete("{userId}")]
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> DeleteUser([FromRoute] int userId)
         {
-            var isDeleted=await _userService.DeleteUser(userId);
-            if(isDeleted) return Ok();
+            var isDeleted = await _userService.DeleteUser(userId);
+            if (isDeleted) return Ok();
             return NotFound();
         }
 
@@ -54,7 +53,7 @@ namespace CarZone.API.Controllers
         [HttpPatch("{userId}")]
         public async Task<IActionResult> UpdateUser([FromRoute] int userId, [FromBody] UpdateUserDTO dto)
         {
-            await _userService.UpdateUser(userId,dto);
+            await _userService.UpdateUser(userId, dto);
             return Ok();
         }
 
@@ -63,8 +62,8 @@ namespace CarZone.API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<LoginUserDTO>> Login([FromBody] LoginUserDTO loginDTO)
         {
-            var user=await _userService.Login(loginDTO.Email,loginDTO.Password);
-            if(user==null) return Unauthorized();
+            var user = await _userService.Login(loginDTO.Email, loginDTO.Password);
+            if (user == null) return Unauthorized();
             return Ok(user);
         }
     }

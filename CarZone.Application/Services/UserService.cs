@@ -85,7 +85,7 @@ namespace CarZone.Application.Services
             return new LoginUserDTO
             {
                 Email = user.Email,
-                Password = user.Password,
+                Password = user.HashPassword,
                 Token = token
             };
         }
