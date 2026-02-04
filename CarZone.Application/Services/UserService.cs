@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using CarZone.Application.DTOs.UserDTOs;
+using CarZone.Application.Interfaces;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
 using CarZone.Application.Validation.CreateValidation;
@@ -11,13 +12,15 @@ namespace CarZone.Application.Services
 {
     public class UserService : IUserService
     {
-        protected readonly IUserRepository _repository;
-        protected readonly IMapper _mapper;
+        private readonly IUserRepository _repository;
+        private readonly IMapper _mapper;
+        private readonly IJwtProvider _provider;
 
-        public UserService(IUserRepository repository, IMapper mapper)
+        public UserService(IUserRepository repository, IMapper mapper, IJwtProvider provider)
         {
             _repository = repository;
             _mapper = mapper;
+            _provider = provider;
         }
 
 
@@ -36,8 +39,8 @@ namespace CarZone.Application.Services
 
         public async Task<GetUserDTO> CreateUser(CreateUserDTO userDTO)
         {
-            var validator=new CreateUserDTOValidator();
-            var result=validator.Validate(userDTO);
+            var validator = new CreateUserDTOValidator();
+            var result = validator.Validate(userDTO);
             if (!result.IsValid)
             {
                 foreach (var error in result.Errors)
@@ -58,8 +61,8 @@ namespace CarZone.Application.Services
 
         public async Task<GetUserDTO> UpdateUser(int userId, UpdateUserDTO userDTO)
         {
-            var validator=new UpdateUserDTOValidator();
-            var result=validator.Validate(userDTO);
+            var validator = new UpdateUserDTOValidator();
+            var result = validator.Validate(userDTO);
             if (!result.IsValid)
             {
                 foreach (var error in result.Errors)
@@ -71,6 +74,20 @@ namespace CarZone.Application.Services
             var isUpdated = await _repository.Update(userId, _mapper.Map<User>(userDTO));
             var u = await _repository.GetById(userId);
             return _mapper.Map<GetUserDTO>(u);
+        }
+
+        public async Task<LoginUserDTO> Login(string email, string password)
+        {
+            var user = await _repository.GetUserByEmailAndPassword(email, password);
+            if (user == null) return null;
+            var token = _provider.Generate(user);
+
+            return new LoginUserDTO
+            {
+                Email = user.Email,
+                Password = user.HashPassword,
+                Token = token
+            };
         }
 
     }

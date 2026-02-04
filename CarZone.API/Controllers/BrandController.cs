@@ -2,6 +2,7 @@ using CarZone.Application.DTOs.BrandDTOs;
 using CarZone.Application.DTOs.ModelDTOs;
 using CarZone.Application.Interfaces.ServiceInterfaces;
 using CarZone.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarZone.API.Controllers
@@ -34,6 +35,7 @@ namespace CarZone.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult<GetBrandDTO>> CreateBrand([FromBody] CreateBrandDTO brandDTO)
         {
             var brand = await _brandService.CreateBrand(brandDTO);
@@ -41,6 +43,8 @@ namespace CarZone.API.Controllers
         }
 
         [HttpPatch("{brandId}")]
+        [Authorize(Roles = Role.Admin)]
+
         public async Task<IActionResult> UpdateBrand([FromRoute] int brandId, [FromBody] UpdateBrandDTO brandDTO)
         {
             await _brandService.UpdateBrand(brandId, brandDTO);
@@ -48,6 +52,8 @@ namespace CarZone.API.Controllers
         }
 
         [HttpDelete("{brandId}")]
+        [Authorize(Roles = Role.Admin)]
+
         public async Task<IActionResult> DeleteBrand([FromRoute] int brandId)
         {
             var isDeleted = await _brandService.DeleteBrand(brandId);
@@ -60,7 +66,7 @@ namespace CarZone.API.Controllers
         {
             var models = await _brandService.GetModelsForBrand(brandId);
             return Ok(models);
-        } 
+        }
 
     }
 }
