@@ -4,6 +4,7 @@ using CarZone.Application.DTOs.UserDTOs;
 using CarZone.Application.Interfaces;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
+using CarZone.Application.Interfaces.ServiceInterfaces.ISecurity;
 using CarZone.Application.Validation.CreateValidation;
 using CarZone.Application.Validation.UpdateValidation;
 using CarZone.Domain.Models;
@@ -15,12 +16,13 @@ namespace CarZone.Application.Services
         private readonly IUserRepository _repository;
         private readonly IMapper _mapper;
         private readonly IJwtProvider _provider;
-
-        public UserService(IUserRepository repository, IMapper mapper, IJwtProvider provider)
+        private readonly IPasswordHash _passwordHasher;
+        public UserService(IUserRepository repository, IMapper mapper, IJwtProvider provider, IPasswordHash passwordHasher)
         {
             _repository = repository;
             _mapper = mapper;
             _provider = provider;
+            _passwordHasher = passwordHasher;
         }
 
 
@@ -49,6 +51,8 @@ namespace CarZone.Application.Services
                 }
                 throw new ValidationException("User data is invalid");
             }
+            var password = _passwordHasher.HashPassword(userDTO, userDTO.Password);
+            userDTO.Password = password;
             var createdUser = await _repository.Create(_mapper.Map<User>(userDTO));
             return _mapper.Map<GetUserDTO>(createdUser);
         }
@@ -80,6 +84,9 @@ namespace CarZone.Application.Services
         {
             var user = await _repository.GetUserByEmailAndPassword(email, password);
             if (user == null) return null;
+            var passwordOk = _passwordHasher.VerifyPassword(user, user.HashPassword, password);
+            if (passwordOk == false) return null;
+
             var token = _provider.Generate(user);
 
             return new LoginUserDTO

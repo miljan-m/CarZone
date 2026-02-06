@@ -4,8 +4,10 @@ using System.Text.Json.Serialization;
 using CarZone.Application.Interfaces;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
+using CarZone.Application.Interfaces.ServiceInterfaces.ISecurity;
 using CarZone.Application.Mappers;
 using CarZone.Application.Services;
+using CarZone.Application.Services.Security;
 using CarZone.Infrastructure.Authentication;
 using CarZone.Infrastructure.Persistance;
 using CarZone.Infrastructure.Repositories;
@@ -37,6 +39,7 @@ builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IModelService, ModelService>();
 builder.Services.AddScoped<IListingService, ListingService>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<IPasswordHash,PasswordHash>();
 builder.Services.Configure<JwtOptions>(
     builder.Configuration.GetSection("Jwt")
 );
