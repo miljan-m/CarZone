@@ -1,0 +1,43 @@
+Header{
+    background-color: #ffffff;
+    width: 100%;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    font-size: medium;
+    height: 60px;
+}
+
+header a {
+    display: flex;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #52af50; 
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: color 0.3s;
+}
+
+header a:hover {
+    color: #3e8e41; 
+}
+
+header h2{
+    text-decoration: none;
+    color: #52af50; 
+    font-weight: bold;
+    margin-left: 20px;
+    transition: color 0.3s;
+}
+
+.icon{
+    margin-right: 10px;
+    margin-left: 10px;
+}

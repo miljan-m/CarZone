@@ -40,6 +40,17 @@ builder.Services.AddScoped<IModelService, ModelService>();
 builder.Services.AddScoped<IListingService, ListingService>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IPasswordHash,PasswordHash>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactApp",
+        builder => builder
+            .WithOrigins("http://localhost:5173") // domen React-a
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+    );
+});
+
 builder.Services.Configure<JwtOptions>(
     builder.Configuration.GetSection("Jwt")
 );
@@ -92,6 +103,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseRouting();
+app.UseCors("ReactApp");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
