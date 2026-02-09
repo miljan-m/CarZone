@@ -8,7 +8,7 @@ const Navbar = () => {
     <header>
 
 
-      <a href=""><UilCarSideview className="icon" color="#52af50" /> Offers </a>
+      <a href="/offers"><UilCarSideview className="icon" color="#52af50" /> Offers </a>
       <h2>CarZone</h2>
       <a href="">Account <UilUserCircle className="icon" color="#52af50" /></a>
 

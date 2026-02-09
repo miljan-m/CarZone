@@ -1,0 +1,76 @@
+.offer-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  align-items: center; 
+  min-height: 100vh; 
+  background-color: #76ba5d; 
+  width: 100%;
+}
+
+.search-div {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 4px; /* Blago zaobljeno za moderniji izgled */
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-wrap: wrap; /* Da bi se lepo prelamalo na manjim ekranima */
+  gap: 15px; /* Razmak između select elemenata */
+  justify-content: center;
+  align-items: center;
+  max-width: 90%; /* Da ne udara u ivice ekrana */
+  margin: 20px auto;
+}
+
+.search-div select {
+  background-color: #f2f2f2;
+  border: 1px solid #e6e6e6;
+  padding: 12px 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #555;
+  width: 180px; /* Fiksna širina za uniformisan izgled */
+  outline: none;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.search-div select:focus {
+  border-color: #52af50; /* Zelena boja iz tvog login dugmeta */
+}
+
+/* Opciono: Stil za opcije unutar select-a */
+.search-div option {
+  padding: 10px;
+  background: white;
+}
+
+.button {
+  background-color: #52af50;
+  width: 300px;
+  height: 50px;
+  border-radius: 0px;
+  color: white;
+}
+
+.price-range-div {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 5px;
+}
+
+.production-year-div {
+  display: flex;
+  gap: 10px;
+}
+
+.mileage-div {
+  display: flex;
+  gap: 10px;
+}
+
+.fuel-consumption-div {
+  display: flex;
+  gap: 10px;
+}

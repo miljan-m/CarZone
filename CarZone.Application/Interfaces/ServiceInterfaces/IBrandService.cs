@@ -11,7 +11,7 @@ namespace CarZone.Application.Interfaces.ServiceInterfaces
         public Task<bool> DeleteBrand(int id);
         public Task<GetBrandDTO> CreateBrand(CreateBrandDTO brand);
         public Task<GetBrandDTO> UpdateBrand(int id, UpdateBrandDTO brand);
-        public Task<IEnumerable<GetModelDTO>> GetModelsForBrand(int brandId);
+        public Task<IEnumerable<GetModelDTO>> GetModelsForBrand(string brandName);
 
     }
 }

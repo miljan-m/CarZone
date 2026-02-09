@@ -69,11 +69,11 @@ namespace CarZone.Infrastructure.Repositories
         }
 
 
-        public async Task<IEnumerable<Model>> GetModelsForBrand(int brandId)
+        public async Task<IEnumerable<Model>> GetModelsForBrand(string brandName)
         {
             var brand = await _context.Set<Brand>()
                           .Include(b => b.Models)
-                          .FirstAsync(b => b.BrandId == brandId);
+                          .FirstAsync(b => b.BrandName == brandName);
 
             return brand.Models;
         }

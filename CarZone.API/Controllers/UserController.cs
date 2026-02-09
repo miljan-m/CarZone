@@ -26,7 +26,7 @@ namespace CarZone.API.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDTO user)
         {
             await _userService.CreateUser(user);

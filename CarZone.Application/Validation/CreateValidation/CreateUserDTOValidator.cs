@@ -12,7 +12,7 @@ namespace CarZone.Application.Validation.CreateValidation
             RuleFor(u => u.LastName).NotEmpty().WithMessage("Last name cannot be an empty string")
                                    .Matches("^[A-Z][a-zA-Z]*$").WithMessage("Last name must start with capital letter");
             RuleFor(u => u.Address).NotEmpty().WithMessage("Address cannot be an empty string")
-                                   .Matches(@"^([A-Z][a-zA-Z0-9]*|[A-Z][a-z]*\.)+(\s([A-Z][a-zA-Z0-9]*|[A-Z][a-z]*\.|\d+|[-]))*$").WithMessage("Address must start with capital letter");
+                                   .Matches(@"^[A-Z].*").WithMessage("Address must start with capital letter");
             RuleFor(u => u.Email).NotEmpty().WithMessage("Email address cannot be an empty string")
                                     .EmailAddress().WithMessage("Email must be in form of example@example.com");
             RuleFor(u => u.Phone).NotEmpty().WithMessage("Phone number cannot be an empty string")

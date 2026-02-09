@@ -4,6 +4,6 @@ namespace CarZone.Application.Interfaces.Repositories
 {
     public interface IBrandRepository : IGenericRepository<Brand>
     {
-        public Task<IEnumerable<Model>> GetModelsForBrand(int brandId);
+        public Task<IEnumerable<Model>> GetModelsForBrand(string brandName);
     }
 }

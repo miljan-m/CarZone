@@ -61,10 +61,10 @@ namespace CarZone.API.Controllers
             return NotFound();
         }
 
-        [HttpGet("{brandId}/models")]
-        public async Task<ActionResult<IEnumerable<GetModelDTO>>> GetModelsForBrand([FromRoute] int brandId)
+        [HttpGet("{brandName}/models")]
+        public async Task<ActionResult<IEnumerable<GetModelDTO>>> GetModelsForBrand([FromRoute] string brandName)
         {
-            var models = await _brandService.GetModelsForBrand(brandId);
+            var models = await _brandService.GetModelsForBrand(brandName);
             return Ok(models);
         }
 

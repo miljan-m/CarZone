@@ -59,9 +59,9 @@ namespace CarZone.Application.Services
 
         }
 
-        public async Task<IEnumerable<GetModelDTO>> GetModelsForBrand(int brandId)
+        public async Task<IEnumerable<GetModelDTO>> GetModelsForBrand(string brandName)
         {
-            var models = await _repository.GetModelsForBrand(brandId);
+            var models = await _repository.GetModelsForBrand(brandName);
             var modelsDTO = models.Select(m => _mapper.Map<GetModelDTO>(m));
             return modelsDTO;
         }

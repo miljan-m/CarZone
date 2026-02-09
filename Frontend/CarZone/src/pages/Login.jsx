@@ -18,16 +18,31 @@ const Login = () => {
         setPassword(e.target.value);
     }
 
-    async function handleLogin(e) {
-        const response = await axios.post("http://localhost:5047/user/login", {
+    /* async function handleLogin(e) {
+         const response = await axios.post("http://localhost:5047/user/login", {
+             email,
+             password
+         });
+ 
+         
+     }*/
+
+
+    const handleLogin = async (email, password) => {
+        await axios.post("http://localhost:5047/user/login", {
             email,
             password
-        });
+        }).then(function (response) {
+            const token = response.data.token;
+            localStorage.setItem("token", token);
+            console.log(response.status+' '+response.statusText)
+        }).catch(function (error) {
+            console.log(error)
+        })
 
-        const token = response.data.token;
-        localStorage.setItem("token", token);
-        console.log(localStorage.getItem("token"))
+
     }
+
     //{
     // "firstName": "Marjan",
     // "lastName": "Ristic",
@@ -52,9 +67,9 @@ const Login = () => {
                     </div>
                 </div>
                 <div className="login-buttons">
-                    <button className='button' onClick={handleLogin}>Login</button>
+                    <button className='button' onClick={() => handleLogin(email, password)}>Login</button>
                 </div>
-                <div className='login-footer'>Not registered? <a href="">Create an account</a></div>
+                <div className='login-footer'>Not registered? <a href="./register">Create an account</a></div>
             </div>
             <Footer />
         </>
