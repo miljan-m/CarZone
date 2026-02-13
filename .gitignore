@@ -3,6 +3,9 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# static files
+wwwroot/images/
+
 # dotenv files
 .env
 

@@ -62,15 +62,14 @@ namespace CarZone.Application.Services
         public async Task<IEnumerable<GetModelDTO>> GetModelsForBrand(string brandName)
         {
             var models = await _repository.GetModelsForBrand(brandName);
-            var modelsDTO = models.Select(m => _mapper.Map<GetModelDTO>(m));
-            return modelsDTO;
+            return models.Select(m => _mapper.Map<GetModelDTO>(m));
         }
 
         public async Task<GetBrandDTO> UpdateBrand(int brandId, UpdateBrandDTO brandDTO)
         {
-            
-            var validator=new UpdateBrandDTOValidator();
-            var result=validator.Validate(brandDTO);
+
+            var validator = new UpdateBrandDTOValidator();
+            var result = validator.Validate(brandDTO);
             if (!result.IsValid)
             {
                 foreach (var error in result.Errors)

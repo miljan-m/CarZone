@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import axios from 'axios'
 import "../styles/Offer.css"
+import OfferCard from '../components/OfferCard'
 
 const Offer = () => {
 
@@ -24,6 +25,8 @@ const Offer = () => {
     const [selectedMaxMileage, setSelectedMaxMileage] = useState("")
     const [selectedMinFuelConsumption, setSelectedMinFuelConsumption] = useState("")
     const [selectedMaxFuelConsumption, setSelectedMaxFuelConsumption] = useState("")
+    const [offers, setOffers] = useState([])
+
 
     const minYear = 1900
     const maxYear = new Date().getFullYear();
@@ -84,6 +87,21 @@ const Offer = () => {
         })
     }, [])
 
+
+    //offers
+    const handleOfferFetching = () => {
+
+        axios.get('http://localhost:5047/listings').then((response) => {
+            setOffers(response.data)
+            console.log(response.data)
+        }).catch(function (error) {
+            console.log(error)
+        })
+    }
+
+    useEffect(() => {
+        handleOfferFetching()
+    }, [])
     return (
         <div className='offer-wrapper'>
             <Navbar />
@@ -186,10 +204,16 @@ const Offer = () => {
                 <div className='fuel-consumption-div' >
 
                     <input type="number" min={0} placeholder='Min Fuel Consumption' onChange={(e) => setSelectedMinFuelConsumption(e.target.value)} />
-                    <input type="number" min={0} placeholder='Max Fuel Consumption' onChange={(e) => setSelectedMinFuelConsumption(e.target.value)} />
+                    <input type="number" min={0} placeholder='Max Fuel Consumption' onChange={(e) => setSelectedMaxFuelConsumption(e.target.value)} />
 
                 </div>
+
                 <button className='button'>Search</button>
+            </div>
+            <div className="my-offers-div">
+                {
+                    offers.map((o, index) => (<OfferCard key={index} modelName={o.model.modelName} brandName={o.model.brandName} carPrice={o.price} productionYear={o.productionYear} images={o.images} />))
+                }
             </div>
             <Footer />
         </div>

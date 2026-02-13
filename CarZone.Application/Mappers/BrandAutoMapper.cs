@@ -11,7 +11,6 @@ namespace CarZone.Application.Mappers
         {
             CreateMap<Brand, GetBrandDTO>()
                 .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.BrandName));
-
             CreateMap<Brand, CreateBrandDTO>()
                 .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.BrandName));
 

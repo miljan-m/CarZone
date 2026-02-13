@@ -32,7 +32,9 @@ namespace CarZone.Domain.Models
         public DateOnly PublishedDate { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
         public string AdditionalDescription { get; set; }
 
-        public ListingStatus ListingStatus { get; set; }
+        public ListingStatus ListingStatus { get; set; } = ListingStatus.Active;
+
+        public List<Image> Images { get; set; }
 
         public Listing()
         {

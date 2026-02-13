@@ -11,11 +11,14 @@ using FluentValidation;
 public class ListingService : IListingService
 {
     protected readonly IListingRepository _repository;
+    protected readonly IModelRepository _modelRepository;
+
     protected readonly IMapper _mapper;
-    public ListingService(IListingRepository repository, IMapper mapper)
+    public ListingService(IListingRepository repository, IMapper mapper, IModelRepository modelRepository)
     {
         _repository = repository;
         _mapper = mapper;
+        _modelRepository = modelRepository;
     }
 
     public async Task<GetListingDTO> GetListingById(int listingId)
@@ -27,11 +30,15 @@ public class ListingService : IListingService
     public async Task<IEnumerable<GetListingDTO>> GetAllListings()
     {
         var listing = await _repository.GetAll();
-        if (listing.Any()) return listing.Select(l => _mapper.Map<GetListingDTO>(l));
+
+        if (listing.Any())
+        {
+            return listing.Select(l => _mapper.Map<GetListingDTO>(l));
+        }
+
         return null;
     }
-    public async Task<GetListingDTO> CreateListing(int userId, CreateListingDTO listingDTO, ListingStatus listingStatus,
-                                                        Transmission transmission, BodyType bodyType, EngineType engineType)
+    public async Task<GetListingDTO> CreateListing(int userId, CreateListingDTO listingDTO, List<string> imageURL)
     {
         var validator = new CreateListingDTOValidator();
         var result = validator.Validate(listingDTO);
@@ -44,12 +51,10 @@ public class ListingService : IListingService
             }
             throw new ValidationException("Listing data is invalid");
         }
-
         var listing = _mapper.Map<Listing>(listingDTO);
-        listing.ListingStatus = listingStatus;
-        listing.Transmission = transmission;
-        listing.BodyType = bodyType;
-        listing.EngineType = engineType;
+
+        var images = imageURL.Select(url => new Image { ImageUrl = url }).ToList();
+        listing.Images = images;
         var createdListing = await _repository.Create(listing, userId);
         return _mapper.Map<GetListingDTO>(createdListing);
     }
@@ -63,17 +68,17 @@ public class ListingService : IListingService
                                                         Transmission transmission, BodyType bodyType, EngineType engineType)
     {
 
-        
-            var validator=new UpdateListingDTOValidator();
-            var result=validator.Validate(listingDTO);
-            if (!result.IsValid)
+
+        var validator = new UpdateListingDTOValidator();
+        var result = validator.Validate(listingDTO);
+        if (!result.IsValid)
+        {
+            foreach (var error in result.Errors)
             {
-                foreach (var error in result.Errors)
-                {
-                    Console.WriteLine($"Validation eerror: {error.ErrorMessage}");
-                }
-                throw new ValidationException("Listing data is invalid");
+                Console.WriteLine($"Validation eerror: {error.ErrorMessage}");
             }
+            throw new ValidationException("Listing data is invalid");
+        }
 
         var listing = await _repository.GetById(userId);
         listing.AdditionalDescription = listingDTO.AdditionalDescription;

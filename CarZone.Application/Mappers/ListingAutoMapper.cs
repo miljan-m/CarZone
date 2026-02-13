@@ -1,5 +1,6 @@
 using AutoMapper;
 using CarZone.Application.DTOs.ListingDTOs;
+using CarZone.Application.DTOs.ModelDTOs;
 using CarZone.Domain.Models;
 
 namespace CarZone.Application.Mappers
@@ -10,10 +11,17 @@ namespace CarZone.Application.Mappers
         {
             CreateMap<CreateListingDTO, Listing>()
                     .ForMember(dest => dest.ProductionYear, opt => opt.MapFrom(src => src.ProductionYear))
-                    .ForMember(dest => dest.FuelConsuption, opt => opt.MapFrom(src => src.FuelConsuption))
-                    .ForMember(dest => dest.Mileage, opt => opt.MapFrom(src => src.Mileage))
                     .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
-                    .ForMember(dest => dest.ModelId, opt => opt.MapFrom(src => src.ModelId));
+                    .ForMember(dest => dest.Mileage, opt => opt.MapFrom(src => src.Mileage))
+                    .ForMember(dest => dest.FuelConsuption, opt => opt.MapFrom(src => src.FuelConsuption))
+                    .ForMember(dest => dest.AdditionalDescription, opt => opt.MapFrom(src => src.AdditionalDescription))
+                    .ForMember(dest => dest.ModelId, opt => opt.MapFrom(src => src.ModelId))
+                    .ForMember(dest => dest.Transmission, opt => opt.MapFrom(src => src.Transmission))
+                    .ForMember(dest => dest.BodyType, opt => opt.MapFrom(src => src.BodyType))
+                    .ForMember(dest => dest.EngineType, opt => opt.MapFrom(src => src.EngineType))
+                    .ForMember(dest => dest.Images, opt => opt.Ignore());
+
+
 
             CreateMap<UpdateListingDTO, Listing>()
                     .ForMember(dest => dest.ProductionYear, opt => opt.MapFrom(src => src.ProductionYear))
@@ -24,6 +32,7 @@ namespace CarZone.Application.Mappers
 
 
             CreateMap<Listing, GetListingDTO>()
+                    .ForMember(dest => dest.ListingId, opt => opt.MapFrom(src => src.ListingID))
                     .ForMember(dest => dest.AdditionalDescription, opt => opt.MapFrom(src => src.AdditionalDescription))
                     .ForMember(dest => dest.BodyType, opt => opt.MapFrom(src => src.BodyType))
                     .ForMember(dest => dest.EngineType, opt => opt.MapFrom(src => src.EngineType))
@@ -34,12 +43,13 @@ namespace CarZone.Application.Mappers
                     .ForMember(dest => dest.ProductionYear, opt => opt.MapFrom(src => src.ProductionYear))
                     .ForMember(dest => dest.PublishedDate, opt => opt.MapFrom(src => src.PublishedDate))
                     .ForMember(dest => dest.Transmission, opt => opt.MapFrom(src => src.Transmission))
-                    .ForMember(dest=>dest.User,opt=>opt.MapFrom(src=>src.User))
-                    .ForMember(dest=>dest.Model,opt=>opt.MapFrom(src=>src.Model));
-            ;
+                    .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
+                    .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.Model));
 
 
-
+            CreateMap<Model, GetModelDTO>()
+                    .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.ModelName))
+                    .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand.BrandName));
 
         }
     }

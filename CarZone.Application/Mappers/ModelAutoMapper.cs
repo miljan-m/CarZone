@@ -9,14 +9,15 @@ namespace CarZone.Application.Mappers
         public ModelAutoMapper()
         {
             CreateMap<Model, GetModelDTO>()
+                .ForMember(dest => dest.ModelId, opt => opt.MapFrom(src => src.ModelId))
                 .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.ModelName))
-                .ForMember(dest=>dest.BrandName,opt=>opt.MapFrom(src=>src.Brand.BrandName));
+                .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand.BrandName));
 
-            CreateMap<UpdateModelDTO,Model>()
-                .ForMember(dest=>dest.ModelName,opt=>opt.MapFrom(src=>src.ModelName));
-            
-            CreateMap<CreateModelDTO,Model>()
-                .ForMember(dest=>dest.ModelName,opt=>opt.MapFrom(src=>src.ModelName));
+            CreateMap<UpdateModelDTO, Model>()
+                .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.ModelName));
+
+            CreateMap<CreateModelDTO, Model>()
+                .ForMember(dest => dest.ModelName, opt => opt.MapFrom(src => src.ModelName));
 
         }
     }

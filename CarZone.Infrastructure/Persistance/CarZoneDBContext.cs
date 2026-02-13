@@ -14,7 +14,7 @@ namespace CarZone.Infrastructure.Persistance
         {
             base.OnModelCreating(modelBuilder);
 
-            var user1 = new User(1, "Miljan", "Mitic", "mm@gmail.com", "0668049057", "Milutina Stojanovica 14", "mypassword",[Role.User]);
+            var user1 = new User(1, "Miljan", "Mitic", "mm@gmail.com", "0668049057", "Milutina Stojanovica 14", "mypassword", [Role.User]);
             modelBuilder.Entity<User>().HasData(user1);
 
             modelBuilder.Entity<Model>()
@@ -23,13 +23,20 @@ namespace CarZone.Infrastructure.Persistance
                 .HasForeignKey(e => e.BrandId);
 
             modelBuilder.Entity<Listing>()
-                .HasOne(e=>e.User)
-                .WithMany(e=>e.PostedListings)
-                .HasForeignKey(e=>e.UserId); 
+                .HasOne(e => e.User)
+                .WithMany(e => e.PostedListings)
+                .HasForeignKey(e => e.UserId);
+
             modelBuilder.Entity<Listing>()
-                .HasOne(b=>b.Buyer)
-                .WithMany(l=>l.BoughtListing)
-                .HasForeignKey(b=>b.BuyerId);
+                .HasOne(b => b.Buyer)
+                .WithMany(l => l.BoughtListing)
+                .HasForeignKey(b => b.BuyerId);
+
+            modelBuilder.Entity<Listing>()
+                .HasMany(l => l.Images)
+                .WithOne(i => i.Listing)
+                .HasForeignKey(i => i.ListingId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Brand>().HasData(
                 new Brand { BrandId = 1, BrandName = "BMW" },

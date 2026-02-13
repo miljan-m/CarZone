@@ -74,7 +74,6 @@ namespace CarZone.Infrastructure.Repositories
             var brand = await _context.Set<Brand>()
                           .Include(b => b.Models)
                           .FirstAsync(b => b.BrandName == brandName);
-
             return brand.Models;
         }
 

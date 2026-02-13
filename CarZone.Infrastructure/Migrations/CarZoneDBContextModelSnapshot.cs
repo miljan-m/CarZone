@@ -166,6 +166,28 @@ namespace CarZone.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CarZone.Domain.Models.Image", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ListingId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ImageId");
+
+                    b.HasIndex("ListingId");
+
+                    b.ToTable("Image");
+                });
+
             modelBuilder.Entity("CarZone.Domain.Models.Listing", b =>
                 {
                     b.Property<int>("ListingID")
@@ -723,6 +745,17 @@ namespace CarZone.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CarZone.Domain.Models.Image", b =>
+                {
+                    b.HasOne("CarZone.Domain.Models.Listing", "Listing")
+                        .WithMany("Images")
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Listing");
+                });
+
             modelBuilder.Entity("CarZone.Domain.Models.Listing", b =>
                 {
                     b.HasOne("CarZone.Domain.Models.User", "Buyer")
@@ -762,6 +795,11 @@ namespace CarZone.Infrastructure.Migrations
             modelBuilder.Entity("CarZone.Domain.Models.Brand", b =>
                 {
                     b.Navigation("Models");
+                });
+
+            modelBuilder.Entity("CarZone.Domain.Models.Listing", b =>
+                {
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("CarZone.Domain.Models.User", b =>

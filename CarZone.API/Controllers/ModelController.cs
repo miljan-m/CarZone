@@ -26,7 +26,7 @@ namespace CarZone.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Model>>> GetAllModels()
+        public async Task<ActionResult<IEnumerable<GetModelDTO>>> GetAllModels()
         {
             var models=await _service.GetAllModels();
             return Ok(models);

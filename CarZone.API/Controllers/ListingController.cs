@@ -2,7 +2,7 @@ using CarZone.Application.DTOs.ListingDTOs;
 using CarZone.Application.Interfaces.ServiceInterfaces;
 using CarZone.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Hosting;
 namespace CarZone.API.Controllers
 {
     [ApiController]
@@ -10,10 +10,14 @@ namespace CarZone.API.Controllers
     public class ListingController : ControllerBase
     {
         protected readonly IListingService _service;
-        public ListingController(IListingService service)
+        private readonly IWebHostEnvironment _env;
+
+        public ListingController(IListingService service, IWebHostEnvironment env)
         {
             _service = service;
+            _env = env;
         }
+        
         [HttpGet("{listingId}")]
         public async Task<ActionResult<GetListingDTO>> GetListing([FromRoute] int listingId)
         {
@@ -29,11 +33,28 @@ namespace CarZone.API.Controllers
             return Ok(listing);
         }
         [HttpPost("{userId}")]
-        public async Task<IActionResult> CreateListing([FromRoute] int userId, [FromBody] CreateListingDTO listingDTO, [FromQuery] ListingStatus listingStatus,
-                                                       [FromQuery] Transmission transmission, [FromQuery] BodyType bodyType, [FromQuery] EngineType engineType)
+        public async Task<IActionResult> CreateListing([FromRoute] int userId, [FromForm] CreateListingDTO listingDTO)
         {
-            await _service.CreateListing(userId, listingDTO, listingStatus, transmission, bodyType, engineType);
-            return Ok();
+            var imageURL = new List<string>();
+            if (listingDTO.Images != null && listingDTO.Images.Any())
+            {
+                var webRoot = _env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                var uploadPath = Path.Combine(webRoot, "images");
+                if (!Directory.Exists(uploadPath)) Directory.CreateDirectory(uploadPath);
+
+                foreach (var image in listingDTO.Images)
+                {
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
+                    var filePath = Path.Combine(uploadPath, fileName);
+                    using var stream = new FileStream(filePath, FileMode.Create);
+                    await image.CopyToAsync(stream);
+                    imageURL.Add($"images/{fileName}");
+                }
+            }
+
+            var result = await _service.CreateListing(userId, listingDTO, imageURL);
+
+            return Ok(result);
         }
 
 

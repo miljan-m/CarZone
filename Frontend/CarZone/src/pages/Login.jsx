@@ -10,6 +10,7 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
+
     function handleEmailChange(e) {
         setEmail(e.target.value);
     }
@@ -18,16 +19,6 @@ const Login = () => {
         setPassword(e.target.value);
     }
 
-    /* async function handleLogin(e) {
-         const response = await axios.post("http://localhost:5047/user/login", {
-             email,
-             password
-         });
- 
-         
-     }*/
-
-
     const handleLogin = async (email, password) => {
         await axios.post("http://localhost:5047/user/login", {
             email,
@@ -35,12 +26,10 @@ const Login = () => {
         }).then(function (response) {
             const token = response.data.token;
             localStorage.setItem("token", token);
-            console.log(response.status+' '+response.statusText)
+            console.log(response.status + ' ' + response.statusText)
         }).catch(function (error) {
             console.log(error)
         })
-
-
     }
 
     //{

@@ -28,6 +28,8 @@ namespace CarZone.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetBrandDTO>>> GetAllBrands()
         {
+            Console.WriteLine(System.Globalization.CultureInfo.CurrentCulture);
+
             var brands = await _brandService.GetAllBrands();
             if (brands.Any()) return Ok(brands);
             return NotFound();

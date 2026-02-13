@@ -1,4 +1,5 @@
 
+using System.Globalization;
 using System.Text;
 using System.Text.Json.Serialization;
 using CarZone.Application.Interfaces;
@@ -13,6 +14,7 @@ using CarZone.Infrastructure.Persistance;
 using CarZone.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
@@ -39,7 +41,9 @@ builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IModelService, ModelService>();
 builder.Services.AddScoped<IListingService, ListingService>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-builder.Services.AddScoped<IPasswordHash,PasswordHash>();
+builder.Services.AddScoped<IPasswordHash, PasswordHash>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddCors(options =>
 {
@@ -73,12 +77,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+var cultureInfo = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<UserAutoMapper>();
     cfg.AddProfile<BrandAutoMapper>();
     cfg.AddProfile<ModelAutoMapper>();
     cfg.AddProfile<ListingAutoMapper>();
+    cfg.AddProfile<ImageAutoMapper>();
+
 
 });
 
@@ -88,7 +98,7 @@ builder.Services.AddDbContext<CarZoneDBContext>(options =>
     options.UseSqlServer(ConnectionString);
 });
 
-
+builder.WebHost.UseWebRoot("wwwroot");
 var app = builder.Build();
 
 
@@ -102,9 +112,10 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
     });
 }
+app.UseStaticFiles();
+app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors("ReactApp");
-app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
