@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import '../styles/Register.css'
 import { UilKeySkeletonAlt } from '@iconscout/react-unicons'
@@ -9,6 +8,10 @@ import { UilHome } from '@iconscout/react-unicons'
 import { UilUser } from '@iconscout/react-unicons'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import NotLogedNavbar from '../components/NotLogedNavbar'
+import LogedNavBar from '../components/LogedNavbar'
+
+
 const Register = () => {
 
     const [firstName, setFirstName] = useState('')
@@ -18,6 +21,8 @@ const Register = () => {
     const [address, setAddress] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
+    const token = localStorage.getItem('token')
+
     /*
     public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -68,7 +73,7 @@ const Register = () => {
     return (
         <>
             <div className='register-wrapper'>
-                <Navbar />
+                {token ? <LogedNavBar /> : <NotLogedNavbar />}
                 <div className='register-container'>
                     <div className='register-header'>Register</div>
                     <div className="register-input">
@@ -103,7 +108,7 @@ const Register = () => {
                     </div>
                     <div className='register-footer'>Already have an account? <a href='./Login'> Login </a></div>
                 </div>
-                <Footer/>
+                <Footer />
             </div>
         </>
     )

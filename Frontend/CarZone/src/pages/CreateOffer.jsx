@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../styles/CreateOffer.css'
 import OfferCard from '../components/OfferCard'
+import NotLogedNavbar from '../components/NotLogedNavbar'
 
 const CreateOffer = () => {
     const [brands, setBrands] = useState([])
@@ -23,8 +24,8 @@ const CreateOffer = () => {
     const [fuelConsumption, setFuelConsumption] = useState(0)
     const [details, setDetails] = useState("")
     const [images, setImages] = useState([])
-    const [offerImages, setOfferImages] = useState([])
     const [offers, setOffers] = useState([])
+    const token = localStorage.getItem('token')
 
     const minYear = 1900
     const maxYear = new Date().getFullYear();
@@ -81,7 +82,7 @@ const CreateOffer = () => {
         })
     }, [])
 
-   
+
 
     const handleOfferCreation = async () => {
         const formData = new FormData();
@@ -139,7 +140,7 @@ const CreateOffer = () => {
 
     return (
         <div className="create-offer-wrapper">
-            <Navbar />
+            {token ? <LogedNavBar /> : <NotLogedNavbar />}
             <div className="create-div">
                 <select name="brand-select" value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
                     {
@@ -218,7 +219,7 @@ const CreateOffer = () => {
             </div>
             <div className="my-offers-div">
                 {
-                    offers.map((o, index) => (<OfferCard key={index} modelName={o.model.modelName} brandName={o.model.brandName} carPrice={o.price} productionYear={o.productionYear} images={o.images} />))
+                    offers.map((o, index) => (<OfferCard key={index} offer={o} />))
                 }
             </div>
             <Footer />

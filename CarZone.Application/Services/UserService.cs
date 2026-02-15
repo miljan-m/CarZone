@@ -80,7 +80,7 @@ namespace CarZone.Application.Services
             return _mapper.Map<GetUserDTO>(u);
         }
 
-        public async Task<LoginUserDTO> Login(string email, string password)
+        public async Task<GetLoginUserDTO> Login(string email, string password)
         {
             var user = await _repository.GetUserByEmailAndPassword(email, password);
             if (user == null) return null;
@@ -88,11 +88,12 @@ namespace CarZone.Application.Services
             if (passwordOk == false) return null;
 
             var token = _provider.Generate(user);
-
-            return new LoginUserDTO
+            return new GetLoginUserDTO
             {
                 Email = user.Email,
-                Password = user.HashPassword,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Phone = user.Phone,
                 Token = token
             };
         }

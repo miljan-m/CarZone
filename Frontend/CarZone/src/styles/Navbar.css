@@ -42,3 +42,8 @@ header h2{
     margin-right: 10px;
     margin-left: 10px;
 }
+
+
+.account-div{
+    display: flex;
+}

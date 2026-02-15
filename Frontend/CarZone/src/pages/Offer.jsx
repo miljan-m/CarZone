@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import axios from 'axios'
 import "../styles/Offer.css"
 import OfferCard from '../components/OfferCard'
+import { useNavigate } from 'react-router-dom'
+import LogedNavBar from '../components/LogedNavbar'
+import NotLogedNavbar from '../components/NotLogedNavbar'
 
 const Offer = () => {
 
@@ -26,7 +28,7 @@ const Offer = () => {
     const [selectedMinFuelConsumption, setSelectedMinFuelConsumption] = useState("")
     const [selectedMaxFuelConsumption, setSelectedMaxFuelConsumption] = useState("")
     const [offers, setOffers] = useState([])
-
+    const token=localStorage.getItem('token')
 
     const minYear = 1900
     const maxYear = new Date().getFullYear();
@@ -46,6 +48,7 @@ const Offer = () => {
     useEffect(() => {
         axios.get("http://localhost:5047/brands").then(function (response) {
             setBrands(response.data)
+            setSelectedBrand(`${response.data[0].brandName}`)
         }).catch(function (error) {
             console.log(error)
         })
@@ -55,7 +58,6 @@ const Offer = () => {
         if (selectedBrand == "") return
         axios.get(`http://localhost:5047/brands/${selectedBrand}/models`).then((response) => {
             setModels(response.data)
-            console.log(response.data)
         }).catch(function (error) {
             console.log(error)
         })
@@ -65,7 +67,6 @@ const Offer = () => {
     useEffect(() => {
         axios.get("http://localhost:5047/bodyTypes").then((response) => {
             setBodyTypes(response.data)
-            console.log(response.data)
         }).catch(function (error) {
             console.log(error)
         })
@@ -93,7 +94,6 @@ const Offer = () => {
 
         axios.get('http://localhost:5047/listings').then((response) => {
             setOffers(response.data)
-            console.log(response.data)
         }).catch(function (error) {
             console.log(error)
         })
@@ -104,7 +104,7 @@ const Offer = () => {
     }, [])
     return (
         <div className='offer-wrapper'>
-            <Navbar />
+            {token ? <LogedNavBar/> : <NotLogedNavbar/>}
             <div className="search-div">
                 <select name="brand-select" value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
                     {
@@ -212,7 +212,7 @@ const Offer = () => {
             </div>
             <div className="my-offers-div">
                 {
-                    offers.map((o, index) => (<OfferCard key={index} modelName={o.model.modelName} brandName={o.model.brandName} carPrice={o.price} productionYear={o.productionYear} images={o.images} />))
+                    offers.map((o, index) => (<OfferCard key={index} offer={o}  />))
                 }
             </div>
             <Footer />

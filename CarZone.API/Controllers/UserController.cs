@@ -60,7 +60,7 @@ namespace CarZone.API.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<LoginUserDTO>> Login([FromBody] LoginUserDTO loginDTO)
+        public async Task<ActionResult<GetLoginUserDTO>> Login([FromBody] LoginUserDTO loginDTO)
         {
             var user = await _userService.Login(loginDTO.Email, loginDTO.Password);
             if (user == null) return Unauthorized();

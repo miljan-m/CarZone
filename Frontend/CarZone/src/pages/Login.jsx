@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import '../styles/Login.css'
-import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { UilKeySkeletonAlt } from '@iconscout/react-unicons'
 import { UilEnvelopeAlt } from '@iconscout/react-unicons'
 import axios from 'axios'
+import { AuthContext } from '../Authentication/AuthContext'
+import NotLogedNavbar from '../components/NotLogedNavbar'
 const Login = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [user, setUser] = useState(null)
+
+    const { user, token, handleLogin, handleLogout } = useContext(AuthContext)
 
     function handleEmailChange(e) {
         setEmail(e.target.value);
@@ -17,19 +19,6 @@ const Login = () => {
 
     function handlePasswordChange(e) {
         setPassword(e.target.value);
-    }
-
-    const handleLogin = async (email, password) => {
-        await axios.post("http://localhost:5047/user/login", {
-            email,
-            password
-        }).then(function (response) {
-            const token = response.data.token;
-            localStorage.setItem("token", token);
-            console.log(response.status + ' ' + response.statusText)
-        }).catch(function (error) {
-            console.log(error)
-        })
     }
 
     //{
@@ -42,7 +31,7 @@ const Login = () => {
     //}
     return (
         <>
-            <Navbar />
+            <NotLogedNavbar />
             <div className='login-container'>
                 <div className='login-header'>Login</div>
                 <div className="login-input">

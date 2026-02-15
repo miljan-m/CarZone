@@ -10,6 +10,6 @@ namespace CarZone.Application.Interfaces.ServiceInterfaces
         public Task<GetUserDTO> CreateUser(CreateUserDTO user); 
         public Task<GetUserDTO> UpdateUser(int userId,UpdateUserDTO user);
 
-        public Task<LoginUserDTO> Login(string email,string password);
+        public Task<GetLoginUserDTO> Login(string email,string password);
     }
 }
