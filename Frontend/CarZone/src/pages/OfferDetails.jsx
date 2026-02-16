@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import '../styles/OfferDetails.css'
 import { useLocation } from 'react-router-dom';
 import Footer from '../components/Footer';
+import LogedNavBar from '../components/LogedNavbar';
+import NotLogedNavbar from '../components/NotLogedNavbar';
 
 const OfferDetails = () => {
 

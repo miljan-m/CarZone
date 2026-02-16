@@ -6,6 +6,8 @@ import Offer from './pages/Offer'
 import CreateOffer from './pages/CreateOffer'
 import OfferDetails from './pages/OfferDetails'
 import { Account } from './pages/Account'
+import UpdateAccount from './pages/UpdateAccount'
+import PrivateRoutes from './routes/PrivateRoutes'
 
 
 const App = () => {
@@ -15,9 +17,13 @@ const App = () => {
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/offers' element={<Offer />} />
-      <Route path='/create-offer' element={<CreateOffer />} />
       <Route path='/offer-details' element={<OfferDetails />} />
-      <Route path='/account' element={<Account/>} />
+      <Route element={<PrivateRoutes />}>
+        <Route path='/create-offer' element={<CreateOffer />} />
+        <Route path='/account' element={<Account />} />
+        <Route path='/update-account' element={<UpdateAccount />} />
+      </Route>
+
     </Routes>
   )
 }

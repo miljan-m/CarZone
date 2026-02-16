@@ -6,6 +6,7 @@ import axios from 'axios'
 import '../styles/CreateOffer.css'
 import OfferCard from '../components/OfferCard'
 import NotLogedNavbar from '../components/NotLogedNavbar'
+import LogedNavBar from '../components/LogedNavbar'
 
 const CreateOffer = () => {
     const [brands, setBrands] = useState([])
@@ -26,7 +27,8 @@ const CreateOffer = () => {
     const [images, setImages] = useState([])
     const [offers, setOffers] = useState([])
     const token = localStorage.getItem('token')
-
+    const logedUser = JSON.parse(localStorage.getItem('user'))
+    const [myOffers, setMyOffers] = useState([])
     const minYear = 1900
     const maxYear = new Date().getFullYear();
     const years = [];
@@ -38,7 +40,6 @@ const CreateOffer = () => {
     useEffect(() => {
         axios.get("http://localhost:5047/brands").then(function (response) {
             setBrands(response.data)
-            setSelectedBrand(`${response.data[0].brandName}`)
         }).catch(function (error) {
             console.log(error)
         })
@@ -48,7 +49,6 @@ const CreateOffer = () => {
         if (selectedBrand == "") return
         axios.get(`http://localhost:5047/brands/${selectedBrand}/models`).then((response) => {
             setModels(response.data)
-            setSelectedModel(response.data[0].modelId)
         }).catch(function (error) {
             console.log(error)
         })
@@ -58,7 +58,6 @@ const CreateOffer = () => {
     useEffect(() => {
         axios.get("http://localhost:5047/bodyTypes").then((response) => {
             setBodyTypes(response.data)
-            setSelectedBodyType(response.data[0])
         }).catch(function (error) {
             console.log(error)
         })
@@ -67,7 +66,6 @@ const CreateOffer = () => {
     useEffect(() => {
         axios.get("http://localhost:5047/engineTypes").then((response) => {
             setEngineType(response.data)
-            setSelectedEngineType(response.data[0])
         }).catch(function (error) {
             console.log(error)
         })
@@ -76,7 +74,6 @@ const CreateOffer = () => {
     useEffect(() => {
         axios.get("http://localhost:5047/transmission").then((response) => {
             setTransmissions(response.data)
-            setSelectedTransmission(response.data[0])
         }).catch(function (error) {
             console.log(error)
         })
@@ -110,7 +107,7 @@ const CreateOffer = () => {
             console.log(pair[0], pair[1]);
         }
 
-        axios.post("http://localhost:5047/listings/11", formData,
+        axios.post(`http://localhost:5047/listings/${logedUser.userId}`, formData,
             {
                 headers: {
                     "Content-Type": "multipart/form-data"
@@ -124,9 +121,9 @@ const CreateOffer = () => {
     }
     //offers
     const handleOfferFetching = () => {
-
         axios.get('http://localhost:5047/listings').then((response) => {
             setOffers(response.data)
+            setMyOffers(response.data.filter(o => o.user.email == logedUser.email))
             console.log(response.data)
         }).catch(function (error) {
             console.log(error)
@@ -143,6 +140,7 @@ const CreateOffer = () => {
             {token ? <LogedNavBar /> : <NotLogedNavbar />}
             <div className="create-div">
                 <select name="brand-select" value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
+                    <option value={""}>Brand</option>
                     {
 
                         brands.map((brand, index) => (
@@ -151,7 +149,8 @@ const CreateOffer = () => {
 
                     }
                 </select>
-                <select name='model-select' value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
+                <select name='model-select' value={selectedModel} disabled={selectedBrand == ""} onChange={(e) => setSelectedModel(e.target.value)}>
+                    <option value={""}>Model</option>
                     {
                         models.map((model, index) => (
                             <option key={index} value={model.modelId}>{model.modelName}</option>
@@ -160,6 +159,7 @@ const CreateOffer = () => {
                 </select>
 
                 <select name='bodyType-select' value={selectedBodyType} onChange={(e) => setSelectedBodyType(e.target.value)}>
+                    <option value={""}>Body Type</option>
                     {
                         bodyType.map((bodyType, index) => (
                             <option key={index} value={bodyType}>{bodyType}</option>
@@ -168,6 +168,7 @@ const CreateOffer = () => {
                 </select>
 
                 <select name='engineType-select' value={selectedEngineType} onChange={(e) => setSelectedEngineType(e.target.value)}>
+                    <option value={""}>Engine Type</option>
                     {
                         engineType.map((engineType, index) => (
                             <option key={index} value={engineType}>{engineType}</option>
@@ -176,6 +177,7 @@ const CreateOffer = () => {
                 </select>
 
                 <select name='transmission-select' value={selectedTransmission} onChange={(e) => setSelectedTransmission(e.target.value)}>
+                    <option value={""}>Transmission</option>
                     {
                         transmissions.map((transmissions, index) => (
                             <option key={index} value={transmissions}>{transmissions}</option>
@@ -217,11 +219,17 @@ const CreateOffer = () => {
                 </div>
                 <button className='button' onClick={() => handleOfferCreation()}>Create</button>
             </div>
-            <div className="my-offers-div">
-                {
-                    offers.map((o, index) => (<OfferCard key={index} offer={o} />))
-                }
-            </div>
+
+            {
+                myOffers.length == 0 ? <div className='no-offers-created-div'>No Offers Posted</div> :
+                    <div className="my-offers-div">
+                        {
+                            offers.filter(o => o.user.email == logedUser.email).map((o, index) => (<OfferCard key={index} offer={o} />))
+                        }
+                    </div>
+            }
+
+
             <Footer />
         </div>
     )

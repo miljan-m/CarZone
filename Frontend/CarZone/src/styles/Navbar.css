@@ -44,6 +44,10 @@ header h2{
 }
 
 
-.account-div{
+.account-icons-div{
+    display: flex;
+}
+
+.offer-icons-div{
     display: flex;
 }

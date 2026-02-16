@@ -8,7 +8,7 @@ const NotLogedNavbar = () => {
         <header>
             <a href="/offers"><UilCarSideview className="icon" color="#52af50" /> Offers </a>
             <h2>CarZone</h2>
-            <div className="account-div">
+            <div className="account-icons-div">
                 <a href="/login">Login <UilSignout className="icon" color="#52af50" /></a>
                 <a href="/register">Register <UilRegistered className="icon" color="#52af50" /></a>
             </div>

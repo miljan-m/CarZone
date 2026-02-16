@@ -1,10 +1,10 @@
 .create-offer-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; 
-  align-items: center; 
-  min-height: 100vh; 
-  background-color: #76ba5d; 
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #76ba5d;
   width: 100%;
 }
 
@@ -74,12 +74,12 @@
   display: flex;
   gap: 10px;
 }
-.image-import-div{
+.image-import-div {
   display: flex;
   gap: 10px;
 }
 
-.image-import-div input{
+.image-import-div input {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,7 +91,7 @@
   color: #adadad;
 }
 
-.my-offers-div{
+.my-offers-div {
   margin-left: 50px;
   margin-right: 50px;
 
@@ -103,4 +103,9 @@
   border-radius: 4px; /* Blago zaobljeno za moderniji izgled */
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
   margin-bottom: 20px;
+}
+
+.no-offers-created-div{
+  font-size: 30px;
+  color: #ffffff;
 }

@@ -28,7 +28,8 @@ const Offer = () => {
     const [selectedMinFuelConsumption, setSelectedMinFuelConsumption] = useState("")
     const [selectedMaxFuelConsumption, setSelectedMaxFuelConsumption] = useState("")
     const [offers, setOffers] = useState([])
-    const token=localStorage.getItem('token')
+    const [filteredOffers, setFilteredOffers] = useState([])
+    const token = localStorage.getItem('token')
 
     const minYear = 1900
     const maxYear = new Date().getFullYear();
@@ -48,12 +49,12 @@ const Offer = () => {
     useEffect(() => {
         axios.get("http://localhost:5047/brands").then(function (response) {
             setBrands(response.data)
-            setSelectedBrand(`${response.data[0].brandName}`)
         }).catch(function (error) {
             console.log(error)
         })
     }, [])
 
+    //models for brand
     useEffect(() => {
         if (selectedBrand == "") return
         axios.get(`http://localhost:5047/brands/${selectedBrand}/models`).then((response) => {
@@ -94,6 +95,8 @@ const Offer = () => {
 
         axios.get('http://localhost:5047/listings').then((response) => {
             setOffers(response.data)
+            setFilteredOffers(response.data)
+            console.log(response.data)
         }).catch(function (error) {
             console.log(error)
         })
@@ -102,20 +105,45 @@ const Offer = () => {
     useEffect(() => {
         handleOfferFetching()
     }, [])
+
+    const handleSearch = () => {
+        const o = offers.filter(o => {
+            if (selectedBrand && o.model.brandName !== selectedBrand) return false
+            if (selectedModel && o.model.modelName !== selectedModel) return false
+            if (selectedBodyType && o.bodyType !== selectedBodyType) return false
+            if (selectedEngineType && o.engineType !== selectedEngineType) return false
+            if (selectedTransmission && o.transmission !== selectedTransmission) return false
+            if (selectedMinYear && o.productionYear < Number(selectedMinYear)) return false
+            if (selectedMaxYear && o.productionYear > Number(selectedMaxYear)) return false
+            if (minPrice && o.price < Number(minPrice)) return false
+            if (maxPrice && o.price > Number(maxPrice)) return false
+            if (selectedMinMileage && o.mileage < Number(selectedMinMileage)) return false
+            if (selectedMaxMileage && o.mileage > Number(selectedMaxMileage)) return false
+            if (selectedMinFuelConsumption && o.fuelConsuption < Number(selectedMinFuelConsumption)) return false
+            if (selectedMaxFuelConsumption && o.fuelConsuption > Number(selectedMaxFuelConsumption)) return false
+
+            return true
+        }
+        )
+        setFilteredOffers(o)
+    }
+
+
     return (
         <div className='offer-wrapper'>
-            {token ? <LogedNavBar/> : <NotLogedNavbar/>}
+            {token ? <LogedNavBar /> : <NotLogedNavbar />}
             <div className="search-div">
                 <select name="brand-select" value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
+                    <option value={""}>Brand</option>
                     {
-
                         brands.map((brand, index) => (
                             <option key={index} value={brand.brandName}>{brand.brandName}</option>
                         ))
 
                     }
                 </select>
-                <select name='model-select' value={selectedModel} onChange={(e) => setSelectedModel(e.target.value)}>
+                <select name='model-select' value={selectedModel} disabled={selectedBrand == ""} onChange={(e) => setSelectedModel(e.target.value)}>
+                    <option value={""}>Model</option>
                     {
                         models.map((model, index) => (
                             <option key={index} value={model.modelName}>{model.modelName}</option>
@@ -124,6 +152,7 @@ const Offer = () => {
                 </select>
 
                 <select name='bodyType-select' onChange={(e) => setSelectedBodyType(e.target.value)}>
+                    <option value={""}>Body Type</option>
                     {
                         bodyType.map((bodyType, index) => (
                             <option key={index} value={bodyType}>{bodyType}</option>
@@ -132,6 +161,7 @@ const Offer = () => {
                 </select>
 
                 <select name='engineType-select' onChange={(e) => setSelectedEngineType(e.target.value)}>
+                    <option value={""}>Engine Type</option>
                     {
                         engineType.map((engineType, index) => (
                             <option key={index} value={engineType}>{engineType}</option>
@@ -140,6 +170,7 @@ const Offer = () => {
                 </select>
 
                 <select name='transmission-select' onChange={(e) => setSelectedTransmission(e.target.value)}>
+                    <option value={""}>Transmission</option>
                     {
                         transmissions.map((transmissions, index) => (
                             <option key={index} value={transmissions}>{transmissions}</option>
@@ -208,11 +239,11 @@ const Offer = () => {
 
                 </div>
 
-                <button className='button'>Search</button>
+                <button className='button' onClick={() => handleSearch()}>Search</button>
             </div>
             <div className="my-offers-div">
                 {
-                    offers.map((o, index) => (<OfferCard key={index} offer={o}  />))
+                    filteredOffers.map((o, index) => (<OfferCard key={index} offer={o} />))
                 }
             </div>
             <Footer />

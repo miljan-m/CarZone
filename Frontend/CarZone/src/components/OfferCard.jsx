@@ -12,14 +12,15 @@ const OfferCard = (props) => {
     var images = props.offer.images
 
     return (
-        <div className="card-container">
-            <img src={`http://localhost:5047/${images[0].imageUrl}`} alt="" onClick={() => navigate("/offer-details", { state: { offer: props.offer } })} />
-            <div className="car-info-container">
-                <span><strong>{brandName} {modelName}</strong></span>
-                <span>{carPrice}€</span>
-                <span>{productionYear}</span>
+
+            <div className="card-container">
+                <img src={`http://localhost:5047/${images[0].imageUrl}`} alt="" onClick={() => navigate("/offer-details", { state: { offer: props.offer } })} />
+                <div className="car-info-container">
+                    <span><strong>{brandName} {modelName}</strong></span>
+                    <span>{carPrice}€</span>
+                    <span>{productionYear}</span>
+                </div>
             </div>
-        </div>
     )
 }
 

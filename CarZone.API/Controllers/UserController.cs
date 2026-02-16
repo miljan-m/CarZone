@@ -50,10 +50,10 @@ namespace CarZone.API.Controllers
         }
 
 
-        [HttpPatch("{userId}")]
-        public async Task<IActionResult> UpdateUser([FromRoute] int userId, [FromBody] UpdateUserDTO dto)
+        [HttpPatch("update/{id}")]
+        public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserDTO dto)
         {
-            await _userService.UpdateUser(userId, dto);
+            await _userService.UpdateUser(id, dto);
             return Ok();
         }
 
