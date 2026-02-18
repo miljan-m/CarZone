@@ -1,0 +1,103 @@
+/* Settings.css */
+
+.settings-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #76ba5d; /* Tvoja prepoznatljiva zelena */
+  width: 100%;
+}
+
+.setting-div {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 4px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 90%;
+  max-width: 1000px; /* Ograničavamo širinu radi preglednosti */
+  margin: 40px auto;
+}
+
+.settings-header {
+  border-bottom: 2px solid #f2f2f2;
+  padding-bottom: 15px;
+}
+
+.settings-header ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0;
+  gap: 10px;
+}
+
+.settings-header ul li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+/* Hover efekat na stavke u meniju */
+.settings-header ul li:hover {
+  background-color: #f2f2f2;
+  color: #52af50;
+}
+
+/* Stil za ikone unutar li elemenata */
+.settings-header ul li svg {
+  font-size: 20px;
+}
+
+/* Opciono: klasa za aktivno stanje (ako planiraš da dodaš klasu u JSX-u) */
+.settings-header ul li.active {
+  color: #52af50;
+  border-bottom: 2px solid #52af50;
+}
+
+/* SettingsCard kontejner unutar setting-div */
+.settings-card-content {
+  padding-top: 10px;
+  width: 100%;
+}
+
+/* Ako unutar SettingsCard-a imaš neke dugmiće, koristi tvoj standardni stil */
+.setting-div button {
+  background-color: #52af50;
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.setting-div button:hover {
+  background-color: #45a044;
+}
+
+/* Responzivnost za manje ekrane */
+@media (max-width: 600px) {
+  .settings-header ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .setting-div {
+    padding: 15px;
+  }
+}

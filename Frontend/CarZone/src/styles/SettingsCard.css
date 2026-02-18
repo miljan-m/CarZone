@@ -1,0 +1,129 @@
+/* Glavni kontejner */
+.brands-settings-div, 
+.models-settings-div {
+    background: #ffffff;
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    width: 90%;
+    max-width: 700px; 
+    min-height: 500px;
+    margin: 50px auto;
+    font-family: 'Inter', -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid #f0f0f0;
+}
+
+.brands-settings-div h2, 
+.models-settings-div h2 {
+    color: #1a1a1a;
+    margin-bottom: 5px;
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+/* Kontejner za Input i Add dugme - SREĐIVANJE NIVOA */
+.input-group {
+    display: flex;
+    align-items: center; /* Poravnava ih po vertikali da budu u milimetar isti */
+    gap: 15px;           /* Razmak između inputa i plavog dugmeta */
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.input-group input[type="text"] {
+    flex: 1;            /* Input uzima sav slobodan prostor */
+    padding: 16px 20px;
+    border: 2px solid #edf2f7;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+}
+
+/* Glavna ADD dugmad - sada su u nivou */
+.addBrandButton, .addModelButton {
+    background: #007bff;
+    color: white;
+    padding: 0 25px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    height: 54px;      /* Fixna visina koja odgovara inputu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.addBrandButton:hover, .addModelButton:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+}
+
+/* STAVKE NA LISTI - Sređivanje razmaka */
+.brands-settings-div > div:not(.input-group),
+.models-settings-div > div:not(.input-group) {
+    display: flex;
+    justify-content: space-between; /* Gura tekst skroz levo, a Delete skroz desno */
+    align-items: center;
+    padding: 16px 20px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #f1f5f9;
+    margin-bottom: 8px;
+    transition: all 0.2s ease;
+}
+
+.brands-settings-div > div:not(.input-group):hover,
+.models-settings-div > div:not(.input-group):hover {
+    background: #f8fbff;
+    border-color: #e2e8f0;
+    transform: scale(1.01);
+}
+
+/* Dugmad za brisanje (Delete) */
+.dedleteBrandButton,
+.deleteModelButton {
+    background: #fff5f5;
+    color: #e53e3e;
+    border: 1px solid #fed7d7;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 20px; /* Dodatni "vazduh" ako zatreba */
+    transition: all 0.2s ease;
+}
+
+.dedleteBrandButton:hover,
+.deleteModelButton:hover {
+    background: #e53e3e;
+    color: white;
+    border-color: #e53e3e;
+}
+
+/* Sređivanje Select polja u modelima */
+select {
+    width: 100%;
+    padding: 14px 20px;
+    border: 2px solid #edf2f7;
+    border-radius: 12px;
+    background-color: #f8fafc;
+    margin-bottom: 10px;
+    cursor: pointer;
+    outline: none;
+}

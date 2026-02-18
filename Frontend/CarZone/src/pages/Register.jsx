@@ -73,7 +73,7 @@ const Register = () => {
     return (
         <>
             <div className='register-wrapper'>
-                {token ? <LogedNavBar /> : <NotLogedNavbar />}
+                {token ? <LogedNavBar/> : <NotLogedNavbar />}
                 <div className='register-container'>
                     <div className='register-header'>Register</div>
                     <div className="register-input">

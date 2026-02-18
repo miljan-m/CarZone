@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
+import { AuthContext } from '../Authentication/AuthContext'
 
-const PrivateRoutes = () => {
+const PrivateRoutes = ({ roles }) => {
 
     var token = localStorage.getItem('token')
+    const user = JSON.parse(localStorage.getItem('user'))
 
-    return (
 
-        token != null ? <Outlet /> : <Navigate to={'/login'} />
-
-    )
+    if (!token) return <Navigate to={'/login'} />
+    if (!user || !user.roles.some(r => roles.includes(r))) return <div>Unauthorised</div>
+    return <Outlet />
 }
 
 export default PrivateRoutes

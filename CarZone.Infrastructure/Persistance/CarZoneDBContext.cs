@@ -38,6 +38,12 @@ namespace CarZone.Infrastructure.Persistance
                 .HasForeignKey(i => i.ListingId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Brand>()
+                .HasMany(b => b.Models)
+                .WithOne(m => m.Brand)
+                .HasForeignKey(m => m.BrandId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Brand>().HasData(
                 new Brand { BrandId = 1, BrandName = "BMW" },
                 new Brand { BrandId = 2, BrandName = "Audi" },

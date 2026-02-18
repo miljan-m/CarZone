@@ -96,7 +96,8 @@ namespace CarZone.Application.Services
                 Phone = user.Phone,
                 Token = token,
                 Address = user.Address,
-                UserId=user.UserId
+                UserId = user.UserId,
+                Roles = user.Roles
             };
         }
 

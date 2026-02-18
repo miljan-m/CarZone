@@ -2,6 +2,7 @@ namespace CarZone.Application.DTOs.BrandDTOs
 {
     public class GetBrandDTO
     {
-        public string BrandName{get;set;}
+        public int BrandId { get; set; }
+        public string BrandName { get; set; }
     }
 }

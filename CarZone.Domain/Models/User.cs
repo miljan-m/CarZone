@@ -15,7 +15,7 @@ namespace CarZone.Domain.Models
         public string Address { get; set; }
         public string HashPassword { get; set; }
 
-        public List<string> Roles{get;set;}=[Role.User];
+        public List<string> Roles { get; set; } = [Role.User];
 
         public List<Listing> PostedListings { get; set; } = [];
         public List<Listing> BoughtListing { get; set; } = [];
@@ -23,7 +23,7 @@ namespace CarZone.Domain.Models
         {
         }
 
-        public User(int UserId, string FirstName, string LastName, string Email, string Phone, string Address, string HashPassword,List<string> Roles)
+        public User(int UserId, string FirstName, string LastName, string Email, string Phone, string Address, string HashPassword, List<string> Roles)
         {
             if (UserId < 0)
                 throw new ArgumentException("UserId cannot be negative.");
@@ -42,7 +42,7 @@ namespace CarZone.Domain.Models
 
             if (string.IsNullOrWhiteSpace(Address))
                 throw new ArgumentException("Address is required.");
-                
+
             this.UserId = UserId;
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -50,7 +50,7 @@ namespace CarZone.Domain.Models
             this.Phone = Phone;
             this.Address = Address;
             this.HashPassword = HashPassword;
-            this.Roles=Roles;
+            this.Roles = Roles;
         }
     }
 }

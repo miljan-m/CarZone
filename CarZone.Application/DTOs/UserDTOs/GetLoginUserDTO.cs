@@ -9,6 +9,7 @@ namespace CarZone.Application.DTOs.UserDTOs
         public string Phone { get; set; }
         public string Token { get; set; }
         public string Address { get; set; }
+        public List<string> Roles { get; set; }
 
     }
 }

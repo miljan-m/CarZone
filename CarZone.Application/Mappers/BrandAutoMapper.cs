@@ -10,11 +10,10 @@ namespace CarZone.Application.Mappers
         public BrandAutoMapper()
         {
             CreateMap<Brand, GetBrandDTO>()
-                .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.BrandName));
-            CreateMap<Brand, CreateBrandDTO>()
-                .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.BrandName));
+                .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.BrandName))
+                .ForMember(dest => dest.BrandId, opt => opt.MapFrom(src => src.BrandId));
 
-            CreateMap<UpdateBrandDTO, Brand>()
+            CreateMap<Brand, CreateBrandDTO>()
                 .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.BrandName));
 
             CreateMap<CreateBrandDTO, Brand>()

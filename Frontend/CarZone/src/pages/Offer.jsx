@@ -96,7 +96,6 @@ const Offer = () => {
         axios.get('http://localhost:5047/listings').then((response) => {
             setOffers(response.data)
             setFilteredOffers(response.data)
-            console.log(response.data)
         }).catch(function (error) {
             console.log(error)
         })

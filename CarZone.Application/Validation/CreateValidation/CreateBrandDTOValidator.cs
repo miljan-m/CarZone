@@ -8,7 +8,7 @@ namespace CarZone.Application.Validation.CreateValidation
         public CreateBrandDTOValidator()
         {
             RuleFor(b => b.BrandName).NotEmpty().WithMessage("Brand name cannot be an empty string")
-                                     .Matches("^[A-Z][a-zA-Z]*$").WithMessage("Car brand must start with capital letter");
+                                     .Matches(@"^[A-Z][a-zA-Z\s]*$").WithMessage("Car brand must start with capital letter");
         }
     }
 }

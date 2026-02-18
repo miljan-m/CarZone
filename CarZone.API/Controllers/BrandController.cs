@@ -28,8 +28,6 @@ namespace CarZone.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetBrandDTO>>> GetAllBrands()
         {
-            Console.WriteLine(System.Globalization.CultureInfo.CurrentCulture);
-
             var brands = await _brandService.GetAllBrands();
             if (brands.Any()) return Ok(brands);
             return NotFound();
@@ -40,6 +38,7 @@ namespace CarZone.API.Controllers
         [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult<GetBrandDTO>> CreateBrand([FromBody] CreateBrandDTO brandDTO)
         {
+            Console.WriteLine("ulazi u metodu");
             var brand = await _brandService.CreateBrand(brandDTO);
             return Ok(brand);
         }
@@ -55,7 +54,6 @@ namespace CarZone.API.Controllers
 
         [HttpDelete("{brandId}")]
         [Authorize(Roles = Role.Admin)]
-
         public async Task<IActionResult> DeleteBrand([FromRoute] int brandId)
         {
             var isDeleted = await _brandService.DeleteBrand(brandId);
