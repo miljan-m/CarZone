@@ -18,7 +18,6 @@ namespace CarZone.Application.Validation.UpdateValidation
 
             RuleFor(l => l.Price).GreaterThan(0).WithMessage("Vehicle price must be greater than 0");
 
-            RuleFor(l => l.ModelId).GreaterThan(0).WithMessage("Vehicle model must already exist");
         }
     }
 }

@@ -149,3 +149,57 @@
   display: inline-block;
 }
 
+/* --- AKCIJE (DUGMIĆI) --- */
+.offer-actions {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Osnovni stil za oba dugmeta */
+.btn-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 25px;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dugme za IZMENU (prikazuje se vlasniku) */
+.btn-edit {
+  background-color: #ff9800; /* Narandžasta koja privlači pažnju ali se ne kolje sa zelenom */
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #e68a00;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 152, 0, 0.3);
+}
+
+/* Dugme za KONTAKT (prikazuje se drugima) */
+.btn-contact {
+  background-color: #52af50; /* Tvoja zelena boja sa specifikacija */
+  color: white;
+}
+
+.btn-contact:hover {
+  background-color: #45a044;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(82, 175, 80, 0.3);
+}
+
+/* Efekat klika za oba */
+.btn-action:active {
+  transform: translateY(0);
+}

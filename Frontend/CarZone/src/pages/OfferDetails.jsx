@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/OfferDetails.css'
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
 import LogedNavBar from '../components/LogedNavbar';
 import NotLogedNavbar from '../components/NotLogedNavbar';
@@ -11,6 +11,12 @@ const OfferDetails = () => {
   var offer = location.state.offer;
   const [currentImage, setCurrentImage] = useState(offer.images[0].imageUrl);
   const token = localStorage.getItem('token')
+  const user = JSON.parse(localStorage.getItem('user'))
+  const navigate = useNavigate()
+
+  const handleContact = () => {
+
+  }
 
   return (
     <div className="offer-details-wrapper">
@@ -73,6 +79,17 @@ const OfferDetails = () => {
             <p><strong>Name: </strong> {offer.user.firstName} {offer.user.lastName}</p>
             <p><strong>Phone: </strong> {offer.user.phone}</p>
             <p><strong>Email:</strong> {offer.user.email}</p>
+          </div>
+          <div className="offer-actions">
+            {token && user.email == offer.user.email ? (
+              <button className="btn-edit" onClick={() => navigate('/update-offer', {state:{offer}})}>
+                Update Offer
+              </button>
+            ) : (
+              <button className="btn-contact" onClick={handleContact}>
+                Contact Seller
+              </button>
+            )}
           </div>
         </div>
       </div>

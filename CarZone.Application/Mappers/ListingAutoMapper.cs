@@ -27,8 +27,7 @@ namespace CarZone.Application.Mappers
                     .ForMember(dest => dest.ProductionYear, opt => opt.MapFrom(src => src.ProductionYear))
                     .ForMember(dest => dest.FuelConsuption, opt => opt.MapFrom(src => src.FuelConsuption))
                     .ForMember(dest => dest.Mileage, opt => opt.MapFrom(src => src.Mileage))
-                    .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
-                    .ForMember(dest => dest.ModelId, opt => opt.MapFrom(src => src.ModelId));
+                    .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price));
 
 
             CreateMap<Listing, GetListingDTO>()

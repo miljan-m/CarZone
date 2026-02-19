@@ -1,0 +1,135 @@
+.update-offer-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #76ba5d; /* Tvoja zelena pozadina */
+}
+
+.update-offer-container {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  max-width: 800px;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.update-offer-container h2 {
+  margin-bottom: 30px;
+  color: #333;
+  text-align: center;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #666;
+}
+
+.form-group input, 
+.form-group textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+  outline: none;
+  border-color: #52af50;
+}
+
+.full-width {
+  grid-column: span 2;
+  margin-top: 15px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.btn-submit {
+  background-color: #52af50;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-submit:hover {
+  background-color: #45a044;
+}
+
+.btn-cancel {
+  background-color: #f4f4f4;
+  color: #666;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #e0e0e0;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .full-width {
+    grid-column: span 1;
+  }
+}
+
+.form-group select {
+  background-color: #f2f2f2;
+  border: 1px solid #e6e6e6;
+  padding: 12px 15px;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: #555;
+  width: 180px; /* Fiksna širina za uniformisan izgled */
+  outline: none;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.form-group select:focus {
+  border-color: #52af50; /* Zelena boja iz tvog login dugmeta */
+}
+
+/* Opciono: Stil za opcije unutar select-a */
+.form-group option {
+  padding: 10px;
+  background: white;
+}

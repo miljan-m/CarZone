@@ -10,7 +10,6 @@ namespace CarZone.Application.Interfaces.ServiceInterfaces
         public Task<IEnumerable<GetListingDTO>> GetAllListings();
         public Task<bool> DeleteListing(int listingId);
         public Task<GetListingDTO> CreateListing(int userId, CreateListingDTO listingDTO, List<string> imageURL); 
-        public Task<GetListingDTO> UpdateListing(int userId, UpdateListingDTO listingDTO, ListingStatus listingStatus,
-                                                        Transmission transmission, BodyType bodyType, EngineType engineTyp);
+        public Task<GetListingDTO> UpdateListing(int listingId, UpdateListingDTO listingDTO);
     }
 }

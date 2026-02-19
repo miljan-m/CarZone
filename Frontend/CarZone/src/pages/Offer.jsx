@@ -30,7 +30,7 @@ const Offer = () => {
     const [offers, setOffers] = useState([])
     const [filteredOffers, setFilteredOffers] = useState([])
     const token = localStorage.getItem('token')
-
+    const user = JSON.parse(localStorage.getItem('user'))
     const minYear = 1900
     const maxYear = new Date().getFullYear();
     const years = [];
@@ -95,7 +95,9 @@ const Offer = () => {
 
         axios.get('http://localhost:5047/listings').then((response) => {
             setOffers(response.data)
-            setFilteredOffers(response.data)
+            const fo = response.data.filter(o => o.user.email != user.email)
+            setFilteredOffers(fo)
+            console.log(response.data)
         }).catch(function (error) {
             console.log(error)
         })
@@ -120,7 +122,7 @@ const Offer = () => {
             if (selectedMaxMileage && o.mileage > Number(selectedMaxMileage)) return false
             if (selectedMinFuelConsumption && o.fuelConsuption < Number(selectedMinFuelConsumption)) return false
             if (selectedMaxFuelConsumption && o.fuelConsuption > Number(selectedMaxFuelConsumption)) return false
-
+            if (user.email == o.user.email) return false
             return true
         }
         )

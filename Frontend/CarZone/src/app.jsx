@@ -9,6 +9,7 @@ import { Account } from './pages/Account'
 import UpdateAccount from './pages/UpdateAccount'
 import PrivateRoutes from './routes/PrivateRoutes'
 import Settings from './pages/Settings'
+import UpdateOffer from './pages/UpdateOffer'
 
 
 const App = () => {
@@ -23,6 +24,8 @@ const App = () => {
         <Route path='/create-offer' element={<CreateOffer />} />
         <Route path='/account' element={<Account />} />
         <Route path='/update-account' element={<UpdateAccount />} />
+        <Route path='/update-offer' element={<UpdateOffer />} />
+
       </Route>
       <Route element={<PrivateRoutes roles={['Admin', 'User']} />}>
         <Route path='/settings' element={<Settings />} />

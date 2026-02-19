@@ -67,10 +67,9 @@ namespace CarZone.API.Controllers
 
 
         [HttpPatch("{listingId}")]
-        public async Task<IActionResult> UpdateListing([FromRoute] int listingId, [FromBody] UpdateListingDTO listingDTO, [FromQuery] ListingStatus listingStatus,
-                                                       [FromQuery] Transmission transmission, [FromQuery] BodyType bodyType, [FromQuery] EngineType engineType)
+        public async Task<IActionResult> UpdateListing([FromRoute] int listingId, [FromForm] UpdateListingDTO listingDTO)
         {
-            await _service.UpdateListing(listingId, listingDTO, listingStatus, transmission, bodyType, engineType);
+            await _service.UpdateListing(listingId, listingDTO);
             return Ok();
         }
     }

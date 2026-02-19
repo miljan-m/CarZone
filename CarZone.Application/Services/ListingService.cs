@@ -64,8 +64,7 @@ public class ListingService : IListingService
         return await _repository.Delete(listingId);
     }
 
-    public async Task<GetListingDTO> UpdateListing(int userId, UpdateListingDTO listingDTO, ListingStatus listingStatus,
-                                                        Transmission transmission, BodyType bodyType, EngineType engineType)
+    public async Task<GetListingDTO> UpdateListing(int listingId, UpdateListingDTO listingDTO)
     {
 
 
@@ -80,20 +79,19 @@ public class ListingService : IListingService
             throw new ValidationException("Listing data is invalid");
         }
 
-        var listing = await _repository.GetById(userId);
+        var listing = await _repository.GetById(listingId);
         listing.AdditionalDescription = listingDTO.AdditionalDescription;
-        listing.BodyType = bodyType;
-        listing.EngineType = engineType;
+        listing.BodyType = listingDTO.BodyType;
+        listing.EngineType = listingDTO.EngineType;
         listing.FuelConsuption = listingDTO.FuelConsuption;
-        listing.ListingStatus = listingStatus;
+        listing.ListingStatus = listingDTO.ListingStatus;
         listing.Mileage = listingDTO.Mileage;
-        listing.Transmission = transmission;
+        listing.Transmission = listingDTO.Transmission;
         listing.Price = listingDTO.Price;
         listing.ProductionYear = listingDTO.ProductionYear;
-        listing.ModelId = listingDTO.ModelId;
 
 
-        await _repository.Update(userId, listing);
+        await _repository.Update(listingId, listing);
         return null;
     }
 }
