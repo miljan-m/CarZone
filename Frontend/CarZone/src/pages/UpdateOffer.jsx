@@ -60,7 +60,7 @@ const UpdateOffer = () => {
       <LogedNavBar />
       <div className="update-offer-container">
         <h2>
-          Update Offer {offer?.model?.brandName} {offer?.model?.modelName}
+          {offer?.model?.brandName} {offer?.model?.modelName}
         </h2>
 
         <form onSubmit={handleSubmit} className="update-form">

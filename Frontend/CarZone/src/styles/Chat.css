@@ -1,0 +1,152 @@
+
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Zauzima tačno celu visinu ekrana */
+  background-color: #7dba5d; /* Tvoja zelena iz logina */
+  width: 100%;
+}
+
+/* GLAVNI DEO KOJI SE RASTEŽE */
+.chat-body {
+  display: flex;
+  flex: 1; /* Popunjava sav prostor između headera i footera */
+  overflow: hidden; /* Sprečava da ceo body skroluje */
+  background-color: #ffffff;
+  width: 80%; /* Malo uže od ekrana da bi se videla zelena pozadina */
+  max-width: 1300px;
+  margin: 10px auto; /* Centriranje i mali razmak od ivica */
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* LISTA KORISNIKA */
+.chat-users {
+  width: 260px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-users h4 {
+  padding: 15px;
+  margin: 0;
+  background: #f1f1f1;
+  font-size: 14px;
+  color: #555;
+}
+
+.chat-users ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.chaters {
+  padding: 12px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.chaters:hover {
+  background-color: #e2f3e2;
+}
+
+/* CHAT PROZOR */
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto; /* Samo ovaj deo skroluje kad ima puno poruka */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #fdfdfd;
+}
+
+/* PORUKE */
+.message-sent-div, .message-received-div {
+  max-width: 65%;
+  padding: 10px 15px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.message-sent-div {
+  align-self: flex-end;
+  background-color: #52af50; /* Tvoja zelena boja dugmeta */
+  color: white;
+  border-bottom-right-radius: 2px;
+}
+
+.message-received-div {
+  align-self: flex-start;
+  background-color: #f1f1f1;
+  color: #333;
+  border-bottom-left-radius: 2px;
+}
+
+/* DONJI INPUT DEO */
+.chat-input {
+  display: flex;
+  gap: 10px;
+  padding: 15px;
+  background: #fff;
+  border-top: 1px solid #eee;
+}
+
+.chat-input input[type="email"] {
+  width: 180px;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.chat-input input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+.chat-input button {
+  background-color: #52af50;
+  color: white;
+  border: none;
+  padding: 0 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.chat-input button:hover {
+  background-color: #45a049;
+}
+
+/* Responsivnost za manje ekrane */
+@media (max-width: 768px) {
+  .chat-body {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+  .chat-users {
+    width: 80px; /* Smanjujemo listu korisnika na mobilnom */
+  }
+}

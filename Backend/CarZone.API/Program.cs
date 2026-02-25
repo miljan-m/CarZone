@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Text.Json.Serialization;
+using CarZone.API.Hubs;
 using CarZone.Application.Interfaces;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
@@ -10,9 +11,11 @@ using CarZone.Application.Mappers;
 using CarZone.Application.Services;
 using CarZone.Application.Services.Security;
 using CarZone.Infrastructure.Authentication;
+using CarZone.Infrastructure.Authentication.SignalR;
 using CarZone.Infrastructure.Persistance;
 using CarZone.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
@@ -44,15 +47,16 @@ builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IPasswordHash, PasswordHash>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
-
+builder.Services.AddSingleton<IUserIdProvider, EmailUserIdProvider>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactApp",
         builder => builder
-            .WithOrigins("http://localhost:5173") // domen React-a
+            .WithOrigins("http://localhost:5173")
             .AllowAnyMethod()
             .AllowAnyHeader()
-    );
+            .AllowCredentials()
+        );
 });
 
 builder.Services.Configure<JwtOptions>(
@@ -75,6 +79,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret))
         };
+
+        o.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
+                Console.WriteLine($"Token received in SignalR: {accessToken}");
+                if (!string.IsNullOrEmpty(accessToken) &&
+                    path.StartsWithSegments("/chat"))
+                {
+                    context.Token = accessToken;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+
     });
 
 var cultureInfo = new CultureInfo("en-US");
@@ -98,6 +120,8 @@ builder.Services.AddDbContext<CarZoneDBContext>(options =>
     options.UseSqlServer(ConnectionString);
 });
 
+builder.Services.AddSignalR();
+
 builder.WebHost.UseWebRoot("wwwroot");
 var app = builder.Build();
 
@@ -119,6 +143,7 @@ app.UseCors("ReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<ChatHub>("/chat");
 
 
 

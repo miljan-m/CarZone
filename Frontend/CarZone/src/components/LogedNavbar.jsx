@@ -6,6 +6,7 @@ import { UilUserCircle } from '@iconscout/react-unicons'
 import { UilSignout } from '@iconscout/react-unicons'
 import { UilSetting } from '@iconscout/react-unicons'
 import { UilCreateDashboard } from '@iconscout/react-unicons'
+import { UilCommentDots } from '@iconscout/react-unicons'
 import { Link } from 'react-router-dom'
 
 const LogedNavBar = () => {
@@ -17,6 +18,7 @@ const LogedNavBar = () => {
             <div className="offer-icons-div">
                 <Link to={"/offers"}><UilCarSideview className="icon" color="#52af50" /> Offers </Link>
                 <Link to={"/create-offer"}> <UilCreateDashboard className="icon" color="#52af50" />Create Offer</Link>
+                <Link to={"/chat"}><UilCommentDots className="icon" color="#52af50"/>Chat</Link>
             </div>
 
             <h2>CarZone</h2>

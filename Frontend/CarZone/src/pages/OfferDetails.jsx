@@ -14,9 +14,7 @@ const OfferDetails = () => {
   const user = JSON.parse(localStorage.getItem('user'))
   const navigate = useNavigate()
 
-  const handleContact = () => {
 
-  }
 
   return (
     <div className="offer-details-wrapper">
@@ -27,7 +25,7 @@ const OfferDetails = () => {
           {offer.images && offer.images.length > 0 ? (
             <img src={`http://localhost:5047/${currentImage}`} alt={offer.model.modelName} />
           ) : (
-            <div className="placeholder-img">Nema slike</div>
+            <div className="placeholder-img">No images</div>
           )}
           <div className="image-thumbnails">
             {offer.images.map((img, index) => (
@@ -85,11 +83,7 @@ const OfferDetails = () => {
               <button className="btn-edit" onClick={() => navigate('/update-offer', {state:{offer}})}>
                 Update Offer
               </button>
-            ) : (
-              <button className="btn-contact" onClick={handleContact}>
-                Contact Seller
-              </button>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
