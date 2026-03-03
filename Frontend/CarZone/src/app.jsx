@@ -27,9 +27,8 @@ const App = () => {
         <Route path='/update-account' element={<UpdateAccount />} />
         <Route path='/update-offer' element={<UpdateOffer />} />
         <Route path='/chat' element={<Chat />} />
-
       </Route>
-      <Route element={<PrivateRoutes roles={['Admin', 'User']} />}>
+      <Route element={<PrivateRoutes roles={['Admin']} />}>
         <Route path='/settings' element={<Settings />} />
       </Route>
     </Routes>

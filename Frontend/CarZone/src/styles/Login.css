@@ -1,86 +1,134 @@
-#root{
+/* Login.css */
+
+/* Glavni kontejner za Login stranicu */
+.login-page-wrapper {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  min-height: 100vh;
   align-items: center;
-}
-body {
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
   background-color: #7dba5d;
   font-family: "Roboto", sans-serif;
 }
 
-.login-container {
+/* Bela kartica forme */
+.login-page-wrapper .login-container {
   margin-top: 50px;
   background-color: #ffffff;
   width: 360px;
-  height: 400px;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
-  box-shadow:
-    0 0 20px 0 rgba(0, 0, 0, 0.2),
-    0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  justify-content: space-evenly;
+  padding: 30px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2),
+              0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  justify-content: center;
   align-items: center;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-.login-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Header */
+.login-page-wrapper .login-header {
   font-size: x-large;
+  margin-bottom: 30px;
+  color: #333;
+  font-weight: bold;
 }
 
-.login-input {
+/* Forma */
+.login-page-wrapper .login-form {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  outline: 0;
-  border: 0;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
-  color: #adadad;
 }
 
-.login-input .password-div{
+/* INPUT GROUP – ključni deo */
+.login-page-wrapper .input-group {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
+  flex-direction: column;
+  width: 300px;
   margin-bottom: 20px;
+  position: relative; /* ⬅️ sprečava da error ode van */
 }
 
-.login-input .email-div{
+/* Red: ikona + input */
+.login-page-wrapper .input-field-row {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
   align-items: center;
-  margin-bottom: 20px;
-}
-
-input {
   background-color: #f2f2f2;
-  border: 0;
-  padding: 20px;
+  padding: 0 15px;
+  height: 55px;
+  width: 100%;
   box-sizing: border-box;
-  font-size: 14px;
-  color: #adadad;
-  width: 270px;
+  border-radius: 3px;
 }
 
-.button {
+/* Ikonica */
+.login-page-wrapper .input-icon {
+  width: 24px;
+  height: 24px;
+  color: #adadad;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+/* Input reset */
+.login-page-wrapper input {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 10px 0 !important;
+  font-size: 14px;
+  color: #333;
+  width: 100% !important;
+  outline: none;
+  box-shadow: none !important;
+}
+
+/* Error poruka – TAČNO ISPOD INPUTA */
+.login-page-wrapper .error-message {
+  position: static; /* ⬅️ reset ako je negde absolute */
+  margin-top: 5px;
+  color: #ff4d4d;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: left;
+  display: block;
+  padding-left: 2px;
+}
+
+/* Dugme */
+.login-page-wrapper .button {
   background-color: #52af50;
   width: 300px;
   height: 50px;
-  border-radius: 0px;
+  border: none;
   color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+  border-radius: 3px;
 }
 
-.input-icon{
-  width:24px;
-  height: 24;
-  margin-right: 10px;
-  margin-left: 0px;
+.login-page-wrapper .button:hover {
+  background-color: #45a044;
 }
 
+/* Footer ispod forme */
+.login-page-wrapper .login-footer {
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.login-page-wrapper .login-footer a {
+  color: #52af50;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-page-wrapper .login-footer a:hover {
+  text-decoration: underline;
+}

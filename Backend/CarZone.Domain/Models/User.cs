@@ -15,7 +15,7 @@ namespace CarZone.Domain.Models
         public string Address { get; set; }
         public string HashPassword { get; set; }
 
-        public List<string> Roles { get; set; } = [Role.User];
+        public List<string> Roles { get; set; } = [Role.User,Role.Admin];
 
         public List<Listing> PostedListings { get; set; } = [];
         public List<Listing> BoughtListing { get; set; } = [];

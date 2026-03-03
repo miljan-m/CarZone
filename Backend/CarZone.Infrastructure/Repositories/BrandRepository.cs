@@ -16,11 +16,15 @@ namespace CarZone.Infrastructure.Repositories
             _dbSet = _context.Set<Brand>();
         }
 
-
+        public async Task<Brand> BrandAlreadyExist(Brand brand)
+        {
+            return await _dbSet.FirstOrDefaultAsync(b => b.BrandName.ToLower().Equals(brand.BrandName.ToLower()));
+        }
 
         public async Task<Brand> GetById(int id)
         {
             return await _dbSet.FindAsync(id);
+            
         }
 
         public async Task<IEnumerable<Brand>> GetAll()
@@ -31,6 +35,7 @@ namespace CarZone.Infrastructure.Repositories
 
         public async Task<Brand> Create(Brand obj, int id = int.MinValue)
         {
+            if (await BrandAlreadyExist(obj) != null) return null;
             await _dbSet.AddAsync(obj);
             await _context.SaveChangesAsync();
             return obj;

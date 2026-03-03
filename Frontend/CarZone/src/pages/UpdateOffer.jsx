@@ -5,16 +5,17 @@ import '../styles/UpdateOffer.css';
 import LogedNavBar from '../components/LogedNavbar';
 import Footer from '../components/Footer';
 
-// Enum opcije (moraju se slagati sa C# enum imenima)
+
 const listingStatusOptions = ['Active', 'Sold'];
-const transmissionOptions = ['Manual', 'Automatic']; // primer, dodaj po enum-u
-const bodyTypeOptions = ['Sedan', 'Hatchback', 'SUV', 'Coupe', 'Convertible']; // primer
-const engineTypeOptions = ['Petrol', 'Diesel', 'Electric', 'Hybrid']; // primer
+const transmissionOptions = ['Manual', 'Automatic'];
+const bodyTypeOptions = ['Sedan', 'Hatchback', 'SUV', 'Coupe', 'Convertible'];
+const engineTypeOptions = ['Petrol', 'Diesel', 'Electric', 'Hybrid'];
 
 const UpdateOffer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { offer } = location.state || {};
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     AdditionalDescription: offer?.additionalDescription || '',
@@ -39,6 +40,7 @@ const UpdateOffer = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) return;
     const token = localStorage.getItem('token');
 
     const formDataToSend = new FormData();
@@ -54,7 +56,47 @@ const UpdateOffer = () => {
       console.error(error);
     }
   };
+  const validate = () => {
+    let tempErrors = {};
+    const currentYear = new Date().getFullYear();
+    var isValid = true;
 
+    if (formData.Price <= 0) {
+      isValid = false;
+      tempErrors.Price = "Price must be greater than 0."
+    };
+
+    if (formData.Mileage <= 0) {
+      tempErrors.Mileage = "Mileage cannot be 0."
+      isValid = false;
+
+    };
+
+    if (formData.Mileage > 1500000) {
+      isValid = false;
+
+      tempErrors.Mileage = "Mileage cannot exceed 1,500,000 km."
+    };
+
+    if (formData.ProductionYear < 1885 || formData.ProductionYear > currentYear + 1) {
+      tempErrors.ProductionYear = `Year must be between 1885 and ${currentYear + 1}.`;
+      isValid = false;
+
+    }
+
+    if (!formData.FuelConsuption || formData.FuelConsuption <= 0) {
+      tempErrors.FuelConsuption = "Fuel consumption must be greater than 0.";
+      isValid = false;
+
+    } else if (formData.FuelConsuption > 50) {
+      tempErrors.FuelConsuption = "Consumption cannot exceed 50L/100km.";
+      isValid = false;
+
+    }
+
+    setErrors(tempErrors);
+    return isValid
+  };
   return (
     <div className="update-offer-wrapper">
       <LogedNavBar />
@@ -67,22 +109,26 @@ const UpdateOffer = () => {
           <div className="form-grid">
             <div className="form-group">
               <label>Price (€)</label>
-              <input type="number" name="Price" value={formData.Price} onChange={handleChange} />
+              <input className={errors.Price ? 'input-error' : ''} type="number" name="Price" value={formData.Price} min={0} onChange={handleChange} />
+              {errors.Price && <span className="error-message">{errors.Price}</span>}
             </div>
 
             <div className="form-group">
               <label>Mileage (km)</label>
-              <input type="number" name="Mileage" value={formData.Mileage} onChange={handleChange} required />
+              <input className={errors.Mileage ? 'input-error' : ''} type="number" name="Mileage" value={formData.Mileage} min={0} onChange={handleChange} required />
+              {errors.Mileage && <span className="error-message">{errors.Mileage}</span>}
             </div>
 
             <div className="form-group">
               <label>Production year</label>
-              <input type="number" name="ProductionYear" value={formData.ProductionYear} onChange={handleChange} required />
+              <input className={errors.ProductionYear ? 'input-error' : ''} type="number" name="ProductionYear" value={formData.ProductionYear} onChange={handleChange} required />
+              {errors.ProductionYear && <span className="error-message">{errors.ProductionYear}</span>}
             </div>
 
             <div className="form-group">
               <label>Fuel Consumption (L/100km)</label>
-              <input type="number" step="0.1" name="FuelConsuption" value={formData.FuelConsuption} onChange={handleChange} />
+              <input className={errors.FuelConsuption ? 'input-error' : ''} type="number" step="0.1" name="FuelConsuption" value={formData.FuelConsuption} min={0} onChange={handleChange} />
+              {errors.FuelConsuption && <span className="error-message">{errors.FuelConsuption}</span>}
             </div>
 
             <div className="form-group">

@@ -1,76 +1,190 @@
-.offer-wrapper {
+/* =========================
+   WRAPPERS
+========================= */
+.offer-wrapper,
+.create-offer-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; 
-  align-items: center; 
-  min-height: 100vh; 
-  background-color: #76ba5d; 
+  align-items: center;
+  min-height: 100vh;
+  background-color: #76ba5d;
   width: 100%;
 }
 
+/* =========================
+   CREATE + SEARCH DIV
+   (IDENTIČAN IZGLED)
+========================= */
+.create-div,
 .search-div {
   background-color: #ffffff;
-  padding: 25px;
-  border-radius: 4px; /* Blago zaobljeno za moderniji izgled */
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   display: flex;
-  flex-wrap: wrap; /* Da bi se lepo prelamalo na manjim ekranima */
-  gap: 15px; /* Razmak između select elemenata */
+  flex-wrap: wrap;
+  gap: 25px 20px;
   justify-content: center;
-  align-items: center;
-  max-width: 90%; /* Da ne udara u ivice ekrana */
+  max-width: 1300px;   /* RASIRENO */
+  width: 95%;
   margin: 20px auto;
 }
 
-.search-div select {
-  background-color: #f2f2f2;
-  border: 1px solid #e6e6e6;
-  padding: 12px 15px;
-  font-family: "Roboto", sans-serif;
+/* =========================
+   FORM GROUP (CREATE)
+========================= */
+.create-div .form-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex: 1 1 220px;
+  max-width: 260px;
+}
+
+/* =========================
+   SEARCH ELEMENTI
+   (simulate form-group)
+========================= */
+.search-div > select,
+.search-div > input,
+.search-div > button,
+.search-div > div {
+  flex: 1 1 220px;
+  max-width: 260px;
+}
+
+/* =========================
+   INPUT / SELECT / TEXTAREA
+========================= */
+.create-div select,
+.create-div input,
+.create-div textarea,
+.search-div select,
+.search-div input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   font-size: 14px;
-  color: #555;
-  width: 180px; /* Fiksna širina za uniformisan izgled */
+  width: 100%;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+.create-div select:focus,
+.create-div input:focus,
+.create-div textarea:focus,
+.search-div select:focus,
+.search-div input:focus {
   outline: none;
-  transition: border-color 0.3s ease;
-  cursor: pointer;
+  border-color: #52af50;
 }
 
-.search-div select:focus {
-  border-color: #52af50; /* Zelena boja iz tvog login dugmeta */
-}
-
-/* Opciono: Stil za opcije unutar select-a */
-.search-div option {
-  padding: 10px;
-  background: white;
-}
-
-.button {
-  background-color: #52af50;
-  width: 300px;
-  height: 50px;
-  border-radius: 0px;
-  color: white;
-}
-
-.price-range-div {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  padding: 5px;
-}
-
-.production-year-div {
-  display: flex;
-  gap: 10px;
-}
-
-.mileage-div {
-  display: flex;
-  gap: 10px;
-}
-
+/* =========================
+   INLINE RANGE GRUPE (SEARCH)
+========================= */
+.price-range-div,
+.production-year-div,
+.mileage-div,
 .fuel-consumption-div {
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  flex: 1 1 320px;
+  max-width: 560px;
+}
+
+.price-range-div input,
+.production-year-div select,
+.mileage-div select,
+.fuel-consumption-div input {
+  width: 100%;
+}
+
+/* =========================
+   FILE UPLOAD (CREATE)
+========================= */
+.custom-file-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #f8f9fa;
+  border: 2px dashed #ddd;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.custom-file-upload:hover {
+  border-color: #52af50;
+  color: #52af50;
+}
+
+.create-div input[type="file"] {
+  display: none;
+}
+
+/* =========================
+   DETAILS + FILE GROUP
+========================= */
+.create-div .details-group {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
+.create-div .file-group {
+  flex: 1 1 260px;
+  max-width: 260px;
+}
+
+/* =========================
+   ERROR MESSAGE (CREATE)
+========================= */
+.error-message {
+  color: #d93025;
+  font-size: 11px;
+  position: absolute;
+  bottom: -18px;
+  left: 5px;
+  white-space: nowrap;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.create-btn,
+.button {
+  background-color: #52af50;
+  color: white;
+  border: none;
+  padding: 12px 50px;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 45px;
+  transition: background-color 0.3s ease;
+}
+
+.create-btn:hover,
+.button:hover {
+  background-color: #469c45;
+}
+
+/* Search dugme veće */
+.search-div .button {
+  flex: 1 1 300px;
+  max-width: 380px;
+}
+
+/* =========================
+   OFFERS GRID
+========================= */
+.my-offers-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 95%;
+  padding: 20px;
+  margin-bottom: 40px;
 }

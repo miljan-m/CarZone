@@ -14,11 +14,13 @@ namespace CarZone.Infrastructure.Repositories
         public UserRepository(CarZoneDBContext context)
         {
             _context = context;
-            _dbSet=_context.Set<User>();
+            _dbSet = _context.Set<User>();
         }
 
         public async Task<User> Create(User obj, int id = int.MinValue)
-        {   
+        {
+            var user = await _dbSet.FirstOrDefaultAsync(u => u.Email.ToLower().Equals(obj.Email.ToLower()) || u.Phone.Equals(obj.Phone));
+            if (user != null) return null;
             await _dbSet.AddAsync(obj);
             await _context.SaveChangesAsync();
             return obj;
@@ -42,14 +44,13 @@ namespace CarZone.Infrastructure.Repositories
         public async Task<User> GetUserByEmailAndPassword(string email, string password)
         {
             var user = await _dbSet.FirstAsync(u => u.Email == email);
-            if(user==null) return null;
+            if (user == null) return null;
             return user;
         }
 
         public async Task<User> GetById(int id)
         {
-            var v= await _dbSet.FindAsync(id);
-            return v;
+            return await _dbSet.FindAsync(id);
         }
 
         public async Task<bool> Update(int id, User obj)
@@ -67,7 +68,7 @@ namespace CarZone.Infrastructure.Repositories
                 if (propInfo == null) continue;
 
                 var newValue = propInfo.GetValue(obj);
-                if(newValue==null) continue;
+                if (newValue == null) continue;
                 property.CurrentValue = newValue;
 
             }

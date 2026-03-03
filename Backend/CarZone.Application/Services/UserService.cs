@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using CarZone.Application.DTOs.UserDTOs;
+using CarZone.Application.Exceptions.UserExceptions;
 using CarZone.Application.Interfaces;
 using CarZone.Application.Interfaces.Repositories;
 using CarZone.Application.Interfaces.ServiceInterfaces;
@@ -8,6 +9,7 @@ using CarZone.Application.Interfaces.ServiceInterfaces.ISecurity;
 using CarZone.Application.Validation.CreateValidation;
 using CarZone.Application.Validation.UpdateValidation;
 using CarZone.Domain.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CarZone.Application.Services
 {
@@ -28,8 +30,7 @@ namespace CarZone.Application.Services
 
         public async Task<GetUserDTO> GetUserById(int userId)
         {
-            var user = await _repository.GetById(userId);
-            if (user == null) return null;
+            var user = await _repository.GetById(userId) ?? throw new UserNotFoundException(userId.ToString(), StatusCodes.Status404NotFound);
             return _mapper.Map<GetUserDTO>(user);
         }
 
@@ -49,17 +50,19 @@ namespace CarZone.Application.Services
                 {
                     Console.WriteLine($"Validation error: {error.ErrorMessage}");
                 }
-                throw new ValidationException("User data is invalid");
+                throw new UserValidationException("Validation exception - User data is invalid", StatusCodes.Status422UnprocessableEntity);
             }
             var password = _passwordHasher.HashPassword(userDTO, userDTO.Password);
             userDTO.Password = password;
             var createdUser = await _repository.Create(_mapper.Map<User>(userDTO));
+            if (createdUser == null) throw new UserAlreadyExistException(StatusCodes.Status409Conflict);
             return _mapper.Map<GetUserDTO>(createdUser);
         }
 
         public async Task<bool> DeleteUser(int userId)
         {
             var isDeleted = await _repository.Delete(userId);
+            if (!isDeleted) throw new UserNotFoundException(userId.ToString(), StatusCodes.Status404NotFound);
             return isDeleted;
         }
 
@@ -73,9 +76,10 @@ namespace CarZone.Application.Services
                 {
                     Console.WriteLine($"Validation eerror: {error.ErrorMessage}");
                 }
-                throw new ValidationException("User data is invalid");
+                throw new UserValidationException("Validation exception - User data is invalid", StatusCodes.Status422UnprocessableEntity);
             }
             var isUpdated = await _repository.Update(userId, _mapper.Map<User>(userDTO));
+            if (!isUpdated) throw new UserNotFoundException(userId.ToString(), StatusCodes.Status404NotFound);
             var u = await _repository.GetById(userId);
             return _mapper.Map<GetUserDTO>(u);
         }

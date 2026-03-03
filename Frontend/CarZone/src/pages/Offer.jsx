@@ -95,7 +95,7 @@ const Offer = () => {
 
         axios.get('http://localhost:5047/listings').then((response) => {
             setOffers(response.data)
-            const fo = response.data.filter(o => o.user.email != user.email)
+            const fo = response.data.filter(o => o.user.email != user?.email)
             setFilteredOffers(fo)
             console.log(response.data)
         }).catch(function (error) {

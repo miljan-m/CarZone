@@ -22,22 +22,30 @@ namespace CarZone.Infrastructure.Repositories
         }
         public async Task<Model> GetById(int modelId)
         {
-            var model = await _dbset.Include(m=>m.Brand).FirstAsync(m=>m.ModelId==modelId);
+            var model = await _dbset.Include(m => m.Brand).FirstAsync(m => m.ModelId == modelId);
             if (model == null) return null;
             return model;
         }
 
         public async Task<IEnumerable<Model>> GetAll()
         {
-            var models = await _dbset.Include(m=>m.Brand).ToListAsync();
+            var models = await _dbset.Include(m => m.Brand).ToListAsync();
             if (models.Any()) return models;
             return null;
         }
         public async Task<Model> Create(Model obj, int id = int.MinValue)
         {
-            var brand = await _dbsetBrand.FindAsync(id);
+            var brand = await _dbsetBrand
+        .Include(b => b.Models)
+        .FirstOrDefaultAsync(b => b.BrandId == id);
+
             if (brand == null) return null;
-            obj.Brand = brand;
+
+            var exists = brand.Models
+                .Any(m => m.ModelName.Equals(obj.ModelName, StringComparison.CurrentCultureIgnoreCase));
+
+            if (exists) return null;
+
             obj.BrandId = brand.BrandId;
             await _dbset.AddAsync(obj);
             await _context.SaveChangesAsync();
@@ -64,11 +72,11 @@ namespace CarZone.Infrastructure.Repositories
                 if (prop.Metadata.IsPrimaryKey()) continue;
                 if (prop.Metadata.IsForeignKey()) continue;
 
-                var propInfo=typeof(Model).GetType().GetProperty(prop.Metadata.Name);
-                if(propInfo==null) return false;
-                var newValue=propInfo.GetValue(obj);
-                if(newValue==null) return false;
-                prop.CurrentValue=newValue;
+                var propInfo = typeof(Model).GetType().GetProperty(prop.Metadata.Name);
+                if (propInfo == null) return false;
+                var newValue = propInfo.GetValue(obj);
+                if (newValue == null) return false;
+                prop.CurrentValue = newValue;
             }
 
             await _context.SaveChangesAsync();
@@ -78,8 +86,8 @@ namespace CarZone.Infrastructure.Repositories
 
         public async Task<Brand> GetBrandForModel(int modelId)
         {
-            var model=await _dbset.Include(m=>m.Brand).FirstAsync(m=>m.ModelId==modelId);
-            if(model==null) return null;
+            var model = await _dbset.Include(m => m.Brand).FirstAsync(m => m.ModelId == modelId);
+            if (model == null) return null;
             return model.Brand;
         }
     }

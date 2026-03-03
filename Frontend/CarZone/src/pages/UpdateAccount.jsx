@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { UilPhone } from '@iconscout/react-unicons'
 import { UilHome } from '@iconscout/react-unicons'
 import { UilUser } from '@iconscout/react-unicons'
@@ -13,38 +13,78 @@ const UpdateAccount = () => {
     const token = localStorage.getItem('token')
     const userJSON = localStorage.getItem('user')
     const user = JSON.parse(userJSON)
-    console.log(user)
+    const [errors, setErrors] = useState({ firstName: '', lastName: '', phone: '', address: '' })
+
+    const validate = () => {
+        let tempErrors = {};
+        let isValid = true;
+
+        if (!user.firstName) {
+            tempErrors.firstName = "First name cannot be an empty string";
+            isValid = false;
+        } else if (!/^[A-Z][a-zA-Z]*$/.test(user.firstName)) {
+            tempErrors.firstName = "First name must start with capital letter";
+            isValid = false;
+        }
+
+        if (!user.lastName) {
+            tempErrors.lastName = "Last name cannot be an empty string";
+            isValid = false;
+        } else if (!/^[A-Z][a-zA-Z]*$/.test(user.lastName)) {
+            tempErrors.lastName = "Last name must start with capital letter";
+            isValid = false;
+        }
+
+        if (!user.address) {
+            tempErrors.address = "Address cannot be an empty string";
+            isValid = false;
+        } else if (!/^[A-Z].*/.test(user.address)) {
+            tempErrors.address = "Address must start with capital letter";
+            isValid = false;
+        }
+
+        if (!user.phone) {
+            tempErrors.phone = "Phone number cannot be an empty string";
+            isValid = false;
+        } else if (!(user.phone.startsWith("06") && /^\d+$/.test(user.phone) && user.phone.length === 10)) {
+            tempErrors.phone = "Phone number must start with 06 and contain 10 digits";
+            isValid = false;
+        }
+
+        setErrors(tempErrors);
+        return isValid;
+    };
 
     const handleFirstNameChange = (e) => {
-        e.target.value == user.firstName ? {} : user.firstName = e.target.value
+        user.firstName = e.target.value
     }
-
     const handleLastNameChange = (e) => {
-        e.target.value == user.lastName ? {} : user.lastName = e.target.value
-
+        user.lastName = e.target.value
+    }
+    const handlePhoneChange = (e) => {
+        user.phone = e.target.value
     }
     const handleAddressChange = (e) => {
-        e.target.value == user.address ? {} : user.address = e.target.value
-
+        user.address = e.target.value
     }
-    const handlePhoneNumberChange = (e) => {
-        e.target.value == user.phone ? {} : user.phone = e.target.value
 
 
-    }
 
     const handleAccountUpdate = () => {
-        localStorage.removeItem('user')
-        localStorage.setItem('user', JSON.stringify(user))
-        const u=localStorage.getItem('user')
-        const updatedUser=JSON.parse(u);
+        if (validate()) {
+            localStorage.removeItem('user')
+            localStorage.setItem('user', JSON.stringify(user))
+            const u = localStorage.getItem('user')
+            const updatedUser = JSON.parse(u);
 
-        axios.patch(`http://localhost:5047/user/update/${updatedUser.userId}`, updatedUser)
-            .then((response) => {
-                console.log(response)
-            }).catch((error => {
-                console.log(error)
-            }))
+            axios.patch(`http://localhost:5047/user/update/${user.userId}`, updatedUser)
+                .then((response) => {
+                    console.log(response)
+                }).catch((error => {
+                    console.log(error)
+                }))
+        }
+
     }
 
     return (
@@ -53,22 +93,39 @@ const UpdateAccount = () => {
             <div className="update-account-div">
                 <div className="headedr-div"></div>
                 <div className="update-form-div">
-                    <div className="first-name-div">
-                        <UilUser className="input-icon" />
-                        <input type="text" placeholder={`${user.firstName}`} onChange={(e) => handleFirstNameChange(e)} />
+                    <div className="input-group">
+                        <div className="first-name-div">
+                            <UilUser className="input-icon" />
+                            <input name='firstName' type="text" placeholder={`${user.firstName}`} onChange={(e) => handleFirstNameChange(e)} />
+                        </div>
+                        {errors.firstName && <span className="error-message">{errors.firstName}</span>}
                     </div>
-                    <div className="last-name-div">
-                        <UilUser className="input-icon" />
-                        <input type="text" placeholder={`${user.lastName}`} onChange={(e) => handleLastNameChange(e)} />
+
+                    <div className="input-group">
+                        <div className="last-name-div">
+                            <UilUser className="input-icon" />
+                            <input name='lastName' type="text" placeholder={`${user.lastName}`} onChange={(e) => handleLastNameChange(e)} />
+                        </div>
+                        {errors.lastName && <span className="error-message">{errors.lastName}</span>}
                     </div>
-                    <div className="phone-div">
-                        <UilPhone className="input-icon" />
-                        <input type="text" placeholder={`${user.phone}`} onChange={(e) => handlePhoneNumberChange(e)} />
+
+                    <div className="input-group">
+                        <div className="phone-div">
+                            <UilPhone className="input-icon" />
+                            <input name='phone' type="text" placeholder={`${user.phone}`} onChange={(e) => handlePhoneChange(e)} />
+                        </div>
+                        {errors.phone && <span className="error-message">{errors.phone}</span>}
                     </div>
-                    <div className="address-div">
-                        <UilHome className="input-icon" />
-                        <input type="text" placeholder={`${user.address}`} onChange={(e) => handleAddressChange(e)} />
+
+
+                    <div className="input-group">
+                        <div className="address-div">
+                            <UilHome className="input-icon" />
+                            <input name='address' type="text" placeholder={`${user.address}`} onChange={(e) => handleAddressChange(e)} />
+                        </div>
+                        {errors.address && <span className="error-message">{errors.address}</span>}
                     </div>
+
                 </div>
                 <div className="button-div">
                     <button className='updateButton' onClick={() => handleAccountUpdate()}>Update</button>

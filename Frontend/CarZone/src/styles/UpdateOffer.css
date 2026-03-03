@@ -5,14 +5,14 @@
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background-color: #76ba5d; /* Tvoja zelena pozadina */
+  background-color: #76ba5d;
 }
 
 .update-offer-container {
   background: white;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   max-width: 800px;
   width: 100%;
   margin-top: 30px;
@@ -30,53 +30,88 @@
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 15px 25px; /* Smanjen vertikalni gap jer form-group sada brine o svom prostoru */
+  align-items: start;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+  /* Dodajemo padding na dnu da error poruka uvek ima mesta i ne gazi druge elemente */
+  padding-bottom: 20px; 
+  position: relative;
 }
 
 .form-group label {
   font-weight: 600;
   font-size: 14px;
   color: #666;
+  margin-bottom: 8px; /* Razmak između labele i inputa */
 }
 
-.form-group input, 
-.form-group textarea {
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  box-sizing: border-box;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
-  transition: border-color 0.3s;
+  transition: all 0.3s;
+  height: auto; /* Osigurava da visina prati sadržaj */
 }
 
-.form-group input:focus, 
-.form-group textarea:focus {
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
   outline: none;
   border-color: #52af50;
+  background-color: #fff;
+}
+
+.form-group select {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 5px;
+  /* Pozicioniramo poruku apsolutno u odnosu na kraj form-groupa 
+     kako bi bila tačno ispod, ali bez pomeranja celog grida */
+  position: absolute;
+  top: calc(100% - 18px); 
+  left: 0;
+  display: block;
+}
+
+.input-error {
+  border: 1px solid #d9534f !important;
+  background-color: #fff8f8 !important;
 }
 
 .full-width {
   grid-column: span 2;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .form-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 15px;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .btn-submit {
   background-color: #52af50;
   color: white;
   border: none;
-  padding: 12px 30px;
+  padding: 12px 35px;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
@@ -101,7 +136,6 @@
   background-color: #e0e0e0;
 }
 
-/* Responsiveness */
 @media (max-width: 600px) {
   .form-grid {
     grid-template-columns: 1fr;
@@ -109,27 +143,4 @@
   .full-width {
     grid-column: span 1;
   }
-}
-
-.form-group select {
-  background-color: #f2f2f2;
-  border: 1px solid #e6e6e6;
-  padding: 12px 15px;
-  font-family: "Roboto", sans-serif;
-  font-size: 14px;
-  color: #555;
-  width: 180px; /* Fiksna širina za uniformisan izgled */
-  outline: none;
-  transition: border-color 0.3s ease;
-  cursor: pointer;
-}
-
-.form-group select:focus {
-  border-color: #52af50; /* Zelena boja iz tvog login dugmeta */
-}
-
-/* Opciono: Stil za opcije unutar select-a */
-.form-group option {
-  padding: 10px;
-  background: white;
 }

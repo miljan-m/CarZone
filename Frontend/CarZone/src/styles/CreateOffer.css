@@ -1,111 +1,160 @@
+/* =========================
+   WRAPPER
+========================= */
 .create-offer-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
   background-color: #76ba5d;
   width: 100%;
 }
 
+/* =========================
+   CREATE DIV
+   (ŠIRI + NIŽI)
+========================= */
 .create-div {
   background-color: #ffffff;
-  padding: 25px;
-  border-radius: 4px; /* Blago zaobljeno za moderniji izgled */
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+  padding: 22px 30px;          /* MANJE PO VISINI */
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   display: flex;
-  flex-wrap: wrap; /* Da bi se lepo prelamalo na manjim ekranima */
-  gap: 15px; /* Razmak između select elemenata */
+  flex-wrap: wrap;
+  gap: 18px 20px;              /* MANJI VERTIKALNI GAP */
   justify-content: center;
-  align-items: center;
-  max-width: 90%; /* Da ne udara u ivice ekrana */
+  max-width: 1350px;           /* ŠIRI */
+  width: 95%;
   margin: 20px auto;
 }
 
-.create-div select {
-  background-color: #f2f2f2;
-  border: 1px solid #e6e6e6;
-  padding: 12px 15px;
-  font-family: "Roboto", sans-serif;
-  font-size: 14px;
-  color: #555;
-  width: 180px; /* Fiksna širina za uniformisan izgled */
-  outline: none;
-  transition: border-color 0.3s ease;
-  cursor: pointer;
-}
-
-.create-div select:focus {
-  border-color: #52af50; /* Zelena boja iz tvog login dugmeta */
-}
-
-/* Opciono: Stil za opcije unutar select-a */
-.create-div option {
-  padding: 10px;
-  background: white;
-}
-
-.button {
-  background-color: #52af50;
-  width: 300px;
-  height: 50px;
-  border-radius: 0px;
-  color: white;
-}
-
-.price-range-div {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  padding: 5px;
-}
-
-.production-year-div {
-  display: flex;
-  gap: 10px;
-}
-
-.mileage-div {
-  display: flex;
-  gap: 10px;
-}
-
-.fuel-consumption-div {
-  display: flex;
-  gap: 10px;
-}
-.image-import-div {
-  display: flex;
-  gap: 10px;
-}
-
-.image-import-div input {
+/* =========================
+   FORM GROUP
+========================= */
+.create-div .form-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  outline: 0;
-  border: 0;
-  padding: 15px;
-  box-sizing: border-box;
+  position: relative;
+  flex: 1 1 220px;
+  max-width: 260px;
+}
+
+/* =========================
+   INPUT / SELECT / TEXTAREA
+   (NIŽI INPUTI)
+========================= */
+.create-div select,
+.create-div input,
+.create-div textarea {
+  padding: 9px 12px;           /* MANJA VISINA */
+  border: 1px solid #ddd;
+  border-radius: 4px;
   font-size: 14px;
-  color: #adadad;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
-.my-offers-div {
-  margin-left: 50px;
-  margin-right: 50px;
+.create-div textarea {
+  resize: vertical;
+}
 
+.create-div select:focus,
+.create-div input:focus,
+.create-div textarea:focus {
+  outline: none;
+  border-color: #52af50;
+}
+
+/* =========================
+   FILE GROUP
+========================= */
+.create-div .file-group {
+  flex: 1 1 260px;
+  max-width: 260px;
+}
+
+/* Custom file upload – niži */
+.custom-file-upload {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  background-color: #ffffff;
-  padding: 25px;
-  border-radius: 4px; /* Blago zaobljeno za moderniji izgled */
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
-  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: #f8f9fa;
+  border: 2px dashed #ddd;
+  padding: 8px;               /* MANJE PO VISINI */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px;
 }
 
-.no-offers-created-div{
-  font-size: 30px;
-  color: #ffffff;
+.custom-file-upload:hover {
+  border-color: #52af50;
+  color: #52af50;
+}
+
+.create-div input[type="file"] {
+  display: none;
+}
+
+.file-count {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* =========================
+   DETAILS GROUP
+========================= */
+.create-div .details-group {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
+.create-div .details-group textarea {
+  min-height: 80px;           /* NIŽE NEGO PRE */
+}
+
+/* =========================
+   ERROR MESSAGE
+========================= */
+.error-message {
+  color: #d93025;
+  font-size: 11px;
+  position: absolute;
+  bottom: -14px;              /* BLIŽE INPUTU */
+  left: 4px;
+  white-space: nowrap;
+}
+
+/* =========================
+   CREATE BUTTON
+========================= */
+.create-btn {
+  background-color: #52af50;
+  color: white;
+  border: none;
+  padding: 10px 45px;         /* NIŽE DUGME */
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 40px;
+  transition: background-color 0.3s ease;
+}
+
+.create-btn:hover {
+  background-color: #469c45;
+}
+
+/* =========================
+   MY OFFERS GRID
+========================= */
+.my-offers-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 95%;
+  padding: 20px;
+  margin-bottom: 40px;
 }
