@@ -150,3 +150,40 @@
     width: 80px; /* Smanjujemo listu korisnika na mobilnom */
   }
 }
+
+
+
+/*asdasd*/
+.chat-context-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f0f2f5;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.chat-context-bar:hover {
+    background: #e4e6e9;
+}
+
+.context-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.context-info span {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.close-context {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+}

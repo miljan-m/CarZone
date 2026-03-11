@@ -1,53 +1,117 @@
-Header{
-    background-color: #ffffff;
-    width: 100%;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    top: 0;
-    left: 0;
-    box-sizing: border-box;
-    font-size: medium;
-    height: 60px;
-    margin-top: 0px;
-    position: inherit;
+header {
+  background-color: #ffffff;
+  width: 100%;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  font-size: medium;
+  height: 60px;
+  margin-top: 0px;
+  position: relative; /* Promenjeno sa inherit na relative radi stabilnosti */
+  z-index: 100;
 }
 
-header a {
-    display: flex;
-    margin-right: 10px;
-    text-decoration: none;
-    color: #52af50; 
-    font-weight: bold;
-    margin-left: 10px;
-    margin-right: 10px;
-    transition: color 0.3s;
+header a,
+.dropdown-trigger {
+  display: flex;
+  align-items: center; /* Centriranje ikone i teksta */
+  text-decoration: none;
+  color: #52af50;
+  font-weight: bold;
+  margin: 0 10px;
+  transition: color 0.3s;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
 }
 
-header a:hover {
-    color: #3e8e41; 
+header a:hover,
+.dropdown-trigger:hover {
+  color: #3e8e41;
 }
 
-header h2{
-    text-decoration: none;
-    color: #52af50; 
-    font-weight: bold;
-    margin-left: 20px;
-    transition: color 0.3s;
+header h2 {
+  color: #52af50;
+  font-weight: bold;
+  margin-left: 20px;
 }
 
-.icon{
-    margin-right: 10px;
-    margin-left: 10px;
+.icon {
+  margin: 0 10px;
 }
 
-
-.account-icons-div{
-    display: flex;
+.account-icons-div,
+.offer-icons-div {
+  display: flex;
+  align-items: center;
 }
 
-.offer-icons-div{
-    display: flex;
+/* --- NOVI CSS ZA DROPDOWN --- */
+
+.dropdown-container {
+  position: relative; /* parent je relativan */
+  display: inline-block; /* da menu ne ide preko cele širine */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; /* odmah ispod buttona */
+  left: 0; /* poravna se sa levom ivicom buttona */
+  background-color: #ffffff;
+  min-width: 220px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0;
+  border: 1px solid #eee;
+  z-index: 1000;
+  margin-top: 10px;
+}
+
+.dropdown-menu a {
+  padding: 12px 15px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f9f9f9;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 10px;
+}
+
+.dropdown-menu a:last-child {
+  border-bottom: none;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f4fbf4;
+}
+
+/* Mala strelica na vrhu menija (opciono) */
+.dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 20px; /* prilagodi da pokazuje na button */
+  width: 12px;
+  height: 12px;
+  background: white;
+  transform: rotate(45deg);
+  border-left: 1px solid #eee;
+  border-top: 1px solid #eee;
+}
+
+.account-button {
+  background-color: #ffffff;
+  color: #52af50;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 }

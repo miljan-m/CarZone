@@ -1,88 +1,91 @@
-import React, { useRef, useState } from 'react'
-import { useEffect } from 'react'
-import * as signalR from "@microsoft/signalr";
-import { useLocation } from 'react-router-dom';
-import '../styles/Chat.css'
-import LogedNavbar from '../components/LogedNavbar'
-import Footer from '../components/Footer'
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import '../styles/Chat.css';
+import LogedNavbar from '../components/LogedNavbar';
+import Footer from '../components/Footer';
+import { ChatContext } from '../Chat/ChatContext';
 
 const Chat = () => {
-  const connectionRef = useRef(null)
-  const user = JSON.parse(localStorage.getItem('user'))
-  const [message, setMessage] = useState('')
-  const [receiverEmail, setReceiverEmail] = useState('')
+  const { allMessages, chatUsers, sendMessage } = useContext(ChatContext);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [allMessages, setAllMessages] = useState(() => {
-    const savedMessages = localStorage.getItem('chat_messages');
-    return savedMessages ? JSON.parse(savedMessages) : []
-  })
+  const [message, setMessage] = useState('');
+  const [receiverEmail, setReceiverEmail] = useState('');
+  const [contextOffer, setContextOffer] = useState(null);
+  const messagesEndRef = useRef(null);
 
-  const [chatUsers, setChatUsers] = useState(() => {
-    const savedUsers = localStorage.getItem('chat_users');
-    return savedUsers ? JSON.parse(savedUsers) : [];
-  })
-
-
+  // Scroll na poslednju poruku
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
-    localStorage.setItem('chat_messages', JSON.stringify(allMessages));
-    localStorage.setItem('chat_users', JSON.stringify(chatUsers));
-  }, [allMessages, chatUsers]);
+    scrollToBottom();
+  }, [allMessages, receiverEmail, contextOffer]);
 
+  // Postavljanje receiverEmail i contextOffer kad dolazi sa OfferDetails
   useEffect(() => {
-    const connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:5047/chat", {
-      accessTokenFactory: () => user.token,
-      transport: signalR.HttpTransportType.WebSockets
-    }).withAutomaticReconnect()
-      .build();
+    if (location.state?.receiver) setReceiverEmail(location.state.receiver);
+    if (location.state?.offer) setContextOffer(location.state.offer);
+  }, [location.state?.receiver, location.state?.offer]);
 
-    connectionRef.current = connection;
+  // Automatsko postavljanje contextOffer kad se menja receiver ili stigne nova poruka
+  useEffect(() => {
+    if (!receiverEmail) return;
 
-    connection.start()
-      .then(() => console.log("Connected to chat hub"))
-      .catch(err => console.error("Connection failed: ", err));
+    // Ako je offer već inicijalno postavljen iz location.state, ne prepisuj ga
+    if (location.state?.offer && receiverEmail === location.state.receiver) return;
 
-    connection.on("ReceiveMessage", (senderEmail, messageText) => {
-      setAllMessages(prev => [...prev, { senderEmail: senderEmail, receiverEmail: user.email, message: messageText }])
-      setChatUsers(prev =>
-        prev.includes(senderEmail) ? prev : [...prev, senderEmail]
-      )
-    })
+    const lastMsgWithOffer = [...allMessages]
+      .reverse()
+      .find(
+        m =>
+          ((m.senderEmail === receiverEmail && m.receiverEmail === user.email) ||
+           (m.senderEmail === user.email && m.receiverEmail === receiverEmail)) &&
+          m.associatedOffer
+      );
 
-    return () => {
-      if (connectionRef.current) {
-        connectionRef.current.stop()
-          .then(() => console.log("Connection stopped"))
-          .catch(err => console.log("Error stopping:", err));
-      }
-    }
-
-  }, [])
-
+    setContextOffer(lastMsgWithOffer?.associatedOffer || null);
+  }, [allMessages, receiverEmail, location.state, user.email]);
 
   const handleSendMessage = () => {
-    connectionRef.current.invoke("SendMessage", receiverEmail, message)
+    if (!receiverEmail || !message) return;
 
-    setAllMessages(prev => [...prev, { senderEmail: user.email, receiverEmail: receiverEmail, message: message }]);
-    setChatUsers(prev =>
-      prev.includes(receiverEmail) ? prev : [...prev, receiverEmail]
-    );
-    setMessage("");
-  }
+    sendMessage(receiverEmail, message, contextOffer);
+    setMessage('');
+  };
+
+  const handleUserClick = (email) => {
+    setReceiverEmail(email);
+
+    // Pronađi poslednji offer za kliknutog korisnika
+    const lastMsgWithOffer = [...allMessages]
+      .reverse()
+      .find(
+        m =>
+          ((m.senderEmail === email && m.receiverEmail === user.email) ||
+           (m.senderEmail === user.email && m.receiverEmail === email)) &&
+          m.associatedOffer
+      );
+
+    setContextOffer(lastMsgWithOffer?.associatedOffer || null);
+  };
+
   return (
     <div className="chat-wrapper">
       <LogedNavbar />
 
       <div className="chat-body">
-
         <aside className="chat-users">
           <h4>Chats</h4>
           <ul>
             {chatUsers.map(email => (
               <li
                 key={email}
-                className={'chaters'}
-                onClick={() => setReceiverEmail(email)}
+                className={receiverEmail === email ? 'chaters active-user' : 'chaters'}
+                onClick={() => handleUserClick(email)}
               >
                 {email}
               </li>
@@ -92,25 +95,45 @@ const Chat = () => {
 
         <section className="chat-window">
 
+          {/* Context offer bar */}
+          {contextOffer && (
+            <div
+              className="chat-context-bar"
+              onClick={() => navigate('/offer-details', { state: { offer: contextOffer } })}
+            >
+              <img
+                src={`http://localhost:5047/${contextOffer.images[0]?.imageUrl}`}
+                alt="car"
+                style={{ width: '50px', height: '40px', objectFit: 'cover', borderRadius: '4px' }}
+              />
+              <div className="context-info">
+                <span>{contextOffer.model.brandName} {contextOffer.model.modelName}</span>
+                <small>{contextOffer.price} €</small>
+              </div>
+              <button
+                className="close-context"
+                onClick={(e) => { e.stopPropagation(); setContextOffer(null); }}
+              >
+                ×
+              </button>
+            </div>
+          )}
+
           <div className="messages">
-            {
-              allMessages
-                .filter(m =>
-                  (m.senderEmail === user.email && m.receiverEmail === receiverEmail) ||
-                  (m.senderEmail === receiverEmail && m.receiverEmail === user.email)
-                )
-                .map((m, index) => (
-                  <div
-                    key={index}
-                    className={
-                      m.senderEmail === user.email
-                        ? "message-sent-div"
-                        : "message-received-div"
-                    }
-                  >
-                    {m.message}
-                  </div>
-                ))}
+            {allMessages
+              .filter(m =>
+                (m.senderEmail === user.email && m.receiverEmail === receiverEmail) ||
+                (m.senderEmail === receiverEmail && m.receiverEmail === user.email)
+              )
+              .map((m, index) => (
+                <div
+                  key={index}
+                  className={m.senderEmail === user.email ? "message-sent-div" : "message-received-div"}
+                >
+                  {m.message}
+                </div>
+              ))}
+            <div ref={messagesEndRef} />
           </div>
 
           <div className="chat-input">
@@ -129,16 +152,14 @@ const Chat = () => {
               onKeyDown={e => e.key === "Enter" && handleSendMessage()}
             />
 
-            <button onClick={handleSendMessage}>
-              Send
-            </button>
+            <button onClick={handleSendMessage}>Send</button>
           </div>
-
         </section>
       </div>
+
       <Footer />
     </div>
   );
-}
+};
 
-export default Chat
+export default Chat;

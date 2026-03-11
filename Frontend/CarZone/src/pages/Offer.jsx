@@ -3,7 +3,6 @@ import Footer from '../components/Footer'
 import axios from 'axios'
 import "../styles/Offer.css"
 import OfferCard from '../components/OfferCard'
-import { useNavigate } from 'react-router-dom'
 import LogedNavBar from '../components/LogedNavbar'
 import NotLogedNavbar from '../components/NotLogedNavbar'
 
@@ -35,6 +34,11 @@ const Offer = () => {
     const maxYear = new Date().getFullYear();
     const years = [];
 
+    const [likedOffers, setLikedOffers] = useState(() => {
+        var offers = localStorage.getItem('likedoffers')
+        return offers ? JSON.parse(offers) : []
+    })
+
     const mileages = []
 
     for (let i = maxYear; i >= minYear; i--) {
@@ -45,6 +49,23 @@ const Offer = () => {
         mileages.push(i)
     }
 
+    const handleLikedPosts = (offer) => {
+        let updatedLikedOffers;
+
+        if (offer.isLiked) {
+            if (!likedOffers.find(o => o.listingId === offer.listingId)) {
+                updatedLikedOffers = [...likedOffers, offer];
+            } else {
+                updatedLikedOffers = likedOffers;
+            }
+        } else {
+            updatedLikedOffers = likedOffers.filter(o => o.listingId !== offer.listingId);
+        }
+
+        setLikedOffers(updatedLikedOffers);
+        localStorage.removeItem('likedoffers');
+        localStorage.setItem('likedoffers', JSON.stringify(updatedLikedOffers));
+    };
 
     useEffect(() => {
         axios.get("http://localhost:5047/brands").then(function (response) {
@@ -96,7 +117,8 @@ const Offer = () => {
         axios.get('http://localhost:5047/listings').then((response) => {
             setOffers(response.data)
             const fo = response.data.filter(o => o.user.email != user?.email)
-            setFilteredOffers(fo)
+            const fo2 = fo.filter(o => !likedOffers.some(e => e.listingId === o.listingId))
+            setFilteredOffers(fo2)
             console.log(response.data)
         }).catch(function (error) {
             console.log(error)
@@ -105,7 +127,7 @@ const Offer = () => {
 
     useEffect(() => {
         handleOfferFetching()
-    }, [])
+    }, [likedOffers])
 
     const handleSearch = () => {
         const o = offers.filter(o => {
@@ -244,7 +266,7 @@ const Offer = () => {
             </div>
             <div className="my-offers-div">
                 {
-                    filteredOffers.map((o, index) => (<OfferCard key={index} offer={o} />))
+                    filteredOffers.map((o, index) => (<OfferCard key={index} offer={o} handleLikedPosts={handleLikedPosts}  isLiked={false}/>))
                 }
             </div>
             <Footer />

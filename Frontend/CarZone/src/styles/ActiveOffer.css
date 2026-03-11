@@ -1,0 +1,53 @@
+/* ===============================
+   active OFFERS PAGE
+   =============================== */
+
+.active-offers-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grid kontejner za kartice */
+.active-offers-wrapper > .offer-container,
+.active-offers-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.active-offers-wrapper h1 {
+  text-align: center;
+  margin: 40px 0 20px 0;
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+}
+/* Ako dodas div oko map-a (preporuceno) koristi ovu klasu */
+.active-offers-grid {
+  width: 85%;
+  max-width: 1400px;
+  margin: 50px auto 60px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Poruka kada nema ponuda */
+.no-active-offers {
+  text-align: center;
+  font-size: 18px;
+  color: #ffffff;
+  margin-top: 60px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .active-offers-grid {
+    width: 95%;
+    gap: 20px;
+  }
+}

@@ -11,6 +11,10 @@ import PrivateRoutes from './routes/PrivateRoutes'
 import Settings from './pages/Settings'
 import UpdateOffer from './pages/UpdateOffer'
 import Chat from './pages/Chat'
+import LikedOffer from './pages/LikedOffer'
+import ActiveOffer from './pages/ActiveOffer'
+import InactiveOffer from './pages/InactiveOffer'
+
 
 
 const App = () => {
@@ -27,6 +31,9 @@ const App = () => {
         <Route path='/update-account' element={<UpdateAccount />} />
         <Route path='/update-offer' element={<UpdateOffer />} />
         <Route path='/chat' element={<Chat />} />
+        <Route path='/liked-offers' element={<LikedOffer />} />
+        <Route path='/active-offers' element={<ActiveOffer />} />
+        <Route path='/inactive-offers' element={<InactiveOffer />} />
       </Route>
       <Route element={<PrivateRoutes roles={['Admin']} />}>
         <Route path='/settings' element={<Settings />} />

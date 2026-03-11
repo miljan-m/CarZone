@@ -4,14 +4,18 @@ import './index.css'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
 import AuthProvider from './Authentication/AuthProvider'
+import ChatProvider from './Chat/ChatProvider'
+
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <AuthProvider>
+      <ChatProvider>
+        <AuthProvider>
           <App />
-      </AuthProvider>
+        </AuthProvider>
+      </ChatProvider>
     </BrowserRouter>
   </StrictMode>,
 )

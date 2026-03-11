@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data))
             setUser(response.data)
-            navigate('/offers')
+            window.location.href = "/offers";
             console.log(response.data)
         }).catch(function (error) {
             console.log(error)

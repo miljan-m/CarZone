@@ -14,7 +14,19 @@ const OfferDetails = () => {
   const user = JSON.parse(localStorage.getItem('user'))
   const navigate = useNavigate()
 
+  const handleContactSeller = () => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
 
+    navigate('/chat', {
+      state: {
+        receiver: offer.user.email,
+        offer: offer
+      }
+    });
+  };
 
   return (
     <div className="offer-details-wrapper">
@@ -76,11 +88,14 @@ const OfferDetails = () => {
             <h3>Seller contact</h3>
             <p><strong>Name: </strong> {offer.user.firstName} {offer.user.lastName}</p>
             <p><strong>Phone: </strong> {offer.user.phone}</p>
-            <p><strong>Email:</strong> {offer.user.email}</p>
+            <div className='seller-info-contact'>
+              <p><strong>Email:</strong> {offer.user.email}</p>
+              {user.email !== offer.user.email ? <button className='contact-button' onClick={handleContactSeller}>Contact Seller</button> : null}
+            </div>
           </div>
           <div className="offer-actions">
             {token && user.email == offer.user.email ? (
-              <button className="btn-edit" onClick={() => navigate('/update-offer', {state:{offer}})}>
+              <button className="btn-edit" onClick={() => navigate('/update-offer', { state: { offer } })}>
                 Update Offer
               </button>
             ) : null}
