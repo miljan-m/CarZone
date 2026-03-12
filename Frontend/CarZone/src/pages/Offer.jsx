@@ -34,6 +34,14 @@ const Offer = () => {
     const maxYear = new Date().getFullYear();
     const years = [];
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const offersPerPage = 4;
+
+    const indexOfLastOffer = currentPage * offersPerPage
+    const indexOfFirstOffer = indexOfLastOffer - offersPerPage
+    const totalPages = Math.ceil(filteredOffers.length / offersPerPage)
+    const paginatedOffers = filteredOffers.slice(indexOfFirstOffer, indexOfLastOffer)
+
     const [likedOffers, setLikedOffers] = useState(() => {
         var offers = localStorage.getItem('likedoffers')
         return offers ? JSON.parse(offers) : []
@@ -113,15 +121,16 @@ const Offer = () => {
 
     //offers
     const handleOfferFetching = () => {
-
         axios.get('http://localhost:5047/listings').then((response) => {
             setOffers(response.data)
             const fo = response.data.filter(o => o.user.email != user?.email)
-            const fo2 = fo.filter(o => !likedOffers.some(e => e.listingId === o.listingId))
+            //const fo2 = fo.filter(o => !likedOffers.some(e => e.listingId === o.listingId))
+            const fo2 = fo.map(fo => {
+                const found = likedOffers.find(l2 => l2.listingId === fo.listingId);
+                return found ? found : fo;
+            })
             setFilteredOffers(fo2)
-            console.log(response.data)
         }).catch(function (error) {
-            console.log(error)
         })
     }
 
@@ -130,7 +139,7 @@ const Offer = () => {
     }, [likedOffers])
 
     const handleSearch = () => {
-        const o = offers.filter(o => {
+        const o = filteredOffers.filter(o => {
             if (selectedBrand && o.model.brandName !== selectedBrand) return false
             if (selectedModel && o.model.modelName !== selectedModel) return false
             if (selectedBodyType && o.bodyType !== selectedBodyType) return false
@@ -266,9 +275,35 @@ const Offer = () => {
             </div>
             <div className="my-offers-div">
                 {
-                    filteredOffers.map((o, index) => (<OfferCard key={index} offer={o} handleLikedPosts={handleLikedPosts}  isLiked={false}/>))
+                    paginatedOffers.length > 0 ? paginatedOffers.map((o, index) => (<OfferCard key={o.listingId} offer={o} handleLikedPosts={handleLikedPosts} isLiked={o.isLiked} />)) : <p>No Posted Offers</p>
                 }
             </div>
+            {
+                paginatedOffers.length > 0 ?
+                    <div className="pagination-div">
+                        <button
+                            className="pagination-btn"
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
+                            &laquo; Previous
+                        </button>
+
+                        <div className="page-indicator">
+                            <span className="current-page">{currentPage}</span>
+                            <span className="separator">/</span>
+                            <span className="total-pages">{totalPages}</span>
+                        </div>
+
+                        <button
+                            className="pagination-btn"
+                            disabled={currentPage === totalPages}
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
+                            Next &raquo;
+                        </button>
+                    </div> : null
+            }
             <Footer />
         </div>
     )

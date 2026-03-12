@@ -1,14 +1,9 @@
-/* ===============================
-   LIKED OFFERS PAGE
-   =============================== */
-
 .liked-offers-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Naslov */
 .liked-offers-wrapper h1 {
   text-align: center;
   margin: 40px 0 20px 0;
@@ -17,34 +12,30 @@
   color: #ffffff;
 }
 
-/* Kontejner za kartice */
-.my-offers-div {
+.my-liked-offers-div {
   width: 85%;
   max-width: 1400px;
   margin: 0 auto 60px auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  justify-content: center;
   gap: 30px;
   padding: 20px;
   box-sizing: border-box;
 }
 
-/* Kada nema lajkova */
-.my-offers-div p {
-  grid-column: 1 / -1;
+.my-liked-offers-div p {
   text-align: center;
   font-size: 18px;
   color: #ffffff;
   margin-top: 40px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .liked-offers-wrapper h1 {
     font-size: 26px;
   }
 
-  .my-offers-div {
+  .my-liked-offers-div {
     width: 95%;
     gap: 20px;
   }

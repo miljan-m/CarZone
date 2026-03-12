@@ -1,14 +1,9 @@
-/* ===============================
-   INACTIVE OFFERS PAGE
-   =============================== */
-
 .inactive-offers-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Grid kontejner za kartice */
 .inactive-offers-wrapper > .offer-container,
 .inactive-offers-wrapper {
   display: flex;
@@ -16,7 +11,6 @@
   align-items: center;
 }
 
-/* Ako dodas div oko map-a (preporuceno) koristi ovu klasu */
 .inactive-offers-grid {
   width: 85%;
   max-width: 1400px;
@@ -28,7 +22,6 @@
   box-sizing: border-box;
 }
 
-/* Poruka kada nema ponuda */
 .no-inactive-offers {
   text-align: center;
   font-size: 18px;
@@ -42,13 +35,4 @@
   font-size: 32px;
   font-weight: 600;
   color: #ffffff;
-}
-
-
-/* Responsive */
-@media (max-width: 768px) {
-  .inactive-offers-grid {
-    width: 95%;
-    gap: 20px;
-  }
 }

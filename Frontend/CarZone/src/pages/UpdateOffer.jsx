@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../styles/UpdateOffer.css';
 import LogedNavBar from '../components/LogedNavbar';
 import Footer from '../components/Footer';
+import toast from 'react-hot-toast'
 
 
 const listingStatusOptions = ['Active', 'Sold'];
@@ -52,6 +53,8 @@ const UpdateOffer = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate('/offers');
+      toast.success("Offer Successfully Updated")
+
     } catch (error) {
       console.error(error);
     }
@@ -97,6 +100,16 @@ const UpdateOffer = () => {
     setErrors(tempErrors);
     return isValid
   };
+
+
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:5047/listings/${id}`).then((response) => {
+      navigate("/offers")
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
   return (
     <div className="update-offer-wrapper">
       <LogedNavBar />
@@ -179,8 +192,11 @@ const UpdateOffer = () => {
           </div>
 
           <div className="form-buttons">
-            <button type="button" className="btn-cancel" onClick={() => navigate(-1)}>Odustani</button>
-            <button type="submit" className="btn-submit">Save</button>
+            <button type='button' className='btn-delete' onClick={() => handleDelete(offer.listingId)}>Delete</button>
+            <div className="form-buttons-right">
+              <button type="button" className="btn-cancel" onClick={() => navigate(-1)}>Cancel</button>
+              <button type="submit" className="btn-submit">Save</button>
+            </div>
           </div>
         </form>
       </div>

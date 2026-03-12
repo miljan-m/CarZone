@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/SettingsCard.css';
+import toast from 'react-hot-toast'
 
 const SettingsCard = ({
   clickedIcon,
@@ -47,7 +48,12 @@ const SettingsCard = ({
       addBrandToState(response.data);
       setBrandName('');
       setErrors({});
-    }).catch(err => console.log(err));
+      toast.success("Brand Succesffully Added")
+    }).catch((err) => {
+      const e={}
+      e.brandExist="Brand with provided name already exist"
+      setErrors(e)
+    });
   };
 
   const handleModelAdd = () => {
@@ -62,7 +68,12 @@ const SettingsCard = ({
       addModelToState(response.data);
       setModelName('');
       setErrors({});
-    }).catch(err => console.log(err));
+      toast.success("Model Succesffully Added")
+    }).catch((err)=>{
+      const e={}
+      e.modelExist="Model with provided name already exist"
+      setErrors(e)
+    });
   };
 
   const handleBrandDelete = async (brandId) => {
@@ -108,7 +119,8 @@ const SettingsCard = ({
                 value={brandName}
                 onChange={(e) => { setBrandName(e.target.value); setErrors({}); }}
               />
-              {errors.brandName && <span className="error-message">{errors.brandName}</span>}
+              {errors.brandName && <span className="error-message-settings">{errors.brandName}</span>}
+              {errors.brandExist && <span className="error-message-settings">{errors.brandExist}</span>}
             </div>
             <button className="addBrandButton" onClick={handleBrandAdd}>Add</button>
           </div>
@@ -145,7 +157,9 @@ const SettingsCard = ({
                 value={modelName}
                 onChange={(e) => { setModelName(e.target.value); setErrors({}); }}
               />
-              {errors.modelName && <span className="error-message">{errors.modelName}</span>}
+              {errors.modelName && <span className="error-message-settings">{errors.modelName}</span>}
+              {errors.modelExist && <span className="error-message-settings">{errors.modelExist}</span>}
+
             </div>
             <button className="addModelButton" onClick={()=>handleModelAdd()}>Add</button>
           </div>

@@ -12,14 +12,14 @@ header {
   font-size: medium;
   height: 60px;
   margin-top: 0px;
-  position: relative; /* Promenjeno sa inherit na relative radi stabilnosti */
+  position: relative; 
   z-index: 100;
 }
 
 header a,
 .dropdown-trigger {
   display: flex;
-  align-items: center; /* Centriranje ikone i teksta */
+  align-items: center; 
   text-decoration: none;
   color: #52af50;
   font-weight: bold;
@@ -53,17 +53,15 @@ header h2 {
   align-items: center;
 }
 
-/* --- NOVI CSS ZA DROPDOWN --- */
-
 .dropdown-container {
-  position: relative; /* parent je relativan */
-  display: inline-block; /* da menu ne ide preko cele širine */
+  position: relative; 
+  display: inline-block; 
 }
 
 .dropdown-menu {
   position: absolute;
-  top: 100%; /* odmah ispod buttona */
-  left: 0; /* poravna se sa levom ivicom buttona */
+  top: 100%;
+  left: 0; 
   background-color: #ffffff;
   min-width: 220px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
@@ -94,12 +92,11 @@ header h2 {
   background-color: #f4fbf4;
 }
 
-/* Mala strelica na vrhu menija (opciono) */
 .dropdown-menu::before {
   content: "";
   position: absolute;
   top: -6px;
-  left: 20px; /* prilagodi da pokazuje na button */
+  left: 20px; 
   width: 12px;
   height: 12px;
   background: white;

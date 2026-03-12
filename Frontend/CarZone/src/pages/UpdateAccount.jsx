@@ -7,6 +7,8 @@ import LogedNavBar from '../components/LogedNavbar'
 import NotLogedNavbar from '../components/NotLogedNavbar'
 import Footer from '../components/Footer'
 import axios from 'axios'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const UpdateAccount = () => {
 
@@ -14,7 +16,7 @@ const UpdateAccount = () => {
     const userJSON = localStorage.getItem('user')
     const user = JSON.parse(userJSON)
     const [errors, setErrors] = useState({ firstName: '', lastName: '', phone: '', address: '' })
-
+    const navgate=useNavigate()
     const validate = () => {
         let tempErrors = {};
         let isValid = true;
@@ -80,6 +82,8 @@ const UpdateAccount = () => {
             axios.patch(`http://localhost:5047/user/update/${user.userId}`, updatedUser)
                 .then((response) => {
                     console.log(response)
+                    toast.success("User Successfully Updated")
+                    navgate("/account")
                 }).catch((error => {
                     console.log(error)
                 }))

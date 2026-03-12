@@ -1,26 +1,23 @@
-
 .chat-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Zauzima tačno celu visinu ekrana */
-  background-color: #7dba5d; /* Tvoja zelena iz logina */
+  height: 100vh; 
+  background-color: #7dba5d; 
   width: 100%;
 }
 
-/* GLAVNI DEO KOJI SE RASTEŽE */
 .chat-body {
   display: flex;
-  flex: 1; /* Popunjava sav prostor između headera i footera */
-  overflow: hidden; /* Sprečava da ceo body skroluje */
+  flex: 1; 
+  overflow: hidden; 
   background-color: #ffffff;
-  width: 80%; /* Malo uže od ekrana da bi se videla zelena pozadina */
+  width: 80%; 
   max-width: 1300px;
-  margin: 10px auto; /* Centriranje i mali razmak od ivica */
+  margin: 10px auto; 
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* LISTA KORISNIKA */
 .chat-users {
   width: 260px;
   background-color: #f9f9f9;
@@ -56,7 +53,6 @@
   background-color: #e2f3e2;
 }
 
-/* CHAT PROZOR */
 .chat-window {
   flex: 1;
   display: flex;
@@ -67,14 +63,13 @@
 .messages {
   flex: 1;
   padding: 20px;
-  overflow-y: auto; /* Samo ovaj deo skroluje kad ima puno poruka */
+  overflow-y: auto; 
   display: flex;
   flex-direction: column;
   gap: 10px;
   background-color: #fdfdfd;
 }
 
-/* PORUKE */
 .message-sent-div, .message-received-div {
   max-width: 65%;
   padding: 10px 15px;
@@ -86,7 +81,7 @@
 
 .message-sent-div {
   align-self: flex-end;
-  background-color: #52af50; /* Tvoja zelena boja dugmeta */
+  background-color: #52af50; 
   color: white;
   border-bottom-right-radius: 2px;
 }
@@ -98,7 +93,6 @@
   border-bottom-left-radius: 2px;
 }
 
-/* DONJI INPUT DEO */
 .chat-input {
   display: flex;
   gap: 10px;
@@ -139,7 +133,6 @@
   background-color: #45a049;
 }
 
-/* Responsivnost za manje ekrane */
 @media (max-width: 768px) {
   .chat-body {
     width: 100%;
@@ -147,13 +140,10 @@
     border-radius: 0;
   }
   .chat-users {
-    width: 80px; /* Smanjujemo listu korisnika na mobilnom */
+    width: 80px; 
   }
 }
 
-
-
-/*asdasd*/
 .chat-context-bar {
     display: flex;
     align-items: center;

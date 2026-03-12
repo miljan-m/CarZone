@@ -1,6 +1,3 @@
-/* =========================
-   WRAPPERS
-========================= */
 .offer-wrapper,
 .create-offer-wrapper {
   display: flex;
@@ -11,10 +8,7 @@
   width: 100%;
 }
 
-/* =========================
-   CREATE + SEARCH DIV
-   (IDENTIČAN IZGLED)
-========================= */
+
 .create-div,
 .search-div {
   background-color: #ffffff;
@@ -25,14 +19,12 @@
   flex-wrap: wrap;
   gap: 25px 20px;
   justify-content: center;
-  max-width: 1300px;   /* RASIRENO */
+  max-width: 1300px;   
   width: 95%;
   margin: 20px auto;
 }
 
-/* =========================
-   FORM GROUP (CREATE)
-========================= */
+
 .create-div .form-group {
   display: flex;
   flex-direction: column;
@@ -41,10 +33,6 @@
   max-width: 260px;
 }
 
-/* =========================
-   SEARCH ELEMENTI
-   (simulate form-group)
-========================= */
 .search-div > select,
 .search-div > input,
 .search-div > button,
@@ -53,9 +41,7 @@
   max-width: 260px;
 }
 
-/* =========================
-   INPUT / SELECT / TEXTAREA
-========================= */
+
 .create-div select,
 .create-div input,
 .create-div textarea,
@@ -79,9 +65,7 @@
   border-color: #52af50;
 }
 
-/* =========================
-   INLINE RANGE GRUPE (SEARCH)
-========================= */
+
 .price-range-div,
 .production-year-div,
 .mileage-div,
@@ -99,9 +83,7 @@
   width: 100%;
 }
 
-/* =========================
-   FILE UPLOAD (CREATE)
-========================= */
+
 .custom-file-upload {
   display: flex;
   align-items: center;
@@ -124,9 +106,7 @@
   display: none;
 }
 
-/* =========================
-   DETAILS + FILE GROUP
-========================= */
+
 .create-div .details-group {
   flex: 1 1 100%;
   max-width: 100%;
@@ -137,9 +117,7 @@
   max-width: 260px;
 }
 
-/* =========================
-   ERROR MESSAGE (CREATE)
-========================= */
+
 .error-message {
   color: #d93025;
   font-size: 11px;
@@ -149,9 +127,7 @@
   white-space: nowrap;
 }
 
-/* =========================
-   BUTTONS
-========================= */
+
 .create-btn,
 .button {
   background-color: #52af50;
@@ -170,15 +146,11 @@
   background-color: #469c45;
 }
 
-/* Search dugme veće */
 .search-div .button {
   flex: 1 1 300px;
   max-width: 380px;
 }
 
-/* =========================
-   OFFERS GRID
-========================= */
 .my-offers-div {
   display: flex;
   flex-wrap: wrap;
@@ -187,4 +159,78 @@
   width: 95%;
   padding: 20px;
   margin-bottom: 40px;
+}
+
+.my-offers-div p{
+  color: #ffffff;
+}
+
+.pagination-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 10px 0;
+  margin-top: auto;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  backdrop-filter: blur(5px);
+
+  width: fit-content;  
+  margin: 40px auto;
+}
+
+.pagination-btn {
+  background-color: #ffffff;
+  color: #52af50;
+  border: 2px solid #ffffff;
+  padding: 8px 20px;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: "Roboto", sans-serif;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #469c45;
+  color: white;
+  border-color: #469c45;
+  transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+  background-color: #e0e0e0;
+  color: #9e9e9e;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.page-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 8px 18px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+}
+
+.current-page {
+  color: #52af50;
+  font-size: 16px;
+}
+
+.separator {
+  color: #ccc;
+  font-weight: 300;
+}
+
+.total-pages {
+  color: #666;
+  font-size: 14px;
 }

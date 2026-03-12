@@ -1,12 +1,12 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../styles/CreateOffer.css'
-import OfferCard from '../components/OfferCard'
 import NotLogedNavbar from '../components/NotLogedNavbar'
 import LogedNavBar from '../components/LogedNavbar'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const CreateOffer = () => {
     const [brands, setBrands] = useState([])
@@ -33,7 +33,7 @@ const CreateOffer = () => {
     const minYear = 1900
     const maxYear = new Date().getFullYear();
     const years = [];
-
+    const navigate = useNavigate();
     for (let i = maxYear; i >= minYear; i--) {
         years.push(i)
     }
@@ -120,6 +120,8 @@ const CreateOffer = () => {
             }
         ).then(function (response) {
             handleOfferFetching();
+            toast.success("Offer Succesfully Created")
+            navigate("/offers")
         }).catch(function (error) {
             console.log(error)
         })

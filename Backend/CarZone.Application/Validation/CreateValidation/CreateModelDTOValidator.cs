@@ -9,7 +9,7 @@ namespace CarZone.Application.Validation.CreateValidation
         public CreateModelDTOValidator()
         {
             RuleFor(m => m.ModelName).NotEmpty().WithMessage("Model name cannot be an empty string")
-                                     .Matches("^[A-Z][a-zA-Z]*$").WithMessage("Model name must start with capital letter");
+                                     .Matches("^[A-Z].*$").WithMessage("Model name must start with capital letter");
         }
     }
 }

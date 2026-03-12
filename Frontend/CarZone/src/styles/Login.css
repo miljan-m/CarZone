@@ -1,6 +1,3 @@
-/* Login.css */
-
-/* Glavni kontejner za Login stranicu */
 .login-page-wrapper {
   display: flex;
   flex-direction: column;
@@ -12,7 +9,6 @@
   font-family: "Roboto", sans-serif;
 }
 
-/* Bela kartica forme */
 .login-page-wrapper .login-container {
   margin-top: 50px;
   background-color: #ffffff;
@@ -29,7 +25,6 @@
   box-sizing: border-box;
 }
 
-/* Header */
 .login-page-wrapper .login-header {
   font-size: x-large;
   margin-bottom: 30px;
@@ -37,7 +32,6 @@
   font-weight: bold;
 }
 
-/* Forma */
 .login-page-wrapper .login-form {
   width: 100%;
   display: flex;
@@ -45,16 +39,14 @@
   align-items: center;
 }
 
-/* INPUT GROUP – ključni deo */
 .login-page-wrapper .input-group {
   display: flex;
   flex-direction: column;
   width: 300px;
   margin-bottom: 20px;
-  position: relative; /* ⬅️ sprečava da error ode van */
+  position: relative; 
 }
 
-/* Red: ikona + input */
 .login-page-wrapper .input-field-row {
   display: flex;
   align-items: center;
@@ -66,7 +58,6 @@
   border-radius: 3px;
 }
 
-/* Ikonica */
 .login-page-wrapper .input-icon {
   width: 24px;
   height: 24px;
@@ -75,7 +66,6 @@
   flex-shrink: 0;
 }
 
-/* Input reset */
 .login-page-wrapper input {
   background-color: transparent !important;
   border: none !important;
@@ -87,9 +77,8 @@
   box-shadow: none !important;
 }
 
-/* Error poruka – TAČNO ISPOD INPUTA */
 .login-page-wrapper .error-message {
-  position: static; /* ⬅️ reset ako je negde absolute */
+  position: static; 
   margin-top: 5px;
   color: #ff4d4d;
   font-size: 11px;
@@ -99,7 +88,6 @@
   padding-left: 2px;
 }
 
-/* Dugme */
 .login-page-wrapper .button {
   background-color: #52af50;
   width: 300px;
@@ -117,7 +105,6 @@
   background-color: #45a044;
 }
 
-/* Footer ispod forme */
 .login-page-wrapper .login-footer {
   margin-top: 15px;
   font-size: 13px;

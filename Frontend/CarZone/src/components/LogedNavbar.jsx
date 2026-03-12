@@ -9,6 +9,7 @@ import { UilCreateDashboard } from '@iconscout/react-unicons'
 import { UilCommentDots } from '@iconscout/react-unicons'
 import { UilUser, UilHeart, UilCheckCircle, UilTimesCircle } from '@iconscout/react-unicons'
 import { Link } from 'react-router-dom'
+import '../styles/Navbar.css'
 
 const LogedNavBar = () => {
     const { handleLogout } = useContext(AuthContext)

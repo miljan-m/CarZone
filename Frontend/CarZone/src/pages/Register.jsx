@@ -34,7 +34,9 @@ const Register = () => {
             console.log(response.status + ' ' + response.statusText)
             navigate('/login')
         } catch (error) {
-            console.log(error)
+            const e={}
+            e.emailExist="User with same email already exist"
+            setErrors(e)
         }
     }
 
@@ -153,6 +155,8 @@ const Register = () => {
                             <input type="text" placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
                         </div>
                         {errors.email && <span className="error-messages">{errors.email}</span>}
+                        {errors.emailExist && <span className="error-messages">{errors.emailExist}</span>}
+
                     </div>
 
                     <div className="input-group">

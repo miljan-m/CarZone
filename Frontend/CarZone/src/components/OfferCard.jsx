@@ -32,7 +32,7 @@ const OfferCard = (props) => {
                         status == "Active" ? <span>✔️ <strong>Active</strong></span> : <span>❌<strong>Sold</strong></span>
                     }
                     {
-                        user.email !== props.offer.user.email && (
+                        user?.email !== props.offer.user.email && (
                             <button onClick={likeUnlikeOffer}>
                                 {isLiked ? '❤️' : '🤍'}
                             </button>

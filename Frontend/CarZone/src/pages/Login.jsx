@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react'
 import '../styles/Login.css'
 import Footer from '../components/Footer'
 import { UilKeySkeletonAlt, UilEnvelopeAlt } from '@iconscout/react-unicons'
-import axios from 'axios'
 import { AuthContext } from '../Authentication/AuthContext'
 import NotLogedNavbar from '../components/NotLogedNavbar'
 
@@ -11,7 +10,7 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState({ email: '', password: '' })
 
-    const { handleLogin } = useContext(AuthContext)
+    const { handleLogin, loginError } = useContext(AuthContext)
 
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -58,19 +57,17 @@ const Login = () => {
     return (
         <div className="login-page-wrapper">
             <NotLogedNavbar />
-            
             <div className='login-container' onKeyDown={e => e.key === "Enter" && onLoginClick()}>
                 <div className='login-header'>Login</div>
-                
                 <div className="login-form">
                     {/* Email Grupa */}
                     <div className="input-group">
                         <div className="input-field-row">
                             <UilEnvelopeAlt className="input-icon" />
-                            <input 
-                                type="text" 
-                                placeholder='Email' 
-                                onChange={handleEmailChange} 
+                            <input
+                                type="text"
+                                placeholder='Email'
+                                onChange={handleEmailChange}
                                 value={email}
                             />
                         </div>
@@ -81,14 +78,15 @@ const Login = () => {
                     <div className="input-group">
                         <div className="input-field-row">
                             <UilKeySkeletonAlt className="input-icon" />
-                            <input 
-                                type="password" 
-                                placeholder='Password' 
-                                onChange={handlePasswordChange} 
+                            <input
+                                type="password"
+                                placeholder='Password'
+                                onChange={handlePasswordChange}
                                 value={password}
                             />
                         </div>
                         {errors.password && <span className="error-message">{errors.password}</span>}
+                        {loginError!='' && <span className="error-message">Email or password incorect</span>}
                     </div>
 
                     <div className="login-buttons">

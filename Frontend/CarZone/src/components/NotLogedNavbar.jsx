@@ -3,6 +3,7 @@ import { UilCarSideview } from '@iconscout/react-unicons'
 import { UilSignout } from '@iconscout/react-unicons'
 import { UilRegistered } from '@iconscout/react-unicons'
 import { Link } from 'react-router-dom'
+import '../styles/Navbar.css'
 
 const NotLogedNavbar = () => {
     return (

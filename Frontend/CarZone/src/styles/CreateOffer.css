@@ -1,6 +1,3 @@
-/* =========================
-   WRAPPER
-========================= */
 .create-offer-wrapper {
   display: flex;
   flex-direction: column;
@@ -10,27 +7,20 @@
   width: 100%;
 }
 
-/* =========================
-   CREATE DIV
-   (ŠIRI + NIŽI)
-========================= */
 .create-div {
   background-color: #ffffff;
-  padding: 22px 30px;          /* MANJE PO VISINI */
+  padding: 22px 30px;          
   border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-wrap: wrap;
-  gap: 18px 20px;              /* MANJI VERTIKALNI GAP */
+  gap: 18px 20px;             
   justify-content: center;
-  max-width: 1350px;           /* ŠIRI */
+  max-width: 1350px;          
   width: 95%;
   margin: 20px auto;
 }
 
-/* =========================
-   FORM GROUP
-========================= */
 .create-div .form-group {
   display: flex;
   flex-direction: column;
@@ -39,14 +29,10 @@
   max-width: 260px;
 }
 
-/* =========================
-   INPUT / SELECT / TEXTAREA
-   (NIŽI INPUTI)
-========================= */
 .create-div select,
 .create-div input,
 .create-div textarea {
-  padding: 9px 12px;           /* MANJA VISINA */
+  padding: 9px 12px;        
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
@@ -66,15 +52,12 @@
   border-color: #52af50;
 }
 
-/* =========================
-   FILE GROUP
-========================= */
 .create-div .file-group {
   flex: 1 1 260px;
   max-width: 260px;
 }
 
-/* Custom file upload – niži */
+
 .custom-file-upload {
   display: flex;
   align-items: center;
@@ -82,7 +65,7 @@
   gap: 6px;
   background-color: #f8f9fa;
   border: 2px dashed #ddd;
-  padding: 8px;               /* MANJE PO VISINI */
+  padding: 8px;               
   border-radius: 6px;
   cursor: pointer;
   transition: 0.3s;
@@ -103,38 +86,29 @@
   margin-top: 4px;
 }
 
-/* =========================
-   DETAILS GROUP
-========================= */
 .create-div .details-group {
   flex: 1 1 100%;
   max-width: 100%;
 }
 
 .create-div .details-group textarea {
-  min-height: 80px;           /* NIŽE NEGO PRE */
+  min-height: 80px;           
 }
 
-/* =========================
-   ERROR MESSAGE
-========================= */
 .error-message {
   color: #d93025;
   font-size: 11px;
   position: absolute;
-  bottom: -14px;              /* BLIŽE INPUTU */
+  bottom: -14px;            
   left: 4px;
   white-space: nowrap;
 }
 
-/* =========================
-   CREATE BUTTON
-========================= */
 .create-btn {
   background-color: #52af50;
   color: white;
   border: none;
-  padding: 10px 45px;         /* NIŽE DUGME */
+  padding: 10px 45px;         
   font-weight: bold;
   border-radius: 4px;
   cursor: pointer;
@@ -146,9 +120,6 @@
   background-color: #469c45;
 }
 
-/* =========================
-   MY OFFERS GRID
-========================= */
 .my-offers-div {
   display: flex;
   flex-wrap: wrap;

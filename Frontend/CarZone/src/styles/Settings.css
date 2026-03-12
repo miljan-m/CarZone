@@ -1,12 +1,10 @@
-/* Settings.css */
-
 .settings-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
-  background-color: #76ba5d; /* Tvoja prepoznatljiva zelena */
+  background-color: #76ba5d; 
   width: 100%;
 }
 
@@ -19,7 +17,7 @@
   flex-direction: column;
   gap: 25px;
   width: 90%;
-  max-width: 1000px; /* Ograničavamo širinu radi preglednosti */
+  max-width: 1000px; 
   margin: 40px auto;
 }
 
@@ -52,30 +50,27 @@
   border-radius: 4px;
 }
 
-/* Hover efekat na stavke u meniju */
 .settings-header ul li:hover {
   background-color: #f2f2f2;
   color: #52af50;
 }
 
-/* Stil za ikone unutar li elemenata */
 .settings-header ul li svg {
   font-size: 20px;
 }
 
-/* Opciono: klasa za aktivno stanje (ako planiraš da dodaš klasu u JSX-u) */
+
 .settings-header ul li.active {
   color: #52af50;
   border-bottom: 2px solid #52af50;
 }
 
-/* SettingsCard kontejner unutar setting-div */
+
 .settings-card-content {
   padding-top: 10px;
   width: 100%;
 }
 
-/* Ako unutar SettingsCard-a imaš neke dugmiće, koristi tvoj standardni stil */
 .setting-div button {
   background-color: #52af50;
   border: none;
@@ -88,16 +83,4 @@
 
 .setting-div button:hover {
   background-color: #45a044;
-}
-
-/* Responzivnost za manje ekrane */
-@media (max-width: 600px) {
-  .settings-header ul {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .setting-div {
-    padding: 15px;
-  }
 }

@@ -22,8 +22,7 @@
   font-weight: 600;
   color: #ffffff;
 }
-/* Ako dodas div oko map-a (preporuceno) koristi ovu klasu */
-.active-offers-grid {
+.Active-offers-grid {
   width: 85%;
   max-width: 1400px;
   margin: 50px auto 60px auto;

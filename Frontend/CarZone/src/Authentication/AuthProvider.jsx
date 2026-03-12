@@ -4,10 +4,10 @@ import { AuthContext } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 
-
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState()
     const [token, setToken] = useState(null);
+    const [loginError, setLoginError] = useState('')
     const navigate = useNavigate();
 
     const handleLogin = async (email, password) => {
@@ -23,6 +23,7 @@ const AuthProvider = ({ children }) => {
             console.log(response.data)
         }).catch(function (error) {
             console.log(error)
+            setLoginError(error)
         })
     }
 
@@ -31,12 +32,11 @@ const AuthProvider = ({ children }) => {
         setToken(null)
         localStorage.removeItem('token')
         localStorage.removeItem('user')
-        console.log("asd")
         navigate('/login')
     }
 
     return (
-        <AuthContext.Provider value={{ user, token, handleLogin, handleLogout }}>
+        <AuthContext.Provider value={{ user, token, handleLogin, handleLogout, loginError }}>
             {children}
         </AuthContext.Provider>
     )

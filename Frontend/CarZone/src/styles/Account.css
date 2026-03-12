@@ -1,4 +1,3 @@
-/* Glavni wrapper koji pokriva ceo ekran sa zelenom pozadinom */
 .account-wrapper {
   display: flex;
   flex-direction: column;
@@ -10,10 +9,9 @@
   font-family: "Roboto", sans-serif;
 }
 
-/* Centralna bela kartica */
 .account-informations-div {
   width: 100%;
-  max-width: 600px; /* Nešto uža kartica nego za offer jer ima manje info */
+  max-width: 600px; 
   background: #ffffff;
   padding: 30px;
   border-radius: 12px;
@@ -21,7 +19,7 @@
   margin-top: 50px;
 }
 
-/* Naslov sekcije */
+
 .account-header {
   border-bottom: 2px solid #f2f2f2;
   padding-bottom: 15px;
@@ -34,12 +32,10 @@
   letter-spacing: -0.5px;
 }
 
-/* Detalji o korisniku organizovani u vertikalni niz */
 .account-details-div {
   display: block;
   font-size: 16px;
   color: #444;
-  /* Fiksni padding gore i dole za jednak razmak */
   padding: 15px 0;
   border-bottom: 1px solid #eee;
   line-height: 1.6;
@@ -50,7 +46,6 @@
   border-bottom: none;
 }
 
-/* Stilizacija svakog reda (Label: Value) */
 .account-details-div span {
   display: block;
   font-size: 16px;
@@ -59,22 +54,19 @@
   border-bottom: 1px solid #eee;
 }
 
-/* Naglašavanje labela (npr. First Name:) */
 .account-details-div span::first-line {
   font-size: 13px;
   color: #888;
   text-transform: uppercase;
   font-weight: 700;
-  line-height: 2; /* Kontroliše razmak između labele i vrednosti ispod nje */
+  line-height: 2; 
 }
 
-/* Sekcija sa dugmetom */
 .account-buttons-div {
   display: flex;
   justify-content: flex-end;
 }
 
-/* Dugme stilizovano u tvojoj zelenoj boji */
 #updateAccountButton {
   background-color: #52af50;
   color: white;
