@@ -75,5 +75,12 @@ namespace CarZone.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            var user = await _dbSet.FirstAsync(u => u.Email == email);
+            if (user == null) return null;
+            return user;
+        }
     }
 }

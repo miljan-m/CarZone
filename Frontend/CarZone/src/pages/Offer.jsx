@@ -28,6 +28,7 @@ const Offer = () => {
     const [selectedMaxFuelConsumption, setSelectedMaxFuelConsumption] = useState("")
     const [offers, setOffers] = useState([])
     const [filteredOffers, setFilteredOffers] = useState([])
+    const [searchOffers, setSearchOffers] = useState([])
     const token = localStorage.getItem('token')
     const user = JSON.parse(localStorage.getItem('user'))
     const minYear = 1900
@@ -124,12 +125,12 @@ const Offer = () => {
         axios.get('http://localhost:5047/listings').then((response) => {
             setOffers(response.data)
             const fo = response.data.filter(o => o.user.email != user?.email)
-            //const fo2 = fo.filter(o => !likedOffers.some(e => e.listingId === o.listingId))
             const fo2 = fo.map(fo => {
                 const found = likedOffers.find(l2 => l2.listingId === fo.listingId);
                 return found ? found : fo;
             })
             setFilteredOffers(fo2)
+            setSearchOffers(fo2)
         }).catch(function (error) {
         })
     }
@@ -139,7 +140,7 @@ const Offer = () => {
     }, [likedOffers])
 
     const handleSearch = () => {
-        const o = filteredOffers.filter(o => {
+        const o = searchOffers.filter(o => {
             if (selectedBrand && o.model.brandName !== selectedBrand) return false
             if (selectedModel && o.model.modelName !== selectedModel) return false
             if (selectedBodyType && o.bodyType !== selectedBodyType) return false
@@ -158,6 +159,7 @@ const Offer = () => {
         }
         )
         setFilteredOffers(o)
+        console.log("search")
     }
 
 

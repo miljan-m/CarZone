@@ -4,6 +4,7 @@ using CarZone.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarZone.Infrastructure.Migrations
 {
     [DbContext(typeof(CarZoneDBContext))]
-    partial class CarZoneDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260312222556_message_class_added")]
+    partial class message_class_added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,7 +258,7 @@ namespace CarZone.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageId"));
 
-                    b.Property<int?>("ListingId")
+                    b.Property<int>("ListingId")
                         .HasColumnType("int");
 
                     b.Property<string>("MessageText")
@@ -820,7 +823,9 @@ namespace CarZone.Infrastructure.Migrations
                 {
                     b.HasOne("CarZone.Domain.Models.Listing", "Listing")
                         .WithMany()
-                        .HasForeignKey("ListingId");
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CarZone.Domain.Models.User", "Receiver")
                         .WithMany("ReceivedMessages")

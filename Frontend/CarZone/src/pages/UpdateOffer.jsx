@@ -162,20 +162,25 @@ const UpdateOffer = () => {
               </select>
             </div>
 
-            <div className="form-group">
-              <label>Body Type</label>
-              <select name="BodyType" value={formData.BodyType} onChange={handleChange}>
-                {bodyTypeOptions.map((b) => (
-                  <option key={b} value={b}>{b}</option>
-                ))}
-              </select>
-            </div>
+
 
             <div className="form-group">
               <label>Status</label>
               <select name="ListingStatus" value={formData.ListingStatus} onChange={handleChange}>
                 {listingStatusOptions.map((s) => (
                   <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Buyer Email</label>
+              <input name='BuyerEmail' value={formData.BuyerEmail} type="text" disabled={formData.ListingStatus == "Active"} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label>Body Type</label>
+              <select name="BodyType" value={formData.BodyType} onChange={handleChange}>
+                {bodyTypeOptions.map((b) => (
+                  <option key={b} value={b}>{b}</option>
                 ))}
               </select>
             </div>

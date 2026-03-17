@@ -6,7 +6,6 @@ namespace CarZone.Domain.Models
     public class User
     {
         [Key]
-        [JsonIgnore]
         public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,7 +14,10 @@ namespace CarZone.Domain.Models
         public string Address { get; set; }
         public string HashPassword { get; set; }
 
-        public List<string> Roles { get; set; } = [Role.User,Role.Admin];
+        public List<Message> SentMessages { get; set; }
+        public List<Message> ReceivedMessages { get; set; }
+
+        public List<string> Roles { get; set; } = [Role.User, Role.Admin];
 
         public List<Listing> PostedListings { get; set; } = [];
         public List<Listing> BoughtListing { get; set; } = [];
@@ -51,6 +53,8 @@ namespace CarZone.Domain.Models
             this.Address = Address;
             this.HashPassword = HashPassword;
             this.Roles = Roles;
+            SentMessages = [];
+            ReceivedMessages = [];
         }
     }
 }

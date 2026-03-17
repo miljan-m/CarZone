@@ -17,6 +17,18 @@ namespace CarZone.Infrastructure.Persistance
             var user1 = new User(1, "Miljan", "Mitic", "mm@gmail.com", "0668049057", "Milutina Stojanovica 14", "mypassword", [Role.User]);
             modelBuilder.Entity<User>().HasData(user1);
 
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany(u => u.SentMessages)
+                .HasForeignKey(m => m.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Receiver)
+                .WithMany(u => u.ReceivedMessages)
+                .HasForeignKey(m => m.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Model>()
                 .HasOne(e => e.Brand)
                 .WithMany(e => e.Models)

@@ -48,6 +48,10 @@ builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IPasswordHash, PasswordHash>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+
+
 builder.Services.AddSingleton<IUserIdProvider, EmailUserIdProvider>();
 builder.Services.AddCors(options =>
 {
@@ -111,6 +115,8 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile<ModelAutoMapper>();
     cfg.AddProfile<ListingAutoMapper>();
     cfg.AddProfile<ImageAutoMapper>();
+    cfg.AddProfile<MessageAutoMapper>();
+
 
 
 });

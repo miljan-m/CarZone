@@ -66,5 +66,15 @@ namespace CarZone.API.Controllers
             if (user == null) return Unauthorized();
             return Ok(user);
         }
+
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<GetUserDTO>> GetUserByEmail([FromRoute] string email)
+        {
+            var user = await _userService.GetUserByEmail(email);
+            if (user == null)
+                return NotFound();
+            return Ok(user);
+        }
+
     }
 }

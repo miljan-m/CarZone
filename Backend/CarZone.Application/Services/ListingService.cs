@@ -97,6 +97,21 @@ public class ListingService : IListingService
         listing.Transmission = listingDTO.Transmission;
         listing.Price = listingDTO.Price;
         listing.ProductionYear = listingDTO.ProductionYear;
+        if (listingDTO.BuyerEmail != null)
+        {
+            var buyer = await _userRepository.GetUserByEmail(listingDTO.BuyerEmail);
+            if (buyer != null)
+            {
+                listing.Buyer = buyer;
+                listing.BuyerId = buyer.UserId;
+            }
+        }
+        else
+        {
+            listing.BuyerId = null;
+            listing.ListingStatus = ListingStatus.Active;
+        }
+
 
 
         await _repository.Update(listingId, listing);

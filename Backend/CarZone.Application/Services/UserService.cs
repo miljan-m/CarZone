@@ -105,5 +105,10 @@ namespace CarZone.Application.Services
             };
         }
 
+        public async Task<GetUserDTO> GetUserByEmail(string email)
+        {
+            var user = await _repository.GetUserByEmail(email);
+            return _mapper.Map<GetUserDTO>(user);
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace CarZone.Application.Interfaces.Repositories
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        Task<User> GetUserByEmail(string email);
         public Task<User> GetUserByEmailAndPassword(string email,string password);
     }
 }

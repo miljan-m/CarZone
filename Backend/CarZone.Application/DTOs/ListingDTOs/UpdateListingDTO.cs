@@ -8,7 +8,9 @@ namespace CarZone.Application.DTOs.ListingDTOs
         public double Price { get; set; }
         public double Mileage { get; set; }
         public double FuelConsuption { get; set; }
-        public string AdditionalDescription { get; set; }
+        public string? AdditionalDescription { get; set; }
+        public string? BuyerEmail { get; set; }
+
         public ListingStatus ListingStatus { get; set; }
         public Transmission Transmission { get; set; }
         public BodyType BodyType { get; set; }

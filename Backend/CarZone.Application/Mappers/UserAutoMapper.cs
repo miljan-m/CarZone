@@ -9,6 +9,7 @@ namespace CarZone.Application.Mappers
         public UserAutoMapper()
         {
             CreateMap<User, GetUserDTO>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Address))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
